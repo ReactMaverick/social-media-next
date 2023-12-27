@@ -1,5 +1,4 @@
 import CustomHead from "@/components/customHead/customHead"
-import Header from "@/components/header/header"
 
 export const metadata = {
   title: 'Friend Finder | A Complete Social Network',
@@ -11,7 +10,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <CustomHead />
       <body>
-        <Header />
         {children}
         <script src="bootstrap.bundle.min.js"></script> {/* Import Bootstrap JS */}
       </body>
