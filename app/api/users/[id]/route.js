@@ -87,12 +87,52 @@ export async function PUT(req, { params, body }) {
         }
 
         // Update user properties based on the request body
-        const { username, email, password } = requestJSON;
+        const {
+            username,
+            email,
+            password,
+            phone,
+            dob,
+            gender,
+            latitude,
+            longitude,
+            about_me,
+            university_name,
+            passout_year,
+            education_details,
+            company_name,
+            work_details,
+            designation,
+            company_city,
+            image,
+            hobbies,
+            follow_me,
+            send_notification,
+            enable_tagging
+        } = requestJSON;
 
         // Update only if the fields are provided in the request body
         if (username) user.username = username;
         if (email) user.email = email;
         if (password) user.password = password;
+        if (phone) user.phone = phone;
+        if (dob) user.dob = dob;
+        if (gender) user.gender = gender;
+        if (latitude) user.latitude = latitude;
+        if (longitude) user.longitude = longitude;
+        if (about_me) user.about_me = about_me;
+        if (university_name) user.university_name = university_name;
+        if (passout_year) user.passout_year = passout_year;
+        if (education_details) user.education_details = education_details;
+        if (company_name) user.company_name = company_name;
+        if (work_details) user.work_details = work_details;
+        if (designation) user.designation = designation;
+        if (company_city) user.company_city = company_city;
+        if (image) user.image = image;
+        if (hobbies) user.hobbies = hobbies;
+        if (follow_me !== undefined) user.follow_me = follow_me;
+        if (send_notification !== undefined) user.send_notification = send_notification;
+        if (enable_tagging !== undefined) user.enable_tagging = enable_tagging;
 
         // Save the updated user to the database
         await user.save();
