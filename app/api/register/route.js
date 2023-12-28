@@ -9,12 +9,36 @@ export async function POST(req, res) {
     try {
         const requestJSON = await req.json()
 
-        const { username, email, password } = requestJSON;
+        console.log("Request JSON ==> ", requestJSON);
+
+        const {
+            username,
+            email,
+            password,
+            phone,
+            dob,
+            gender,
+            latitude,
+            longitude,
+            about_me,
+            university_name,
+            passout_year,
+            education_details,
+            company_name,
+            work_details,
+            designation,
+            company_city,
+            image,
+            hobbies,
+            follow_me,
+            send_notification,
+            enable_tagging
+        } = requestJSON;
 
         // Validate the incoming data (you may want to add more robust validation)
-        if (!username || !email || !password) {
+        if (!username || !email || !password || !dob) {
             const validationErrorResponse = new Response(
-                JSON.stringify({ error: 'Invalid input. Please provide username, email, and password.' }),
+                JSON.stringify({ error: 'Invalid input. Please provide username, email, date of birth and password.' }),
                 { status: 400, headers: { 'Content-Type': 'application/json' } }
             );
             return validationErrorResponse;
@@ -38,9 +62,27 @@ export async function POST(req, res) {
             username,
             email,
             password,
+            phone,
+            dob,
+            gender,
+            latitude,
+            longitude,
+            about_me,
+            university_name,
+            passout_year,
+            education_details,
+            company_name,
+            work_details,
+            designation,
+            company_city,
+            image,
+            hobbies,
+            follow_me,
+            send_notification,
+            enable_tagging
         });
 
-        // console.log("New User? ==> ", newUser);
+        // console.log("New User? ==> ", newUser, username, image, hobbies);
 
         // Save the new user to the database
         await newUser.save();

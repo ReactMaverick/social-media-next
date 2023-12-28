@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const RegisterContainer = styled.div`
   display: flex;
@@ -30,11 +34,30 @@ const RegisterButton = styled(Button)`
 `;
 
 
+
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
+        phone: '',
+        dob: '',
+        gender: 'Male', // Set a default value
+        latitude: '',
+        longitude: '',
+        about_me: '',
+        university_name: '',
+        passout_year: '',
+        education_details: '',
+        company_name: '',
+        work_details: '',
+        designation: '',
+        company_city: '',
+        image: '',
+        hobbies: [],
+        follow_me: true,
+        send_notification: true,
+        enable_tagging: true,
     });
 
     const handleChange = (e) => {
@@ -49,7 +72,8 @@ const RegisterPage = () => {
         e.preventDefault();
 
         try {
-            // Replace this with your actual API endpoint
+
+            // Add more fields to the body of the request
             const response = await fetch('/api/register', {
                 method: 'POST',
                 headers: {
@@ -77,6 +101,7 @@ const RegisterPage = () => {
                     text: 'Error registering user. Please try again.',
                 });
             }
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -86,6 +111,7 @@ const RegisterPage = () => {
         <RegisterContainer>
             <h1>Register</h1>
             <RegisterForm onSubmit={handleSubmit}>
+                {/* Existing fields */}
                 <TextField
                     label="Username"
                     variant="outlined"
@@ -112,9 +138,42 @@ const RegisterPage = () => {
                     onChange={handleChange}
                     required
                 />
+                {/* New fields */}
+                <TextField
+                    label="Phone"
+                    variant="outlined"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                />
+                <TextField
+                    label="Date of Birth"
+                    variant="outlined"
+                    type="date"
+                    name="dob"
+                    value={formData.dob}
+                    onChange={handleChange}
+                    required
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <FormControl>
+                    <InputLabel>Gender</InputLabel>
+                    <Select
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        label='Gender'
+                        required
+                    >
+                        <MenuItem value="Male">Male</MenuItem>
+                        <MenuItem value="Female">Female</MenuItem>
+                    </Select>
+                </FormControl>
+                {/* Add more fields based on your schema */}
                 <RegisterButton type="submit">Register</RegisterButton>
             </RegisterForm>
-
         </RegisterContainer>
     );
 };
