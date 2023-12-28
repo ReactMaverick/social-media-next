@@ -7,13 +7,17 @@ connectDB();
 
 export async function POST(req, res) {
     try {
-        const requestBody = await req.json()
+        const requestJSON = await req.json()
 
-        const { username, email, password } = requestBody;
+        const { username, email, password } = requestJSON;
 
         // Validate the incoming data (you may want to add more robust validation)
         if (!username || !email || !password) {
-            return Response.error('Invalid input. Please provide username, email, and password.');
+            const validationErrorResponse = new Response(
+                JSON.stringify({ error: 'Invalid input. Please provide username, email, and password.' }),
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+            return validationErrorResponse;
         }
 
         // Check if the email is already in use

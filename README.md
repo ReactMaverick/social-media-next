@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Social Media (NextJS)
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```bash
+npm i
+```
+
+Then, start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Page Routes
+* app/page.js (root route '/')
+* app/xxx/page.js (route '/xxx')
+* app/xxx/xxx/page.js (route /xxx/xxx)
 
-## Learn More
+API Routes
+* api/route.js (root api route '/api/')
+* api/xxx/route.js (api route '/api/xxx')
 
-To learn more about Next.js, take a look at the following resources:
+## Utilities
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+utils/ (Add additional utility files (auth, validation, db connection here))
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Components
 
-## Deploy on Vercel
+components/componentName/componentName.js
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Models (Schema)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Define Schemas and Models inside models/someModel.js
+
+```js
+// Import the Mongoose library, which is an ODM (Object-Document Mapper) for MongoDB
+import mongoose from 'mongoose';
+
+// Define the schema for the 'User' collection in MongoDB
+const someSchema = new mongoose.Schema({
+    // Define a fields 
+    someProperty: { type: String, required: true },
+});
+
+// Create a Mongoose model named 'User' based on the defined schema
+const Some = mongoose.models.Some || mongoose.model('Some', someSchema);
+
+// Export the 'Some' model so that it can be used in other parts of the application
+export default Some;
+```

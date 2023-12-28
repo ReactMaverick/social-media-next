@@ -12,6 +12,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <script src="bootstrap.bundle.min.js"></script> {/* Import Bootstrap JS */}
+        <script src="sweetalertPopup/sweetalert2.all.min.js"></script> {/* Import SweetalertPopup JS */}
       </body>
     </html>
   )
