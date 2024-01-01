@@ -1,4 +1,6 @@
 import connectDB from '@/utils/db';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
 import User from '@/models/userModel';
 import mongoose from 'mongoose';
 
@@ -9,38 +11,73 @@ connectDB();
 export async function GET(req, { params }) {
     try {
 
+        const session = await getServerSession(authOptions);
+
+        // console.log("Session ==> ", session);
+
         // Retrieve the user ID from the request parameters
         const { id } = params;
 
-        // console.log("Params Id ===> ", id);
+        // Check if the user is logged in and has an ID in the session
+        if (session?.user?.id) {
+            // Check if the requested ID matches either the MongoDB _id or Google googleId
+            if (session.user.id === id || session.user.googleId === id) {
+                // Request is coming from the same user
 
-        // Check if the provided ID is a valid ObjectId
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            // If not valid, return a 400 Bad Request response
-            const invalidIdResponse = new Response(
-                JSON.stringify({ error: 'Invalid user ID format!' }),
-                { status: 400, headers: { 'Content-Type': 'application/json' } }
+                // Check if the provided ID is a valid ObjectId
+                const isGoogleId = !!session.user.googleId; // Check if the ID is a Google googleId
+
+                if (!isGoogleId && !mongoose.Types.ObjectId.isValid(id)) {
+                    // If not valid, return a 400 Bad Request response
+                    const invalidIdResponse = new Response(
+                        JSON.stringify({ error: 'Invalid user ID format!' }),
+                        { status: 400, headers: { 'Content-Type': 'application/json' } }
+                    );
+                    return invalidIdResponse;
+                }
+
+                // Fetch the user from the database using the User model and the provided ID
+                const user = isGoogleId
+                    ? await User.findOne({ googleId: session.user.googleId }) // Fetch by Google googleId
+                    : await User.findById(id); // Fetch by MongoDB _id
+
+                console.log("User ===> ", user);
+
+                // Check if the user was found
+                if (!user) {
+                    // If the user is not found, return a 404 response
+                    const errorResponse = new Response(
+                        JSON.stringify({ error: 'User not found!' }),
+                        { status: 404, headers: { 'Content-Type': 'application/json' } }
+                    );
+                    return errorResponse;
+                }
+
+                // Respond with the fetched user in JSON format
+                return Response.json({ user });
+            } else {
+                // Request is coming from another user
+
+                // Return a 401 Unauthorized response
+                const unauthorizedError = new Response(
+                    JSON.stringify({ error: 'Unauthorized access!' }),
+                    { status: 401, headers: { 'Content-Type': 'application/json' } }
+                );
+
+                return unauthorizedError;
+            }
+        } else {
+            // User not logged in
+
+            // Return a 401 Unauthorized response
+            return new Response(
+                JSON.stringify({ error: 'User not logged in!' }),
+                { status: 401, headers: { 'Content-Type': 'application/json' } }
             );
-            return invalidIdResponse;
-        };
-
-        // Fetch the user from the database using the User model and the provided ID
-        const user = await User.findById(id);
-
-        console.log("User ===> ", user);
-
-        // Check if the user was found
-        if (!user) {
-            // If the user is not found, return a 404 response
-            const errorResponse = new Response(
-                JSON.stringify({ error: 'User not found!' }),
-                { status: 404, headers: { 'Content-Type': 'application/json' } }
-            );
-            return errorResponse;
         }
 
-        // Respond with the fetched user in JSON format
-        return Response.json({ user });
+
+
     } catch (error) {
         // Handle errors if any occur during the database operation
         console.error('Error fetching user:', error);

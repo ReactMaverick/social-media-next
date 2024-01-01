@@ -23,8 +23,8 @@ Page Routes
 * app/xxx/xxx/page.js (route /xxx/xxx)
 
 API Routes
-* api/route.js (root api route '/api/')
-* api/xxx/route.js (api route '/api/xxx')
+* api/1.0/route.js (root api route '/api/')
+* api/1.0/xxx/route.js (api route '/api/xxx')
 
 ## Utilities
 

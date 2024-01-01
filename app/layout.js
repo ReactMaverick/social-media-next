@@ -11,8 +11,8 @@ export default function RootLayout({ children }) {
       <CustomHead />
       <body>
         {children}
-        <script src="bootstrap.bundle.min.js"></script> {/* Import Bootstrap JS */}
-        <script src="sweetalertPopup/sweetalert2.all.min.js"></script> {/* Import SweetalertPopup JS */}
+        <script src="../bootstrap.bundle.min.js"></script> {/* Import Bootstrap JS */}
+        <script src="../sweetalertPopup/sweetalert2.all.min.js"></script> {/* Import SweetalertPopup JS */}
       </body>
     </html>
   )

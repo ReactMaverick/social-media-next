@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { useRouter } from 'next/navigation';
 
 const RegisterContainer = styled.div`
   display: flex;
@@ -33,11 +34,12 @@ const RegisterButton = styled(Button)`
   }
 `;
 
-
-
 const RegisterPage = () => {
+
+    const router = useRouter();
+
     const [formData, setFormData] = useState({
-        username: '',
+        name: '',
         email: '',
         password: '',
         phone: '',
@@ -58,6 +60,7 @@ const RegisterPage = () => {
         follow_me: true,
         send_notification: true,
         enable_tagging: true,
+        profileId: '2024' + Math.floor(Math.random() * Math.pow(10, 17)).toString().padStart(17, '0'), // A 21 digit unique id
     });
 
     const handleChange = (e) => {
@@ -73,8 +76,10 @@ const RegisterPage = () => {
 
         try {
 
+            // console.log("Formdata ==> ", formData);
+
             // Add more fields to the body of the request
-            const response = await fetch('/api/register', {
+            const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +94,12 @@ const RegisterPage = () => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Registration Successful!',
-                    text: 'User registered successfully.',
+                    text: 'You are successfully registered.',
+                }).then((result) => {
+                    // This code will be executed after the user clicks "OK"
+                    if (result.isConfirmed) {
+                        router.push('/auth/signin');
+                    }
                 });
             } else {
                 const errorData = await response.json();
@@ -97,8 +107,8 @@ const RegisterPage = () => {
 
                 Swal.fire({
                     icon: 'error',
-                    title: 'Registration Error',
-                    text: 'Error registering user. Please try again.',
+                    title: 'Registration error',
+                    text: errorData.error,
                 });
             }
 
@@ -113,10 +123,10 @@ const RegisterPage = () => {
             <RegisterForm onSubmit={handleSubmit}>
                 {/* Existing fields */}
                 <TextField
-                    label="Username"
+                    label="Name"
                     variant="outlined"
-                    name="username"
-                    value={formData.username}
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
                     required
                 />
