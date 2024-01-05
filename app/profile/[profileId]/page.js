@@ -1,12 +1,21 @@
 'use client'
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
 
 export default function ProfilePage({ params }) {
 
+    const dispatch = useAppDispatch();
+    const currentUser = useAppSelector(selectCurrentUser);
+
+    console.log("Dispatch ===> ", dispatch);
+
+    console.log("Current User ===> ", currentUser);
+
     const { data: session, status } = useSession()
 
-    // console.log(session, status);
+    console.log(session, status);
 
     // console.log(params.profileId);
 
