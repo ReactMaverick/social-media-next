@@ -140,77 +140,49 @@ export const authOptions = {
 
             return session
         },
-        async signIn({ account, profile }) {
-            if (account.provider === "google") {
-                // console.log("Account ==> ", account);
-                // console.log("Profile ==> ", profile);
+        async signIn({ user, account, profile }) {
 
-                connectDB();
+            // console.log("User ===> ", user);
+            // console.log("Account ===> ", account);
+            // console.log("Profile ===> ", profile);
 
-                // Check if the user already exists in the database
-                const existingUser = await User.findOne({ email: profile.email });
+            try {
 
-                if (existingUser) {
-                    // console.log("User already exists in the database:", existingUser);
-                    return true; // Allow sign-in for existing user
-                } else {
-                    // If the user doesn't exist, create a new user in the database
-                    // console.log("User doesn't exists");
-                    const newUser = new User({
-                        name: profile.name,
-                        email: profile.email,
-                        password: 'PasswordNotSet2023#', // Provide a default password
-                        dob: new Date('2000-01-01'), // Provide a default date of birth
-                        googleId: account.providerAccountId, // Save the google id
-                        image: profile.photo,
-                        profileId: account.providerAccountId, // Save the google id as profile id (21 digits)
-                    });
+                if (account.provider === "google" || account.provider === "facebook") {
+                    connectDB();
 
-                    // console.log("New User before creation ===> ", newUser);
+                    // Check if the user already exists in the database
+                    const existingUser = await User.findOne({ email: profile.email });
 
-                    // Save the new user to the database
-                    await newUser.save();
+                    if (!existingUser) {
+                        // If the user doesn't exist, create a new user in the database
+                        const newUser = new User({
+                            name: profile.name,
+                            email: profile.email,
+                            password: 'PasswordNotSet2023#', // Provide a default password
+                            dob: new Date('2000-01-01'), // Provide a default date of birth
+                            profileId: account.providerAccountId, // Use providerAccountId as profileId
+                            // Set provider-specific fields using the ternary operator
+                            ...(account.provider === "google"
+                                ? { googleId: account.providerAccountId, image: profile.photo }
+                                : account.provider === "facebook"
+                                    ? { facebookId: account.providerAccountId, image: profile.picture.data.url }
+                                    : {}),
+                        });
 
-                    // console.log("New user created:", newUser);
+                        // Save the new user to the database
+                        await newUser.save();
 
-                    return true; // Allow sign-in for the new user
+                    }
                 }
-            } else if (account.provider === "facebook") {
-                // console.log("Account ==> ", account);
-                // console.log("Profile ==> ", profile);
 
-                connectDB();
 
-                // Check if the user already exists in the database
-                const existingUser = await User.findOne({ email: profile.email });
-
-                if (existingUser) {
-                    // console.log("User already exists in the database:", existingUser);
-                    return true; // Allow sign-in for existing user
-                } else {
-                    // If the user doesn't exist, create a new user in the database
-                    // console.log("User doesn't exists");
-                    const newUser = new User({
-                        name: profile.name,
-                        email: profile.email,
-                        password: 'PasswordNotSet2023#', // Provide a default password
-                        dob: new Date('2000-01-01'), // Provide a default date of birth
-                        facebookId: account.providerAccountId, // Save the google id
-                        image: profile.picture.data.url,
-                        profileId: account.providerAccountId + '123', // Save the google id as profile id (18 digits + 3 digits)
-                    });
-
-                    // console.log("New User before creation ===> ", newUser);
-
-                    // Save the new user to the database
-                    await newUser.save();
-
-                    // console.log("New user created:", newUser);
-
-                    return true; // Allow sign-in for the new user
-                }
+            } catch (error) {
+                console.error("Error handling sign-in:", error);
+                // Handle error as needed
             }
-            return true
+
+            return true; // Continue with the sign-in process
         }
     },
 };
