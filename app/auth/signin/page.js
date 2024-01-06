@@ -90,7 +90,7 @@ export default function SignIn() {
     }
 
     if (result?.ok) {
-      router.push('/auth/success');
+      router.push('/0');
     }
 
   };

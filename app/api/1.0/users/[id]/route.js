@@ -11,6 +11,8 @@ connectDB();
 export async function GET(req, { params }) {
     try {
 
+        // console.log("Params ===>", params);
+
         const session = await getServerSession(authOptions);
 
         // console.log("Session ==> ", session);

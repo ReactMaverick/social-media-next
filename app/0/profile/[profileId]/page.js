@@ -7,11 +7,12 @@ import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/fea
 export default function ProfilePage({ params }) {
 
     const dispatch = useAppDispatch();
-    const currentUser = useAppSelector(selectCurrentUser);
 
-    console.log("Dispatch ===> ", dispatch);
-
-    console.log("Current User ===> ", currentUser);
+    const currentUser = useAppSelector((state) => {
+        console.log('Redux state:', state);
+        return selectCurrentUser(state);
+    });
+    console.log('Current User in ProfilePage:', currentUser);
 
     const { data: session, status } = useSession()
 
