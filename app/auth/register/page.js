@@ -63,6 +63,10 @@ const RegisterPage = () => {
         profileId: '2024' + Math.floor(Math.random() * Math.pow(10, 17)).toString().padStart(17, '0'), // A 21 digit unique id
     });
 
+    const handleSignIn = () => {
+        router.push('/auth/signin');
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -183,6 +187,7 @@ const RegisterPage = () => {
                 </FormControl>
                 {/* Add more fields based on your schema */}
                 <RegisterButton type="submit">Register</RegisterButton>
+                <RegisterButton type="button" onClick={handleSignIn}>Sign In</RegisterButton>
             </RegisterForm>
         </RegisterContainer>
     );

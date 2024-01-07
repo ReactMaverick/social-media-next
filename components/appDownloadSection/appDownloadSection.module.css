@@ -1,0 +1,9 @@
+.appDownloadSection {
+    background: #fff;
+    text-align: center;
+}
+
+.appDownloadSection .wrapper {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}

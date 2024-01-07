@@ -73,6 +73,10 @@ export default function SignIn() {
 
   const router = useRouter();
 
+  const handleRegister = () => {
+    router.push('/auth/register');
+  }
+
   const handleSignIn = async () => {
 
     const result = await signIn('credentials', {
@@ -161,6 +165,9 @@ export default function SignIn() {
             <FontAwesomeIcon icon={faFacebook} className="facebook-icon" />
             Sign In with Facebook
           </FacebookSignInButton>
+          <SignInButton type="button" onClick={handleRegister}>
+            Create A New Account
+          </SignInButton>
         </SignInForm>
       </SignInContainer>
     );

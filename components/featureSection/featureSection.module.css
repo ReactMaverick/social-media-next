@@ -1,0 +1,9 @@
+.featureSection {
+    background: -webkit-radial-gradient(center, rgb(255, 255, 255) 50%, rgb(239, 239, 239) 90%);
+    text-align: center;
+}
+
+.featureSection .wrapper {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}

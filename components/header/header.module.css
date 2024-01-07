@@ -1,0 +1,17 @@
+.mainHeader {
+    min-height: 50px;
+}
+
+.mainHeader.lazyLoad {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    transition: .5s ease-in-out;
+    transform: translateY(-67px);
+    z-index: 99999;
+}
+
+.container {
+    flex-wrap: nowrap !important;
+}
