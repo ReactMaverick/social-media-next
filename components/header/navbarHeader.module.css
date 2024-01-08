@@ -1,0 +1,17 @@
+.navbarHeader {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.navbarBrand {
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    padding: 15px;
+    float: left;
+    height: 50px;
+     font-size: 18px;
+    line-height: 20px;
+    color: rgb(119, 119, 119);
+    margin-left: -15px;
+}

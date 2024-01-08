@@ -12,6 +12,13 @@
     z-index: 99999;
 }
 
-.container {
-    flex-wrap: nowrap !important;
+.navMenu {
+    background: #231F20;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.navbarFixedTop {
+    top: 0;
 }

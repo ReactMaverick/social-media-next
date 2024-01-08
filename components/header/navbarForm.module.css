@@ -1,0 +1,21 @@
+.formGroup {
+    position: relative;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 10px;
+}
+
+.formControl {
+    background: rgba(255,255,255, 0.2);
+    border: 0;
+    box-shadow: none;
+    min-width: 235px;
+    color: #fff;
+    height: 26px;
+    border-radius: 13px;
+    font-size: 13px;
+    padding-left: 30px;
+}

@@ -16,12 +16,25 @@ import AppButtons from '@/components/appDownloadSection/appButtons';
 import AppDownloadSectionSubtitle from '@/components/appDownloadSection/appDownloadSectionSubtitle';
 import IphoneImage from '@/components/appDownloadSection/iphoneImage';
 import ImageDividerSection from '@/components/imageDeviderSection/imageDividerSection';
+import HeaderContainer from '@/components/header/headerContainer';
+import NavbarHeader from '@/components/header/navbarHeader';
+import Navbar from '@/components/header/navBar';
+import NavbarForm from '@/components/header/navbarForm';
+import NavbarMenu from '@/components/header/navbarMenu';
 
 export default function Home() {
     return (
         <>
             {/* Header Element Start */}
-            <Header />
+            <Header>
+                <HeaderContainer>
+                    <NavbarHeader />
+                    <Navbar>
+                        <NavbarForm />
+                        <NavbarMenu />
+                    </Navbar>
+                </HeaderContainer>
+            </Header>
             {/* Header Element End */}
 
             {/* Banner Section Start */}

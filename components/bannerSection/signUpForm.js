@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -37,6 +37,14 @@ const LogoImage = styled.img`
   margin: auto;
 `;
 
+const LogoImageSignin = styled.img`
+  box-sizing: border-box;
+  border: 0px;
+  vertical-align: middle;
+  margin: auto;
+  margin-top: 25px;
+`;
+
 const Title = styled.h2`
   box-sizing: border-box;
   font-weight: 500;
@@ -44,8 +52,17 @@ const Title = styled.h2`
   font-size: 30px;
   color: rgb(255, 255, 255);
   margin: 20px 0px 20px;
+  font-family: 'Agdasima', sans-serif;
+`;
+
+const TitleSignIn = styled.h2`
+  box-sizing: border-box;
+  font-weight: 500;
+  line-height: 1.1;
+  font-size: 30px;
+  color: rgb(255, 255, 255);
+  margin: 100px 0px 20px;
   font-family: 'Agency FB', sans-serif;
-  margin-bottom: 20px;
 `;
 
 const LineDivider = styled.div`
@@ -201,37 +218,64 @@ const FlexContainer = styled.div`
 
 
 export default function SignUpForm() {
+
+  const [signInInterface, setSignInInterface] = useState(false);
+
+  function handleSignInClick() {
+    setSignInInterface(true);
+  };
+
+  function handleSignUpClick() {
+    setSignInInterface(false);
+  };
+
   return (
     <SignUpFormContainer className={styles.signUpForm}>
       <LogoLink href="/0/">
-        <LogoImage alt="Friend Finder" src="images/logo.png" />
+        {(signInInterface) ? (
+          <LogoImageSignin alt="Friend Finder" src="images/logo.png" />
+        ) : (
+          <LogoImage alt="Friend Finder" src="images/logo.png" />
+        )}
+
       </LogoLink>
-      <Title>Find My Friends</Title>
+      {(signInInterface) ? (
+        <TitleSignIn>Find My Friends</TitleSignIn>
+      ) : (
+        <Title>Find My Friends</Title>
+      )}
+
       <LineDivider />
       <FormWrapper>
-        <SignupText>Signup now and meet awesome people around the world</SignupText>
+        {(signInInterface) ? (
+          <SignupText>Signin now and meet awesome people around the world</SignupText>
+        ) : (
+          <SignupText>Signup now and meet awesome people around the world</SignupText>
+        )}
+
         <form action="#">
           {/* Add your Material-UI components here */}
-          <FlexContainer>
-            <CustomStyledTextFieldFirstName
-              id="firstName"
-              label="First name"
-              variant="filled"
-              fullWidth
-              name="firstName"
-              margin="dense"
-              required
-            />
-            <CustomStyledTextFieldLastName
-              id="lastName"
-              label="Last name"
-              variant="filled"
-              fullWidth
-              name="lastName"
-              margin="dense"
-              required
-            />
-          </FlexContainer>
+          {(!signInInterface) &&
+            (<FlexContainer>
+              <CustomStyledTextFieldFirstName
+                id="firstName"
+                label="First name"
+                variant="filled"
+                fullWidth
+                name="firstName"
+                margin="dense"
+                required
+              />
+              <CustomStyledTextFieldLastName
+                id="lastName"
+                label="Last name"
+                variant="filled"
+                fullWidth
+                name="lastName"
+                margin="dense"
+                required
+              />
+            </FlexContainer>)}
           <CustomStyledTextField
             id="emailId"
             label="Enter email Id"
@@ -252,51 +296,72 @@ export default function SignUpForm() {
             margin="dense"
             required
           />
-          <CustomStyledTextField
-            id="phoneNumber"
-            label="Enter phone number"
-            variant="filled"
-            fullWidth
-            name="phone"
-            margin="dense"
-          />
-          <CustomStyledTextField
-            id="dateOfBirth"
-            label="Date of birth"
-            variant="filled"
-            type="date"
-            name="dob"
-            fullWidth
-            margin="dense"
-            required
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <CustomStyledFormControl
-            fullWidth
-            variant="filled"
-            margin="dense"
-            required
-          >
-            <InputLabel>Gender</InputLabel>
-            <Select
-              name="gender"
-              label='Gender'
-              required
-            >
-              <MenuItem value="Male">Male</MenuItem>
-              <MenuItem value="Female">Female</MenuItem>
-            </Select>
-          </CustomStyledFormControl>
+          {(!signInInterface) &&
+            (<>
+              <CustomStyledTextField
+                id="phoneNumber"
+                label="Enter phone number"
+                variant="filled"
+                fullWidth
+                name="phone"
+                margin="dense"
+              />
+              <CustomStyledTextField
+                id="dateOfBirth"
+                label="Date of birth"
+                variant="filled"
+                type="date"
+                name="dob"
+                fullWidth
+                margin="dense"
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <CustomStyledFormControl
+                fullWidth
+                variant="filled"
+                margin="dense"
+                required
+              >
+                <InputLabel>Gender</InputLabel>
+                <Select
+                  name="gender"
+                  label='Gender'
+                  required
+                >
+                  <MenuItem value="Male">Male</MenuItem>
+                  <MenuItem value="Female">Female</MenuItem>
+                </Select>
+              </CustomStyledFormControl>
+            </>)}
           {/* Repeat for other form fields */}
         </form>
-        <p style={{ boxSizing: 'border-box', margin: '0px 0px 10px' }}>
-          By signing up you agree to the terms
-        </p>
-        <SignupButton variant="contained">Signup</SignupButton>
+
+        {(signInInterface) ? (
+          <p style={{ boxSizing: 'border-box', margin: '0px 0px 10px' }}>
+            By signing in you agree to the terms
+          </p>
+        ) : (
+          <p style={{ boxSizing: 'border-box', margin: '0px 0px 10px' }}>
+            By signing up you agree to the terms
+          </p>
+        )}
+
+        {(signInInterface) ? (
+          <SignupButton variant="contained">Signin</SignupButton>
+        ) : (
+          <SignupButton variant="contained">Signup</SignupButton>
+        )}
+
       </FormWrapper>
-      <StyledLink href="/0/">Already have an account?</StyledLink>
+      {(signInInterface) ? (
+        <StyledLink href="#" onClick={handleSignUpClick}>Create a new account</StyledLink>
+      ) : (
+        <StyledLink href="#" onClick={handleSignInClick}>Already have an account?</StyledLink>
+      )}
+
       <FormShadow src="images/signup_form_bottom_shadow.png" />
     </SignUpFormContainer>
   );

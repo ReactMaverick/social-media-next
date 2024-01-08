@@ -1,0 +1,32 @@
+.navbarMenuDropdown {
+    list-style-image: url("../../public/images/list_bullet.png");
+}
+
+.navbarLink {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.dropdownMenu {
+    background: #231F20;
+    box-shadow: none;
+    border: 0;
+    padding: 0;
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.dropdownMenu .listItem {
+    list-style: none;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255, 0.1);
+}
+
+.dropdownMenu .listItem a {
+    color: #fff;
+    font-size: 13px;
+    line-height: 16px;
+}
