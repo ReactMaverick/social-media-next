@@ -21,16 +21,12 @@ const StyledNum = styled(Box)({
     width: '50px',
     fontSize: '3.72625em',
     fontWeight: 'normal',
-    fontFamily: '"Agency FB", sans-serif',
+    fontFamily: '"Agdasima", sans-serif',
 });
 
 const IncrementalCounter = () => {
     return (
-        <StyledIncrementalCounter id="incremental-counter">
-            {[1, 0, 1, 2, 4, 2].map((value, index) => (
-                <StyledNum key={index}>{value}</StyledNum>
-            ))}
-        </StyledIncrementalCounter>
+        <div id="incrementalCounter" className="incremental-counter" data-value="101242"></div>
     );
 };
 

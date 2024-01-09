@@ -1,5 +1,9 @@
 'use client'
-import React, { useState } from 'react';
+import { signIn } from "next-auth/react";
+import React, { useState, useEffect } from 'react';
+import { useSession } from "next-auth/react";
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
 import Link from 'next/link';
 import { Button, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -8,6 +12,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 import styles from './signUpForm.module.css';
+import { useRouter } from "next/navigation";
 
 const SignUpFormContainer = styled.div`
   box-sizing: border-box;
@@ -62,7 +67,7 @@ const TitleSignIn = styled.h2`
   font-size: 30px;
   color: rgb(255, 255, 255);
   margin: 100px 0px 20px;
-  font-family: 'Agency FB', sans-serif;
+  font-family: 'Agdasima', sans-serif;
 `;
 
 const LineDivider = styled.div`
@@ -219,7 +224,59 @@ const FlexContainer = styled.div`
 
 export default function SignUpForm() {
 
+  const router = useRouter();
+
+  const { data: session, status } = useSession()
+
+  // console.log(session, status);
+
+  const dispatch = useAppDispatch();
+
+  const currentUser = useAppSelector((state) => {
+    // console.log('Redux state:', state);
+    return selectCurrentUser(state);
+  });
+
+  // console.log('Current User in Home (/0/) Page:', currentUser);
+
+  useEffect(() => {
+    if (session?.user) {
+      // Dispatch action to set current user in Redux store
+      // console.log(session.user);
+      dispatch(setCurrentUser(session.user));
+    }
+
+    // Redirect to the desired page
+    // router.push('/profile');
+  }, [dispatch, session]);
+
   const [signInInterface, setSignInInterface] = useState(false);
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phone: '',
+    dob: '',
+    gender: 'Male', // Set a default value
+    latitude: '',
+    longitude: '',
+    about_me: '',
+    university_name: '',
+    passout_year: '',
+    education_details: '',
+    company_name: '',
+    work_details: '',
+    designation: '',
+    company_city: '',
+    image: '',
+    hobbies: [],
+    follow_me: true,
+    send_notification: true,
+    enable_tagging: true,
+    profileId: '2024' + Math.floor(Math.random() * Math.pow(10, 17)).toString().padStart(17, '0'), // A 21 digit unique id
+  });
 
   function handleSignInClick() {
     setSignInInterface(true);
@@ -227,6 +284,87 @@ export default function SignUpForm() {
 
   function handleSignUpClick() {
     setSignInInterface(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      // console.log("Formdata ==> ", formData);
+
+      // Add more fields to the body of the request
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data); // Log the response from the server
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful!',
+          text: 'You are successfully registered.',
+        }).then((result) => {
+          // This code will be executed after the user clicks "OK"
+          if (result.isConfirmed) {
+            setSignInInterface(true); // Change the signup interface to signin interface
+          }
+        });
+      } else {
+        const errorData = await response.json();
+        console.error('Error:', errorData);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration error',
+          text: errorData.error,
+        });
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleSignIn = async () => {
+
+    const result = await signIn('credentials', {
+      redirect: false,
+      email: formData.email,
+      password: formData.password,
+    });
+
+    // console.log("Result ==> ", result);
+
+    //*** If result exists and result.error exists */
+    if (result?.error) {
+      // console.error('Sign-in error:', result.error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Signin error',
+        text: result.error,
+      });
+    }
+
+    if (result?.ok) {
+      // console.log("Successful Sign in.");
+      router.push('/');
+    }
+
   };
 
   return (
@@ -253,7 +391,7 @@ export default function SignUpForm() {
           <SignupText>Signup now and meet awesome people around the world</SignupText>
         )}
 
-        <form action="#">
+        <form action="#" onSubmit={handleSubmit}>
           {/* Add your Material-UI components here */}
           {(!signInInterface) &&
             (<FlexContainer>
@@ -263,8 +401,11 @@ export default function SignUpForm() {
                 variant="filled"
                 fullWidth
                 name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 margin="dense"
                 required
+                autoComplete='off'
               />
               <CustomStyledTextFieldLastName
                 id="lastName"
@@ -272,19 +413,25 @@ export default function SignUpForm() {
                 variant="filled"
                 fullWidth
                 name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 margin="dense"
                 required
+                autoComplete='off'
               />
             </FlexContainer>)}
           <CustomStyledTextField
-            id="emailId"
+            id="email"
             label="Enter email Id"
             variant="filled"
             type="email"
             fullWidth
             name="email"
+            value={formData.email}
+            onChange={handleChange}
             margin="dense"
             required
+            autoComplete='off'
           />
           <CustomStyledTextField
             id="password"
@@ -293,8 +440,11 @@ export default function SignUpForm() {
             type="password"
             fullWidth
             name="password"
+            value={formData.password}
+            onChange={handleChange}
             margin="dense"
             required
+            autoComplete='off'
           />
           {(!signInInterface) &&
             (<>
@@ -304,7 +454,10 @@ export default function SignUpForm() {
                 variant="filled"
                 fullWidth
                 name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 margin="dense"
+                autoComplete='off'
               />
               <CustomStyledTextField
                 id="dateOfBirth"
@@ -312,9 +465,12 @@ export default function SignUpForm() {
                 variant="filled"
                 type="date"
                 name="dob"
+                value={formData.dob}
+                onChange={handleChange}
                 fullWidth
                 margin="dense"
                 required
+                autoComplete='off'
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -329,7 +485,10 @@ export default function SignUpForm() {
                 <Select
                   name="gender"
                   label='Gender'
+                  value={formData.gender}
+                  onChange={handleChange}
                   required
+                  autoComplete='off'
                 >
                   <MenuItem value="Male">Male</MenuItem>
                   <MenuItem value="Female">Female</MenuItem>
@@ -337,23 +496,25 @@ export default function SignUpForm() {
               </CustomStyledFormControl>
             </>)}
           {/* Repeat for other form fields */}
+
+
+          {(signInInterface) ? (
+            <p style={{ boxSizing: 'border-box', margin: '0px 0px 10px' }}>
+              By signing in you agree to the terms
+            </p>
+          ) : (
+            <p style={{ boxSizing: 'border-box', margin: '0px 0px 10px' }}>
+              By signing up you agree to the terms
+            </p>
+          )}
+
+          {(signInInterface) ? (
+            <SignupButton type="button" variant="contained" onClick={handleSignIn}>Signin</SignupButton>
+          ) : (
+            <SignupButton type="submit" variant="contained">Signup</SignupButton>
+          )}
+
         </form>
-
-        {(signInInterface) ? (
-          <p style={{ boxSizing: 'border-box', margin: '0px 0px 10px' }}>
-            By signing in you agree to the terms
-          </p>
-        ) : (
-          <p style={{ boxSizing: 'border-box', margin: '0px 0px 10px' }}>
-            By signing up you agree to the terms
-          </p>
-        )}
-
-        {(signInInterface) ? (
-          <SignupButton variant="contained">Signin</SignupButton>
-        ) : (
-          <SignupButton variant="contained">Signup</SignupButton>
-        )}
 
       </FormWrapper>
       {(signInInterface) ? (

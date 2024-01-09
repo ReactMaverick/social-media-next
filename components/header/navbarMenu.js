@@ -21,7 +21,7 @@ export default function NavbarMenu() {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("images/list_bullet.png")',
+                        'url("../../images/list_bullet.png")',
                     position: "relative",
                     display: "block",
                     float: "left",
@@ -29,7 +29,7 @@ export default function NavbarMenu() {
             >
                 <Link
                     className=""
-                    href="/0/"
+                    href="/"
                     type="button"
                     style={{
                         boxSizing: "border-box",
@@ -56,7 +56,7 @@ export default function NavbarMenu() {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("images/list_bullet.png")',
+                        'url("../../images/list_bullet.png")',
                     position: "relative",
                     display: "block",
                     float: "left",
@@ -88,7 +88,7 @@ export default function NavbarMenu() {
                     Newsfeed{" "}
                     <span style={{ boxSizing: "border-box" }}>
                         <img
-                            src="images/down_arrow.png"
+                            src="../../images/down_arrow.png"
                             style={{
                                 boxSizing: "border-box",
                                 border: "0px",
@@ -307,7 +307,7 @@ export default function NavbarMenu() {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("images/list_bullet.png")',
+                        'url("../../images/list_bullet.png")',
                     position: "relative",
                     display: "block",
                     float: "left",
@@ -339,7 +339,7 @@ export default function NavbarMenu() {
                     Timeline{" "}
                     <span style={{ boxSizing: "border-box" }}>
                         <img
-                            src="images/down_arrow.png"
+                            src="../../images/down_arrow.png"
                             style={{
                                 boxSizing: "border-box",
                                 border: "0px",
@@ -646,7 +646,7 @@ export default function NavbarMenu() {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("images/list_bullet.png")',
+                        'url("../../images/list_bullet.png")',
                     position: "relative",
                     display: "block",
                     float: "left",

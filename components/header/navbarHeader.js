@@ -8,11 +8,11 @@ export default function NavbarHeader() {
         >
             <Link
                 className={styles.navbarBrand}
-                href="/0/"
+                href="/"
             >
                 <img
                     alt="logo"
-                    src="images/logo.png"
+                    src="../../images/logo.png"
                 />
             </Link>
         </div>

@@ -1,6 +1,6 @@
 import styles from './header.module.css';
 
-export default function Header({ children }) {
+export default function HeaderLazyLoad({ children }) {
     // console.log(styles.mainHeader);
     return (
         <header id="header" className={`${styles.mainHeader} ${styles.lazyLoad} lazy-load`} >

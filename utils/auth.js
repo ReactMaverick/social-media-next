@@ -26,7 +26,8 @@ export const authOptions = {
     providers: [
         CredentialsProvider({
             // The name to display on the sign-in form (e.g., 'Sign in with...')
-            name: 'Credentials',
+            firstName: 'Credentials',
+            lastName: 'Credentials',
             credentials: {
                 email: { label: "Email", type: "email", placeholder: "Enter your email" },
                 password: { label: "Password", type: "Enter password" }
@@ -66,7 +67,7 @@ export const authOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: '/auth/signin',
+        signIn: '/0#',
         signOut: '/auth/signout',
         // error: '/auth/error',
         verifyRequest: '/auth/verify-request',
@@ -85,6 +86,10 @@ export const authOptions = {
 
             if (user?.profileId) {
                 token.profileId = user.profileId;
+            }
+
+            if (user?.firstName && user?.lastName) {
+                token.name = user.firstName + ' ' + user.lastName;
             }
 
             if (account?.provider === "google") {
@@ -118,6 +123,10 @@ export const authOptions = {
 
             if (token?.role) {
                 session.user.role = token.role;
+            }
+
+            if (token?.name) {
+                session.user.name = token.name;
             }
 
             if (token?.googleId) {

@@ -2,6 +2,7 @@ import connectDB from '@/utils/db';
 import User from '@/models/userModel';
 import { hashPassword } from '@/utils/auth';
 import { isDateOfBirthValid, isPasswordValid, isPhoneNumberValid } from '@/utils/validationCheck';
+import { capitalize } from 'lodash';
 
 // Connect to MongoDB
 connectDB();
@@ -13,7 +14,8 @@ export async function POST(req, res) {
         // console.log("Request JSON ==> ", requestJSON);
 
         const {
-            name,
+            firstName,
+            lastName,
             email,
             password,
             phone,
@@ -38,13 +40,17 @@ export async function POST(req, res) {
         } = requestJSON;
 
         // Validate the incoming data (you may want to add more robust validation)
-        if (!name || !email || !password || !dob) {
+        if (!firstName || !lastName || !email || !password || !dob) {
             const validationErrorResponse = new Response(
-                JSON.stringify({ error: 'Invalid input. Please provide name, email, date of birth and password.' }),
+                JSON.stringify({ error: 'Invalid input. Please provide first name, last name, email, date of birth and password.' }),
                 { status: 400, headers: { 'Content-Type': 'application/json' } }
             );
             return validationErrorResponse;
         }
+
+        const capitalizedFirstName = capitalize(firstName.trim());
+
+        const capitalizedLastName = capitalize(lastName.trim());
 
         const passwordValidationResult = isPasswordValid(password);
 
@@ -94,9 +100,12 @@ export async function POST(req, res) {
 
         const hashedPassword = await hashPassword(password);
 
+        console.log(capitalizedFirstName, capitalizedLastName);
+
         // Create a new user using the User model
         const newUser = new User({
-            name,
+            firstName: capitalizedFirstName,
+            lastName: capitalizedLastName,
             email,
             password: hashedPassword,
             phone,

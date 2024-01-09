@@ -46,7 +46,7 @@ export default function FeatureRowItems() {
                     marginTop="20px"
                     marginBottom="10px"
                     fontSize="24px"
-                    fontFamily='"Agency FB", sans-serif'
+                    fontFamily='"Agdasima", sans-serif'
                     color="rgb(147, 149, 152)"
                 >
                     Make Friends
@@ -63,7 +63,7 @@ export default function FeatureRowItems() {
                     marginTop="20px"
                     marginBottom="10px"
                     fontSize="24px"
-                    fontFamily='"Agency FB", sans-serif'
+                    fontFamily='"Agdasima", sans-serif'
                     color="rgb(147, 149, 152)"
                 >
                     Publish Posts
@@ -80,7 +80,7 @@ export default function FeatureRowItems() {
                     marginTop="20px"
                     marginBottom="10px"
                     fontSize="24px"
-                    fontFamily='"Agency FB", sans-serif'
+                    fontFamily='"Agdasima", sans-serif'
                     color="rgb(147, 149, 152)"
                 >
                     Private Chats
@@ -97,7 +97,7 @@ export default function FeatureRowItems() {
                     marginTop="20px"
                     marginBottom="10px"
                     fontSize="24px"
-                    fontFamily='"Agency FB", sans-serif'
+                    fontFamily='"Agdasima", sans-serif'
                     color="rgb(147, 149, 152)"
                 >
                     Create Polls

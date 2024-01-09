@@ -1,5 +1,7 @@
-import CustomHead from "@/components/customHead/customHead"
+import Script from 'next/script';
 import './globals.css';
+import '@/public/bootstrap.min.css';
+import '@/public/incrementalCounter/jquery.incremental-counter.css';
 
 export const metadata = {
   title: 'Friend Finder | A Complete Social Network',
@@ -9,13 +11,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <CustomHead />
       <body>
         {children}
-        <script src="../bootstrap.bundle.min.js"></script> {/* Import Bootstrap JS */}
-        <script src="../sweetalertPopup/sweetalert2.all.min.js"></script> {/* Import SweetalertPopup JS */}
-        <script src="../jquery/jquery-3.7.0.min.js"></script> {/* Import jQuery */}
-        <script src="../js/mainScript.js"></script> {/* Import Custom Script */}
+        <Script src="../bootstrap.bundle.min.js" /> {/* Import Bootstrap JS */}
+        <Script src="../sweetalertPopup/sweetalert2.all.min.js" /> {/* Import SweetalertPopup JS */}
+        <Script src="../jquery/jquery-3.7.0.min.js" /> {/* Import jQuery */}
+        <Script src='../incrementalCounter/jquery.incremental-counter.js' /> {/* Import Incremental Counter */}
+        <Script src="../js/mainScript.js" /> {/* Import Custom Script */}
       </body>
     </html>
   )

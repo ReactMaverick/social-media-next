@@ -3,11 +3,13 @@ import mongoose from 'mongoose';
 
 // Define the schema for the 'User' collection in MongoDB
 const userSchema = new mongoose.Schema({
-    // Define a field 'username' of type String, which is required
-    name: { type: String, required: true },
+
+    firstName: { type: String, required: true, trim: true },
+
+    lastName: { type: String, required: true, trim: true },
 
     // Define a field 'email' of type String, which is required and must be unique
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true, trim: true },
 
     // Define a field 'password' of type String, which is required
     password: { type: String, required: true },
@@ -15,6 +17,7 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
         default: null,
+        trim: true,
     },
     dob: { type: Date, required: true },
     gender: { type: String, enum: ["Male", "Female"] },
