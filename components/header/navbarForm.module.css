@@ -9,7 +9,7 @@
 }
 
 .formControl {
-    background: rgba(255,255,255, 0.2);
+    background: rgba(255, 255, 255, 0.2);
     border: 0;
     box-shadow: none;
     min-width: 235px;
@@ -18,4 +18,8 @@
     border-radius: 13px;
     font-size: 13px;
     padding-left: 30px;
+}
+
+.formControl:focus {
+    outline: 0;
 }

@@ -4,7 +4,7 @@ export default function AppDownloadSectionHeader() {
     return (
 
         <h1
-            className={`${styles.sectionTitle} ${styles.slideDown} ${styles.appear}`}
+            className={`${styles.sectionTitle} slideDown`}
         >
             download
         </h1>

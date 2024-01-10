@@ -1,0 +1,11 @@
+.h4 {
+    font-size: 18px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.h4.gray {
+    color: #6d6e71;
+    margin: 0 auto 20px;
+}

@@ -1,0 +1,21 @@
+.postComment {
+    display: inline-flex;
+    margin: 10px auto;
+    width: 100%;
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.postComment .profilePhotoSm {
+    margin-right: 10px;
+}
+
+.profileLink {
+    font-weight: 600;
+    color: #27aae1;
+    text-decoration: none;
+}

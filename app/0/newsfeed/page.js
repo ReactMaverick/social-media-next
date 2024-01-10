@@ -10,6 +10,7 @@ import NavbarHeader from '@/components/header/navbarHeader';
 import Navbar from '@/components/header/navBar';
 import NavbarForm from '@/components/header/navbarForm';
 import NavbarMenu from '@/components/header/navbarMenu';
+import NewsfeedPage from '@/components/newsfeed/newsfeedPage';
 
 export default function Newsfeed() {
 
@@ -53,6 +54,10 @@ export default function Newsfeed() {
                     </HeaderContainer>
                 </HeaderAll>
                 {/* Header Element End */}
+
+                {/* Newsfeed Start */}
+                <NewsfeedPage />
+                {/* Newsfeed End */}
             </>
         )
     } else if (status === "loading") {

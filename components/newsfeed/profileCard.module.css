@@ -1,0 +1,38 @@
+.profileCard {
+    background: linear-gradient(to bottom, rgba(39, 170, 225, .8), rgba(28, 117, 188, .8)), url(../../public/images/profile_card_cover.jpg) no-repeat;
+    background-size: cover;
+    width: 100%;
+    min-height: 90px;
+    border-radius: 4px;
+    padding: 10px 20px;
+    color: #fff;
+    margin-bottom: 40px;
+}
+
+.profileCard .profilePhoto {
+    border: 7px solid #fff;
+    float: left;
+    margin-right: 20px;
+    position: relative;
+    top: -30px;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+}
+
+.profileCard h5 {
+    margin-bottom: 1.5rem;
+}
+
+.profileCard h5 a {
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.textWhite {
+    color: #fff;
+}
+
+.profileCard a {
+    text-decoration: none;
+}

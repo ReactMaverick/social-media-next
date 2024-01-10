@@ -20,11 +20,16 @@ $(document).ready(() => {
         });
     };
 
+    // Incremental Counter
     var $incrementalCounter = $("#incrementalCounter")
 
     if ($incrementalCounter && ($incrementalCounter.length > 0)) {
         $incrementalCounter.incrementalCounter();
     };
+
+    setTimeout(() => {
+        $(".slideDown, .slideUp").addClass('appear');
+    }, 500);
 
 })
 

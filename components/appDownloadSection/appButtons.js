@@ -3,7 +3,7 @@ import styles from './appButtons.module.css';
 export default function AppButtons() {
     return (
         <ul
-            className={`${styles.appBtn} ${styles.slideUp} ${styles.appear}`}
+            className={`${styles.appBtn} slideUp`}
         >
             <li
             >

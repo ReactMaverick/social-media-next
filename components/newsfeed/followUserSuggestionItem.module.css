@@ -1,0 +1,53 @@
+.followUser {
+    margin-bottom: 20px;
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.pullLeft {
+    float: left !important;
+}
+
+.followUser div {
+    margin-left: 50px;
+    position: relative;
+}
+
+.h5 {
+    color: #27aae1;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.textGreen {
+    color: #8dc63f;
+}
+
+.textGreen:hover {
+    color: #39b54a;
+}
+
+.h5 a {
+    outline: none;
+    text-decoration: none;
+    color: inherit;
+}
+
+.h5 a:hover {
+    text-decoration: underline;
+}
+
+.followUser div a {
+    outline: none;
+    text-decoration: none;
+}
+
+.followUser div a:hover {
+    text-decoration: underline;
+}

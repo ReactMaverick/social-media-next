@@ -4,7 +4,7 @@ export default function FeatureSectionHeader() {
     return (
 
         <h1
-            className={`${styles.sectionTitle} ${styles.slideDown} ${styles.appear}`}
+            className={`${styles.sectionTitle} slideDown`}
         >
             social herd
         </h1>

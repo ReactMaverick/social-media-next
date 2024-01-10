@@ -1,0 +1,162 @@
+.postContent {
+    background: #f8f8f8;
+    border-radius: 4px;
+    width: 100%;
+    border: 1px solid #f1f2f2;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.postContent .postImage {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+.postContent .videoWrapper {
+    position: relative;
+}
+
+.postContent .videoWrapper .postVideo {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.postContent .postContainer {
+    padding: 20px;
+}
+
+.profilePhotoMd {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.pullLeft {
+    float: left !important;
+}
+
+.postDetail {
+    margin-left: 65px;
+    position: relative;
+}
+
+.h5 {
+    color: #27aae1;
+}
+
+.profileLink {
+    font-weight: 600;
+    color: #27aae1;
+    text-decoration: none;
+}
+
+.following {
+    color: #8dc63f;
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+.textMuted {
+    color: #939598;
+}
+
+.postDetail .reaction {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.textGreen {
+    color: #8dc63f;
+}
+
+.textGreen:hover {
+    color: #39b54a;
+}
+
+.textRed {
+    color: #ef4136;
+}
+
+.textRed:hover {
+    color: #d6100b;
+}
+
+.lineDivider {
+    background: none;
+    height: 1px;
+    border-top: 1px solid #e6e6e6;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.postText {
+    line-height: 24px;
+    margin: 0;
+}
+
+.postComment {
+    display: inline-flex;
+    margin: 10px auto;
+    width: 100%;
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.postComment .profilePhotoSm {
+    margin-right: 10px;
+}
+
+.postComment .formControl {
+    height: 30px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    margin: 7px 0;
+    min-width: 0;
+}
+
+.formControl {
+    border-radius: 4px;
+    color: #939598;
+    width: 100% !important;
+    background: #fff;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
+
+.formControl:focus {
+    outline: 0;
+}

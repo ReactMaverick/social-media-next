@@ -9,6 +9,11 @@
     line-height: 26px;
 }
 
+.navbarLink:hover {
+    color: #27aae1;
+    background: none;
+}
+
 .dropdownMenu {
     background: #231F20;
     box-shadow: none;
@@ -22,7 +27,7 @@
 .dropdownMenu .listItem {
     list-style: none;
     padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dropdownMenu .listItem a {
