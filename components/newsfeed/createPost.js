@@ -6,7 +6,9 @@ import { useState } from 'react';
 export default function CreatePost({ currentUser }) {
     const [caption, setCaption] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImageBuffer, setSelectedImageBuffer] = useState(null);
     const [selectedVideo, setSelectedVideo] = useState(null);
+    const [selectedVideoBuffer, setSelectedVideoBuffer] = useState(null);
 
 
     const handleCaptionChange = (e) => {
@@ -18,39 +20,72 @@ export default function CreatePost({ currentUser }) {
     const handleImageChange = (event) => {
         // console.log(event.target);
         const file = event.target.files[0];
-        setSelectedImage(file);
 
+        setSelectedImage(file);
         setSelectedVideo(null);
+
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            const arrayBuffer = reader.result;
+            const buffer = Buffer.from(arrayBuffer);
+
+            // Update state or perform other actions as needed
+            setSelectedImageBuffer(buffer);
+            setSelectedVideoBuffer(null);
+        };
+
+        // Read the file content as an array buffer
+        reader.readAsArrayBuffer(file);
+
+        // console.log(selectedImage, selectedImageBuffer);
     };
 
     const handleVideoChange = (event) => {
         // console.log(event);
         const file = event.target.files[0];
-        setSelectedVideo(file);
 
+        setSelectedVideo(file);
         setSelectedImage(null);
+
+        setSelectedImage(file);
+
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            const arrayBuffer = reader.result;
+            const buffer = Buffer.from(arrayBuffer);
+
+            // Update state or perform other actions as needed
+            setSelectedVideoBuffer(buffer);
+            setSelectedImageBuffer(null);
+        };
+
+        // Read the file content as an array buffer
+        reader.readAsArrayBuffer(file);
     };
 
     const handlePostPublish = async () => {
 
-        // const formData = new FormData();
+        const formData = new FormData();
 
-        // formData.append('user', currentUser.id);
+        formData.append('user', currentUser.id);
 
-        // if (caption.length > 0) {
-        //     formData.append('caption', caption);
+        if (caption.length > 0) {
+            formData.append('caption', caption);
+        }
+
+        if (selectedImageBuffer) {
+            formData.append('image', selectedImageBuffer);
+        }
+
+        if (selectedVideoBuffer) {
+            formData.append('video', selectedVideoBuffer);
+        }
+
+        // for (var key of formData.entries()) {
+        //     console.log(key[0] + ', ' + key[1])
         // }
-
-        // if (selectedImage) {
-        //     formData.append('image', selectedImage);
-        // }
-
-        // if (selectedVideo) {
-        //     formData.append('video', selectedVideo);
-        // }
-
-        // console.log(currentUser.id, caption, selectedImage, selectedVideo);
-        // console.log("Form Data ===> ", formData);
 
         try {
             const response = await fetch('/api/1.0/postContents', {

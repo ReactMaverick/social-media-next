@@ -12,46 +12,50 @@ const upload = multer();
 export async function POST(req, res) {
     try {
 
-        const requestJSON = await req.json();
+        const requestFormData = await req.formData();
 
-        console.log(requestJSON);
+        // console.log(requestFormData.get('user'));
 
-        // const {
-        //     user,
-        //     caption,
-        //     image,
-        //     video,
-        //     likes,
-        //     dislikes,
-        //     comments,
-        // } = requestJSON;
+        // Extract values from formData
+        const user = requestFormData.get('user');
+        const caption = requestFormData.get('caption');
+        const image = requestFormData.get('image');
+        const video = requestFormData.get('video');
 
-        // // Validate post content
-        // const validation = isPostContentValid(requestJSON);
-        // if (!validation.isValid) {
-        //     const validationErrorResponse = new Response(
-        //         JSON.stringify({ error: validation.error }),
-        //         { status: 400, headers: { 'Content-Type': 'application/json' } }
-        //     );
-        //     return validationErrorResponse;
-        // };
+        // console.log(user, caption, imageBuffer, videoBuffer);
 
-        // // Create a new post using the Post model
-        // const newPost = new PostContent({
-        //     user,
-        //     caption,
-        //     image,
-        //     video,
-        //     likes,
-        //     dislikes,
-        //     comments,
-        // });
+        // console.log(typeof imageBuffer, imageBuffer);
+
+        const requestJSON = {
+            user: user,
+            caption: caption,
+            image: image && Buffer.from(image, 'base64'),
+            video: video && Buffer.from(video, 'base64'),
+        };
+
+        // Validate post content
+        const validation = isPostContentValid(requestJSON);
+        if (!validation.isValid) {
+            const validationErrorResponse = new Response(
+                JSON.stringify({ error: validation.error }),
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+            return validationErrorResponse;
+        };
+
+        // Create a new post using the Post model
+        const newPost = new PostContent({
+            user,
+            caption,
+            image: image && Buffer.from(image, 'base64'),
+            video: video && Buffer.from(video, 'base64'),
+        });
 
         // // Save the new post to the database
-        // await newPost.save();
+        await newPost.save();
 
         // Respond with a success message or the newly created post
-        // return Response.json({ message: 'Post created successfully', post: newPost });
+        return Response.json({ message: 'Post created successfully', post: newPost });
     } catch (error) {
         console.error('Error creating post:', error);
         const internalServerErrorResponse = new Response(
@@ -61,5 +65,3 @@ export async function POST(req, res) {
         return internalServerErrorResponse;
     }
 }
-
-

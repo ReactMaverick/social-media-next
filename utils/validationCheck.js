@@ -71,9 +71,6 @@ export function isPostContentValid(postContent) {
         caption,
         image,
         video,
-        likes,
-        dislikes,
-        comments,
     } = postContent;
 
     // Validate the incoming data
@@ -87,12 +84,12 @@ export function isPostContentValid(postContent) {
     }
 
     // Validate image and video
-    if (image && typeof image !== 'object') {
-        return { isValid: false, error: 'Invalid image format. Image must be a file object.' };
+    if (image && !(image instanceof Buffer)) {
+        return { isValid: false, error: 'Invalid image format. Image must be a buffer.' };
     }
 
-    if (video && typeof video !== 'object') {
-        return { isValid: false, error: 'Invalid video format. Video must be a file object.' };
+    if (video && !(video instanceof Buffer)) {
+        return { isValid: false, error: 'Invalid video format. Video must be a buffer.' };
     }
 
     // Validate user ID format
