@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User from "@/models/userModel";
 
 export function isPasswordValid(password) {
@@ -61,5 +62,44 @@ export async function isPhoneNumberValid(phone) {
     }
 
     // If all checks pass, the phone is considered valid
+    return { isValid: true };
+}
+
+export function isPostContentValid(postContent) {
+    const {
+        user,
+        caption,
+        image,
+        video,
+        likes,
+        dislikes,
+        comments,
+    } = postContent;
+
+    // Validate the incoming data
+    if (!user || (!caption && !image && !video)) {
+        return { isValid: false, error: 'Invalid input. Please provide user and either caption, image, or video.' };
+    }
+
+    // Validate the length of the caption
+    if (caption && (caption.trim().length === 0 || caption.length > 1000)) {
+        return { isValid: false, error: 'Invalid caption. Caption cannot be empty, and it should be less than or equal to 1000 characters.' };
+    }
+
+    // Validate image and video
+    if (image && typeof image !== 'object') {
+        return { isValid: false, error: 'Invalid image format. Image must be a file object.' };
+    }
+
+    if (video && typeof video !== 'object') {
+        return { isValid: false, error: 'Invalid video format. Video must be a file object.' };
+    }
+
+    // Validate user ID format
+    if (!mongoose.Types.ObjectId.isValid(user)) {
+        return { isValid: false, error: 'Invalid user ID format.' };
+    }
+
+    // If all checks pass, the post content is considered valid
     return { isValid: true };
 }

@@ -56,7 +56,7 @@ export default function Newsfeed() {
                 {/* Header Element End */}
 
                 {/* Newsfeed Start */}
-                <NewsfeedPage />
+                <NewsfeedPage currentUser={currentUser} />
                 {/* Newsfeed End */}
             </>
         )

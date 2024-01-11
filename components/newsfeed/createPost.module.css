@@ -81,3 +81,51 @@
     background: #149AC9;
     transition: all 1s;
 }
+
+.hiddenFileInput {
+    display: none;
+}
+
+.imageUploadOuter {
+    position:relative;
+}
+
+.imageUploadOuter img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.imageOuter {
+    position: relative;
+}
+
+.imageOuter .removeImage {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #ff4242;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.videoUploadOuter {
+    position: relative;
+}
+
+.videoUploadOuter video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.videoOuter {
+    position: relative;
+}
+
+.videoOuter .removeVideo {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #ff4242;
+    cursor: pointer;
+    z-index: 999;
+}

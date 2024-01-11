@@ -8,12 +8,12 @@ const userSlice = createSlice({
     reducers: {
         setCurrentUser: (state, action) => {
             state.currentUser = action.payload;
-            console.log('setCurrentUser dispatched with payload:', action.payload);
-            console.log('Current user set ===> ', state.currentUser);
+            // console.log('setCurrentUser dispatched with payload:', action.payload);
+            // console.log('Current user set ===> ', state.currentUser);
         },
         clearCurrentUser: (state) => {
             state.currentUser = null;
-            console.log('clearCurrentUser dispatched');
+            // console.log('clearCurrentUser dispatched');
         },
     },
 });

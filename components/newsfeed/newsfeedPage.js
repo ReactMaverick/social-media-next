@@ -12,7 +12,7 @@ import SuggestionsSidebar from './suggestionsSidebar';
 import FollowUserSuggestionItem from './followUserSuggestionItem';
 import PostComment from './postComment';
 
-export default function NewsfeedPage() {
+export default function NewsfeedPage({ currentUser }) {
     return (
         <NewsFeedPageContents>
             <NewsFeedContainer>
@@ -24,7 +24,7 @@ export default function NewsfeedPage() {
                     </NewsfeedLeftColumn>
 
                     <NewsfeedMiddleColumn>
-                        <CreatePost />
+                        <CreatePost currentUser={currentUser} />
 
                         {/* Image Post */}
                         <PostContent
