@@ -1,13 +1,11 @@
 import connectDB from '@/utils/db';
 import PostContent from '@/models/postContentModel';
-import multer from 'multer';
 import { isPostContentValid } from '@/utils/validationCheck';
+import { getServerSession } from "next-auth";
+import { authOptions, isAdmin } from "@/utils/auth";
 
 // Connect to MongoDB
 connectDB();
-
-// Set up multer for handling file uploads
-const upload = multer();
 
 export async function POST(req, res) {
     try {
@@ -19,8 +17,8 @@ export async function POST(req, res) {
         // Extract values from formData
         const user = requestFormData.get('user');
         const caption = requestFormData.get('caption');
-        const image = requestFormData.get('image');
-        const video = requestFormData.get('video');
+        const imageBuffer = requestFormData.get('image') && Buffer.from(requestFormData.get('image'), 'base64');
+        const videoBuffer = requestFormData.get('video') && Buffer.from(requestFormData.get('video'), 'base64');
 
         // console.log(user, caption, imageBuffer, videoBuffer);
 
@@ -29,8 +27,8 @@ export async function POST(req, res) {
         const requestJSON = {
             user: user,
             caption: caption,
-            image: image && Buffer.from(image, 'base64'),
-            video: video && Buffer.from(video, 'base64'),
+            image: imageBuffer,
+            video: videoBuffer,
         };
 
         // Validate post content
@@ -47,8 +45,8 @@ export async function POST(req, res) {
         const newPost = new PostContent({
             user,
             caption,
-            image: image && Buffer.from(image, 'base64'),
-            video: video && Buffer.from(video, 'base64'),
+            image: requestFormData.get('image'),
+            video: videoBuffer,
         });
 
         // // Save the new post to the database
@@ -65,3 +63,34 @@ export async function POST(req, res) {
         return internalServerErrorResponse;
     }
 }
+
+export async function GET(req, res) {
+
+    try {
+
+        const session = await getServerSession(authOptions);
+
+        if (session?.user) {
+
+            // console.log("Session ===> ", session);
+            // Fetch all users from the database using the User model
+            const posts = await PostContent.find();
+
+            // Respond with the fetched posts in JSON format
+            return Response.json({ posts });
+
+        };
+
+
+    } catch (error) {
+        // Handle errors if any occur during the database operation
+        console.error('Error fetching users:', error);
+        // Create an error response using Response.error
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+
+};

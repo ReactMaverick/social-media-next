@@ -1,3 +1,5 @@
+'use client'
+import { useEffect } from "react";
 import NewsFeedContainer from "./newsfeedContainer"
 import NewsFeedPageContents from "./newsfeedPageContents"
 import NewsfeedRow from './newsfeedRow';
@@ -11,8 +13,18 @@ import NewsfeedRightColumn from './newsfeedRightColumn';
 import SuggestionsSidebar from './suggestionsSidebar';
 import FollowUserSuggestionItem from './followUserSuggestionItem';
 import PostComment from './postComment';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
 
 export default function NewsfeedPage({ currentUser }) {
+    const dispatch = useDispatch();
+    const posts = useSelector(selectPosts);
+
+    useEffect(() => {
+        dispatch(fetchAllPosts());
+    }, [dispatch]);
+
+    console.log("Posts ===> ", posts);
     return (
         <NewsFeedPageContents>
             <NewsFeedContainer>
@@ -27,7 +39,7 @@ export default function NewsfeedPage({ currentUser }) {
                         <CreatePost currentUser={currentUser} />
 
                         {/* Image Post */}
-                        <PostContent
+                        {/* <PostContent
                             postImgSrc='../../images/post_image_1.jpg'
                             postUserImgSrc='../../images/user_5_image.jpg'
                             postUserTimelineLink='/0/user/userId/timeline'
@@ -52,10 +64,10 @@ export default function NewsfeedPage({ currentUser }) {
                                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                                 enim ad minim veniam, quis nostrud'
                             />
-                        </PostContent>
+                        </PostContent> */}
 
                         {/* Video Post */}
-                        <PostContent
+                        {/* <PostContent
                             postVideSrc='../../videos/video_8.mp4'
                             postUserImgSrc='../../images/user_3_image.jpg'
                             postUserTimelineLink='/0/user/userId/timeline'
@@ -84,7 +96,7 @@ export default function NewsfeedPage({ currentUser }) {
                                 userName='Linda'
                                 comment='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
                             />
-                        </PostContent>
+                        </PostContent> */}
 
                         {/* Normal Post */}
                         <PostContent
@@ -106,7 +118,7 @@ export default function NewsfeedPage({ currentUser }) {
                         </PostContent>
 
                         {/* Image Post */}
-                        <PostContent
+                        {/* <PostContent
                             postImgSrc='../../images/post_image_2.jpg'
                             postUserImgSrc='../../images/user_4_image.jpg'
                             postUserTimelineLink='/0/user/userId/timeline'
@@ -129,10 +141,10 @@ export default function NewsfeedPage({ currentUser }) {
                                 userName='Richard'
                                 comment='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                             />
-                        </PostContent>
+                        </PostContent> */}
 
                         {/* Image Post */}
-                        <PostContent
+                        {/* <PostContent
                             postImgSrc='../../images/post_image_3.jpg'
                             postUserImgSrc='../../images/user_9_image.jpg'
                             postUserTimelineLink='/0/user/userId/timeline'
@@ -149,7 +161,22 @@ export default function NewsfeedPage({ currentUser }) {
                                 userName='Julia'
                                 comment='At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.'
                             />
-                        </PostContent>
+                        </PostContent> */}
+
+                        {posts.map((post) =>
+                            <PostContent
+                                postImgSrc={post.image}
+                                postUserImgSrc='../../images/user_9_image.jpg'
+                                postUserTimelineLink='/0/user/userId/timeline'
+                                postedUserName='Anna Young'
+                                updateStatusText={post.createdAt}
+                                likes={post.likes.length}
+                                dislikes={post.dislikes.length}
+                                postCaption={post.caption}
+                                currentUserImgSrc='../../images/user_1_image.jpg'
+                            >
+                            </PostContent>
+                        )}
 
                     </NewsfeedMiddleColumn>
 

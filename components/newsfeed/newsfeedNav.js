@@ -8,6 +8,7 @@ export default function NewsfeedNav() {
             className={styles.newsfeedNav}
         >
             <li
+                key='newsFeed'
             >
                 <Icon icon="mingcute:paper-fill" color='#8dc63f' />
                 <div
@@ -20,6 +21,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
+                key='peopleNearby'
             >
                 <Icon icon="mdi:people-group" color='#662d91' />
                 <div
@@ -32,6 +34,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
+                key='newsfeedFriends'
             >
                 <Icon icon="mdi:people-group-outline" color='#ee2a7b' />
                 <div
@@ -45,6 +48,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
+                key='newsfeedMessages'
             >
                 <Icon icon="heroicons-solid:chat-alt-2" color='#f7941e' />
                 <div
@@ -58,6 +62,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
+                key='newsfeedImages'
             >
                 <Icon icon="entypo:images" color='#1c75bc' />
                 <div
@@ -71,6 +76,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
+                key='newsfeedVideos'
             >
                 <Icon icon="material-symbols:videocam-rounded" color='#9e1f63' />
                 <div

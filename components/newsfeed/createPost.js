@@ -1,7 +1,10 @@
+'use client'
 import styles from './createPost.module.css';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { addPost, removePost, clearPosts } from '@/utils/features/postContentsSlice';
 
 export default function CreatePost({ currentUser }) {
     const [caption, setCaption] = useState('');
@@ -9,6 +12,8 @@ export default function CreatePost({ currentUser }) {
     const [selectedImageBuffer, setSelectedImageBuffer] = useState(null);
     const [selectedVideo, setSelectedVideo] = useState(null);
     const [selectedVideoBuffer, setSelectedVideoBuffer] = useState(null);
+
+    const dispatch = useAppDispatch();
 
 
     const handleCaptionChange = (e) => {
@@ -28,6 +33,12 @@ export default function CreatePost({ currentUser }) {
 
         reader.onload = function () {
             const arrayBuffer = reader.result;
+
+            // Convert the array buffer to Uint8Array
+            const uint8Array = new Uint8Array(arrayBuffer);
+
+            console.log(uint8Array);
+
             const buffer = Buffer.from(arrayBuffer);
 
             // Update state or perform other actions as needed
@@ -94,8 +105,16 @@ export default function CreatePost({ currentUser }) {
             });
 
             if (response.ok) {
-                console.log('Post created successfully');
-                // Optionally, you can redirect the user or update the UI as needed
+                const data = await response.json();
+                // console.log(data); // Log the response from the server
+
+                dispatch(addPost(data.post));
+
+                setCaption('');
+                setSelectedImage(null);
+                setSelectedVideo(null);
+                setSelectedImageBuffer(null);
+                setSelectedVideoBuffer(null);
             } else {
                 // Log the error details
                 const errorResponse = await response.json();
@@ -204,6 +223,7 @@ export default function CreatePost({ currentUser }) {
                             className={`${styles.publishingTools} ${styles.listInline}`}
                         >
                             <li
+                                key='compose'
                             >
                                 <Link
                                     href="#"
@@ -214,6 +234,7 @@ export default function CreatePost({ currentUser }) {
                             </li>
                             <li
                                 onClick={handleImageLinkClick}
+                                key='images'
                             >
                                 <Link
                                     href="#"
@@ -224,6 +245,7 @@ export default function CreatePost({ currentUser }) {
                             </li>
                             <li
                                 onClick={handleVideoLinkClick}
+                                key='videos'
                             >
                                 <Link
                                     href="#"
@@ -233,6 +255,7 @@ export default function CreatePost({ currentUser }) {
                                 </Link>
                             </li>
                             <li
+                                key='map'
                             >
                                 <Link
                                     href="#"
