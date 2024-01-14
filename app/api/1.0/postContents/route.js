@@ -1,5 +1,6 @@
 import connectDB from '@/utils/db';
 import PostContent from '@/models/postContentModel';
+import User from '@/models/userModel';
 import { isPostContentValid } from '@/utils/validationCheck';
 import { getServerSession } from "next-auth";
 import { authOptions, isAdmin } from "@/utils/auth";
@@ -17,18 +18,16 @@ export async function POST(req, res) {
         // Extract values from formData
         const user = requestFormData.get('user');
         const caption = requestFormData.get('caption');
-        const imageBuffer = requestFormData.get('image') && Buffer.from(requestFormData.get('image'), 'base64');
-        const videoBuffer = requestFormData.get('video') && Buffer.from(requestFormData.get('video'), 'base64');
+        const image = requestFormData.get('image');
+        const video = requestFormData.get('video');
 
-        // console.log(user, caption, imageBuffer, videoBuffer);
-
-        // console.log(typeof imageBuffer, imageBuffer);
+        console.log(user, caption, image, video);
 
         const requestJSON = {
             user: user,
             caption: caption,
-            image: imageBuffer,
-            video: videoBuffer,
+            image: image,
+            video: video,
         };
 
         // Validate post content
@@ -45,15 +44,23 @@ export async function POST(req, res) {
         const newPost = new PostContent({
             user,
             caption,
-            image: requestFormData.get('image'),
-            video: videoBuffer,
+            image: image,
+            video: video,
         });
+
+        // console.log(newPost);
 
         // // Save the new post to the database
         await newPost.save();
 
-        // Respond with a success message or the newly created post
-        return Response.json({ message: 'Post created successfully', post: newPost });
+        // Populate user details
+        const populatedPost = await PostContent.findById(newPost._id).populate({
+            path: 'user',
+            select: 'firstName lastName image profileId' // Include only these fields
+        });
+
+        // Respond with success message and populated post
+        return Response.json({ message: 'Post created successfully', post: populatedPost });
     } catch (error) {
         console.error('Error creating post:', error);
         const internalServerErrorResponse = new Response(
@@ -74,7 +81,10 @@ export async function GET(req, res) {
 
             // console.log("Session ===> ", session);
             // Fetch all users from the database using the User model
-            const posts = await PostContent.find();
+            const posts = await PostContent.find().populate({
+                path: 'user',
+                select: 'firstName lastName image profileId' // Include only these fields
+            });
 
             // Respond with the fetched posts in JSON format
             return Response.json({ posts });

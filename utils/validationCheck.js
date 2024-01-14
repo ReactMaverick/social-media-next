@@ -83,15 +83,6 @@ export function isPostContentValid(postContent) {
         return { isValid: false, error: 'Invalid caption. Caption cannot be empty, and it should be less than or equal to 1000 characters.' };
     }
 
-    // Validate image and video
-    if (image && !(image instanceof Buffer)) {
-        return { isValid: false, error: 'Invalid image format. Image must be a buffer.' };
-    }
-
-    if (video && !(video instanceof Buffer)) {
-        return { isValid: false, error: 'Invalid video format. Video must be a buffer.' };
-    }
-
     // Validate user ID format
     if (!mongoose.Types.ObjectId.isValid(user)) {
         return { isValid: false, error: 'Invalid user ID format.' };

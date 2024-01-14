@@ -2,13 +2,13 @@ import styles from './newsfeedNav.module.css';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
 
-export default function NewsfeedNav() {
+export default function NewsfeedNav({ currentUser }) {
     return (
         <ul
             className={styles.newsfeedNav}
         >
             <li
-                key='newsFeed'
+                key={`newsfeed_${currentUser.id}`}
             >
                 <Icon icon="mingcute:paper-fill" color='#8dc63f' />
                 <div
@@ -21,7 +21,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
-                key='peopleNearby'
+                key={`peopleNearby_${currentUser.id}`}
             >
                 <Icon icon="mdi:people-group" color='#662d91' />
                 <div
@@ -34,7 +34,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
-                key='newsfeedFriends'
+                key={`newsfeedFriends_${currentUser.id}`}
             >
                 <Icon icon="mdi:people-group-outline" color='#ee2a7b' />
                 <div
@@ -48,7 +48,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
-                key='newsfeedMessages'
+                key={`newsfeedMessages_${currentUser.id}`}
             >
                 <Icon icon="heroicons-solid:chat-alt-2" color='#f7941e' />
                 <div
@@ -62,7 +62,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
-                key='newsfeedImages'
+                key={`newsfeedImages_${currentUser.id}`}
             >
                 <Icon icon="entypo:images" color='#1c75bc' />
                 <div
@@ -76,7 +76,7 @@ export default function NewsfeedNav() {
                 </div>
             </li>
             <li
-                key='newsfeedVideos'
+                key={`newsfeedVideos_${currentUser.id}`}
             >
                 <Icon icon="material-symbols:videocam-rounded" color='#9e1f63' />
                 <div

@@ -75,7 +75,7 @@ export const authOptions = {
     },
     callbacks: {
         async jwt({ token, user, account, profile, isNewUser }) {
-            // console.log("User ===> ", user);
+            console.log("User ===> ", user);
             // console.log("JWT Token ===> ", token);
             // console.log("JWT Account ===> ", account);
             // console.log("JWT Profile ===> ", profile);
@@ -90,6 +90,10 @@ export const authOptions = {
 
             if (user?.firstName && user?.lastName) {
                 token.name = user.firstName + ' ' + user.lastName;
+            }
+
+            if (user?.image) {
+                token.image = user.image;
             }
 
             if (account?.provider === "google") {
@@ -143,6 +147,10 @@ export const authOptions = {
 
             if (token?.profileId) {
                 session.user.profileId = token.profileId;
+            }
+
+            if (token?.image) {
+                session.user.image = token.image;
             }
 
             // console.log("Final Session ===> ", session);

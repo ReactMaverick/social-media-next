@@ -9,9 +9,7 @@ import { addPost, removePost, clearPosts } from '@/utils/features/postContentsSl
 export default function CreatePost({ currentUser }) {
     const [caption, setCaption] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedImageBuffer, setSelectedImageBuffer] = useState(null);
     const [selectedVideo, setSelectedVideo] = useState(null);
-    const [selectedVideoBuffer, setSelectedVideoBuffer] = useState(null);
 
     const dispatch = useAppDispatch();
 
@@ -26,30 +24,11 @@ export default function CreatePost({ currentUser }) {
         // console.log(event.target);
         const file = event.target.files[0];
 
-        setSelectedImage(file);
+        // setSelectedImage(file);
         setSelectedVideo(null);
 
-        const reader = new FileReader();
+        setSelectedImage(file); //Set the selected file in selectedImage
 
-        reader.onload = function () {
-            const arrayBuffer = reader.result;
-
-            // Convert the array buffer to Uint8Array
-            const uint8Array = new Uint8Array(arrayBuffer);
-
-            console.log(uint8Array);
-
-            const buffer = Buffer.from(arrayBuffer);
-
-            // Update state or perform other actions as needed
-            setSelectedImageBuffer(buffer);
-            setSelectedVideoBuffer(null);
-        };
-
-        // Read the file content as an array buffer
-        reader.readAsArrayBuffer(file);
-
-        // console.log(selectedImage, selectedImageBuffer);
     };
 
     const handleVideoChange = (event) => {
@@ -59,67 +38,90 @@ export default function CreatePost({ currentUser }) {
         setSelectedVideo(file);
         setSelectedImage(null);
 
-        setSelectedImage(file);
-
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            const arrayBuffer = reader.result;
-            const buffer = Buffer.from(arrayBuffer);
-
-            // Update state or perform other actions as needed
-            setSelectedVideoBuffer(buffer);
-            setSelectedImageBuffer(null);
-        };
-
-        // Read the file content as an array buffer
-        reader.readAsArrayBuffer(file);
     };
 
     const handlePostPublish = async () => {
 
-        const formData = new FormData();
+        if (selectedImage || selectedVideo) {
+            try {
 
-        formData.append('user', currentUser.id);
+                const fileData = new FormData();
 
-        if (caption.length > 0) {
-            formData.append('caption', caption);
-        }
+                selectedImage ? fileData.append('file', selectedImage) : fileData.append('file', selectedVideo);
 
-        if (selectedImageBuffer) {
-            formData.append('image', selectedImageBuffer);
-        }
+                const response = await fetch('/api/1.0/upload', {
+                    method: 'POST',
+                    body: fileData,
+                });
 
-        if (selectedVideoBuffer) {
-            formData.append('video', selectedVideoBuffer);
-        }
+                if (!response.ok) {
+                    // If the response status is not OK, throw an error
+                    throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+                }
 
-        // for (var key of formData.entries()) {
-        //     console.log(key[0] + ', ' + key[1])
-        // }
+                if (response.ok) {
+                    const data = await response.json();
+                    // console.log(data); // Log the response from the server
 
+                    // Continue with creating the post using the postContents API route
+                    await createPost(data.filePath);
+                }
+
+            } catch (error) {
+                const errorResponse = await response.json();
+                console.error('Failed to upload image/video:', errorResponse);
+            }
+        } else {
+            // Continue with creating the post using the postContents API route
+            await createPost();
+        };
+
+    };
+
+    const createPost = async (filePath) => {
         try {
-            const response = await fetch('/api/1.0/postContents', {
+            const formData = new FormData();
+
+            formData.append('user', currentUser.id);
+
+            if (caption.length > 0) {
+                formData.append('caption', caption);
+            }
+
+            // Append the appropriate field based on the file type (image or video)
+            if (selectedImage) {
+                formData.append('image', filePath);
+            }
+
+            if (selectedVideo) {
+                formData.append('video', filePath);
+            }
+
+            // for (var key of formData.entries()) {
+            //     console.log(key[0] + ', ' + key[1])
+            // }
+
+            // Use fetch to call the createPost API route
+            const createPostResponse = await fetch('/api/1.0/postContents', {
                 method: 'POST',
                 body: formData,
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                // console.log(data); // Log the response from the server
-
-                dispatch(addPost(data.post));
-
-                setCaption('');
-                setSelectedImage(null);
-                setSelectedVideo(null);
-                setSelectedImageBuffer(null);
-                setSelectedVideoBuffer(null);
-            } else {
-                // Log the error details
-                const errorResponse = await response.json();
-                console.error('Failed to create post:', errorResponse);
+            if (!createPostResponse.ok) {
+                throw new Error(`Failed to create post. Status: ${createPostResponse.status}`);
             }
+
+            const postData = await createPostResponse.json();
+            console.log('Post created successfully:', postData);
+
+            // Dispatch The current post
+            dispatch(addPost(postData.post));
+
+            // Additional cleanup or actions after creating the post
+            setCaption('');
+            setSelectedImage(null);
+            setSelectedVideo(null);
+
         } catch (error) {
             console.error('Error creating post:', error);
         }
@@ -223,7 +225,7 @@ export default function CreatePost({ currentUser }) {
                             className={`${styles.publishingTools} ${styles.listInline}`}
                         >
                             <li
-                                key='compose'
+                                key={`compose_${currentUser.id}`}
                             >
                                 <Link
                                     href="#"
@@ -234,7 +236,7 @@ export default function CreatePost({ currentUser }) {
                             </li>
                             <li
                                 onClick={handleImageLinkClick}
-                                key='images'
+                                key={`image_${currentUser.id}`}
                             >
                                 <Link
                                     href="#"
@@ -245,7 +247,7 @@ export default function CreatePost({ currentUser }) {
                             </li>
                             <li
                                 onClick={handleVideoLinkClick}
-                                key='videos'
+                                key={`video_${currentUser.id}`}
                             >
                                 <Link
                                     href="#"
@@ -255,7 +257,7 @@ export default function CreatePost({ currentUser }) {
                                 </Link>
                             </li>
                             <li
-                                key='map'
+                                key={`map_${currentUser.id}`}
                             >
                                 <Link
                                     href="#"
@@ -294,4 +296,16 @@ export default function CreatePost({ currentUser }) {
         </div>
 
     );
+}
+
+// Convert Base64 data to binary (Uint8Array)
+function base64ToBinary(base64Data) {
+    const binaryString = atob(base64Data);
+    const binaryData = new Uint8Array(binaryString.length);
+
+    for (let i = 0; i < binaryString.length; i++) {
+        binaryData[i] = binaryString.charCodeAt(i);
+    }
+
+    return binaryData;
 }

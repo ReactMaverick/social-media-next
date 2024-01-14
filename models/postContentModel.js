@@ -9,8 +9,8 @@ const postContentSchema = new mongoose.Schema({
             return !this.image && !this.video;
         },
     },
-    image: { type: Buffer },
-    video: { type: Buffer },
+    image: { type: String },
+    video: { type: String },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     comments: [{

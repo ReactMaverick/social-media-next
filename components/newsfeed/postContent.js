@@ -1,43 +1,24 @@
 'use client'
-import { useState, useEffect } from 'react';
 import styles from './postContent.module.css';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 
 export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc }) {
 
-    const [convertedImgSrc, setConvertedImgSrc] = useState(null);
-    const [convertedVidSrc, setConvertedVidSrc] = useState(null);
-
-    useEffect(() => {
-        if (postImgSrc) {
-            const base64Data = Buffer.from(postImgSrc.data).toString('base64');
-            const dataUrl = `data:image/jpeg;base64,${base64Data}`;
-
-            setConvertedImgSrc(dataUrl);
-        }
-
-        if (postVideSrc) {
-            const base64Data = Buffer.from(postVideSrc.data).toString('base64');
-            const dataUrl = `data:video/mp4;base64,${base64Data}`;
-            setConvertedVidSrc(dataUrl);
-        }
-    }, [postImgSrc, postVideSrc]);
-
     return (
         <div
             className={styles.postContent}
         >
-            {convertedImgSrc ? (
+            {postImgSrc ? (
                 <img
                     className={styles.postImage}
                     alt="post-image"
-                    src={convertedImgSrc}
+                    src={postImgSrc}
                 />
-            ) : (convertedVidSrc && (
+            ) : (postVideSrc && (
                 <div className={styles.videoWrapper}>
                     <video className={styles.postVideo} controls>
-                        <source src={convertedVidSrc} type="video/mp4" />
+                        <source src={postVideSrc} type="video/mp4" />
                     </video>
                 </div>
             ))}
