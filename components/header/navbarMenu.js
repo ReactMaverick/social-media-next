@@ -1,6 +1,31 @@
+'use client'
 import Link from "next/link";
+import { useRouter } from 'next/navigation'; // Use useRouter from next/navigation
+import { signOut } from 'next-auth/react';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
 
-export default function NavbarMenu() {
+export default function NavbarMenu({ currentUser }) {
+
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+
+    const handleLogout = async () => {
+        const result = await signOut({ redirect: false });
+
+        // Check the result object if needed
+        console.log('Sign-out result:', result);
+
+        if (result?.url) {
+
+            dispatch(clearCurrentUser(currentUser));
+
+            router.push(result.url);
+        } else {
+            console.error("Error Signing-out user");
+        }
+    };
+
     return (
         <ul
             className="nav navbar-nav navbar-right main-menu"
@@ -673,6 +698,43 @@ export default function NavbarMenu() {
                     Contact
                 </Link>
             </li>
+
+            {currentUser && (
+                <li
+                    className="dropdown"
+                    style={{
+                        boxSizing: "border-box",
+                        listStyleImage:
+                            'url("../../images/list_bullet.png")',
+                        position: "relative",
+                        display: "block",
+                        float: "left",
+                    }}
+                    key={`${currentUser.id}_logout`}
+                >
+                    <button
+                        onClick={handleLogout}
+                        style={{
+                            boxSizing: "border-box",
+                            backgroundColor: "transparent",
+                            textDecoration: "none",
+                            outline: "none",
+                            padding: "10px 15px",
+                            position: "relative",
+                            display: "block",
+                            paddingTop: "15px",
+                            paddingBottom: "15px",
+                            lineHeight: "26px",
+                            color: "rgb(255, 255, 255)",
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            border: 'none',
+                        }}
+                    >
+                        Logout
+                    </button>
+                </li>
+            )}
         </ul>
     );
 };

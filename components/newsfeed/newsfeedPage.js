@@ -169,10 +169,11 @@ export default function NewsfeedPage({ currentUser }) {
                                 {posts.map((post) =>
                                     <PostContent
                                         key={post._id}
+                                        postId={post._id}
                                         postImgSrc={post.image}
                                         postVideSrc={post.video}
                                         postUserImgSrc={(post.user.image) !== '' ? (post.user.image) : '../../images/no_user.webp'}
-                                        postUserTimelineLink={`'/0/user/${post.user.profileId}/timeline`}
+                                        postUserTimelineLink={`/user/${post.user.profileId}/timeline`}
                                         postedUserName={`${post.user.firstName} ${post.user.lastName}`}
                                         updateStatusText={post.createdAt}
                                         likes={post.likes.length}

@@ -2,8 +2,50 @@
 import styles from './postContent.module.css';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { likePost, dislikePost } from '@/utils/features/postContentsSlice';
 
-export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc }) {
+export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc, postId }) {
+
+    const dispatch = useAppDispatch();
+
+    const handleLike = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Dispatch the likePost action to update the Redux store
+            dispatch(likePost(postId))
+                .then((action) => {
+                    // Handle success if needed
+                    console.log('Post liked/unliked successfully:', action);
+                })
+                .catch((error) => {
+                    // Handle error if needed
+                    console.error('Error liking post:', error);
+                });
+        } catch (error) {
+            console.error('Error liking post:', error);
+        }
+    };
+
+    const handleDislike = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Dispatch the likePost action to update the Redux store
+            dispatch(dislikePost(postId))
+                .then((action) => {
+                    // Handle success if needed
+                    console.log('Post disliked/undisliked successfully:', action);
+                })
+                .catch((error) => {
+                    // Handle error if needed
+                    console.error('Error liking post:', error);
+                });
+        } catch (error) {
+            console.error('Error liking post:', error);
+        }
+    };
 
     return (
         <div
@@ -62,6 +104,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                         <Link
                             className={`${styles.btn} ${styles.textGreen}`}
                             href="#"
+                            onClick={handleLike}
                         >
                             <Icon icon="f7:hand-thumbsup-fill" />{" "}
                             {likes}
@@ -69,6 +112,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                         <Link
                             className={`${styles.btn} ${styles.textRed}`}
                             href="#"
+                            onClick={handleDislike}
                         >
                             <Icon icon="f7:hand-thumbsdown-fill" />{" "}
                             {dislikes}

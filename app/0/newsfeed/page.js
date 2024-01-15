@@ -49,7 +49,7 @@ export default function Newsfeed() {
                         <NavbarHeader />
                         <Navbar>
                             <NavbarForm />
-                            <NavbarMenu />
+                            <NavbarMenu currentUser={currentUser} />
                         </Navbar>
                     </HeaderContainer>
                 </HeaderAll>
