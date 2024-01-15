@@ -11,12 +11,20 @@ connectDB();
 export async function POST(req, { params }) {
     try {
 
-        const requestJSON = await req.json();
+        let requestJSON
+
+        // Check if there is a request body
+        if (req.headers.get('content-type')?.includes('application/json')) {
+            // If yes, parse the JSON
+            requestJSON = await req.json();
+        }
+
+        // console.log(requestJSON);
 
         // Retrieve the user ID and action from the request parameters
         const [postId, action, commentId] = params.post;
 
-        // console.log(params);
+        console.log(params);
 
         // Log the received parameters
 
@@ -39,7 +47,7 @@ export async function POST(req, { params }) {
             return Response.json({ success: false, status: 404, message: 'Post not found' });
         }
 
-        // console.log(requestedUser, requestedPost);
+        console.log(requestedUser, requestedPost);
 
         switch (action) {
             case 'like':
@@ -51,7 +59,7 @@ export async function POST(req, { params }) {
             case 'addComment':
                 return handleAddComment(requestedUser, requestedPost, requestJSON);
 
-            case 'removeComment':
+            case 'deleteComment':
                 return handleDeleteComment(requestedUser, requestedPost, commentId);
 
             default:
@@ -152,7 +160,7 @@ async function handleAddComment(requestedUser, requestedPost, requestJSON) {
         if (comment) {
 
             const newComment = {
-                user: requestedUser._id,
+                user: await User.findById(requestedUser._id).select('firstName lastName image profileId'),
                 content: comment,
                 createdAt: new Date(),
             };
@@ -163,16 +171,43 @@ async function handleAddComment(requestedUser, requestedPost, requestJSON) {
             // Save the updated post
             await requestedPost.save();
 
-            return Response.json({ status: 200, success: true, message: 'Added comment successfully!', requestedPost });
+            return Response.json({ status: 200, success: true, message: 'Added comment successfully!', newComment });
         } else {
-            // Remove user ID from the likes array
-            requestedPost.likes.splice(userLikedIndex, 1);
-            // Save the updated post
-            await requestedPost.save();
-            return Response.json({ status: 200, success: true, message: 'Post like removed successfully!', requestedPost });
+            // No comment given
+            return Response.json({ status: 400, success: false, message: 'Please provide a comment!', errorCode: 'NO_COMMENT_PROVIDED' });
         }
     } catch (error) {
-        console.error('Error handling like:', error);
-        throw new Error('Error handling like');
+        console.error('Error handling add comment:', error);
+        return Response.json({ status: 500, success: false, message: 'Internal Server Error', errorCode: 'INTERNAL_SERVER_ERROR' });
+    }
+}
+
+// Delete Comment
+export async function handleDeleteComment(requestedUser, requestedPost, commentId) {
+    try {
+
+        // Find the index of the comment to be deleted
+        const commentIndex = requestedPost.comments.findIndex(comment => comment._id == commentId);
+
+        if (commentIndex === -1) {
+            return Response.json({ status: 404, success: false, message: 'Comment not found' });
+        }
+
+        const commentToDelete = requestedPost.comments[commentIndex];
+
+        // Check if the user deleting the comment is the owner of the comment or the owner of the post
+        if (commentToDelete.user.toString() !== requestedUser._id.toString() && requestedPost.user.toString() !== requestedUser._id.toString()) {
+            return Response.json({ status: 403, success: false, message: 'Permission denied. You are not allowed to delete this comment' });
+        }
+
+        // Remove the comment
+        requestedPost.comments.splice(commentIndex, 1);
+
+        await requestedPost.save();
+
+        return Response.json({ status: 200, success: true, message: 'Comment deleted successfully!', commentId });
+    } catch (error) {
+        console.error('Error deleting comment:', error);
+        return Response.json({ status: 500, success: false, message: 'Internal Server Error' });
     }
 }

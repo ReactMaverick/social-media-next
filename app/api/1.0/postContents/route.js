@@ -54,10 +54,15 @@ export async function POST(req, res) {
         await newPost.save();
 
         // Populate user details
-        const populatedPost = await PostContent.findById(newPost._id).populate({
-            path: 'user',
-            select: 'firstName lastName image profileId' // Include only these fields
-        });
+        const populatedPost = await PostContent.findById(newPost._id)
+            .populate({
+                path: 'user',
+                select: 'firstName lastName image profileId' // Include only these fields
+            })
+            .populate({
+                path: 'comments.user',
+                select: 'firstName lastName image profileId' // Include only these fields for each comment's user
+            });
 
         // Respond with success message and populated post
         return Response.json({ message: 'Post created successfully', post: populatedPost });
@@ -81,10 +86,15 @@ export async function GET(req, res) {
 
             // console.log("Session ===> ", session);
             // Fetch all users from the database using the User model
-            const posts = await PostContent.find().populate({
-                path: 'user',
-                select: 'firstName lastName image profileId' // Include only these fields
-            });
+            const posts = await PostContent.find()
+                .populate({
+                    path: 'user',
+                    select: 'firstName lastName image profileId' // Include only these fields
+                })
+                .populate({
+                    path: 'comments.user',
+                    select: 'firstName lastName image profileId' // Include only these fields for each comment's user
+                });
 
             // Respond with the fetched posts in JSON format
             return Response.json({ posts });

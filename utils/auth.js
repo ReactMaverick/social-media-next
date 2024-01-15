@@ -1,7 +1,5 @@
 import bcrypt from 'bcrypt';
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
 import connectDB from '@/utils/db';
 import User from '@/models/userModel';
 
@@ -55,24 +53,9 @@ export const authOptions = {
 
                 return user;
             }
-        }),
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET
-        }),
-        FacebookProvider({
-            clientId: process.env.FACEBOOK_CLIENT_ID,
-            clientSecret: process.env.FACEBOOK_CLIENT_SECRET
         })
     ],
     secret: process.env.NEXTAUTH_SECRET,
-    pages: {
-        signIn: '/0#',
-        signOut: '/auth/signout',
-        // error: '/auth/error',
-        verifyRequest: '/auth/verify-request',
-        newUser: null, // Will disable the new account creation screen
-    },
     callbacks: {
         async jwt({ token, user, account, profile, isNewUser }) {
             // console.log("User ===> ", user);
@@ -94,18 +77,6 @@ export const authOptions = {
 
             if (user?.image) {
                 token.image = user.image;
-            }
-
-            if (account?.provider === "google") {
-                // Set the Google ID in the token
-                token.googleId = account.providerAccountId;
-                token.profileId = account.providerAccountId;
-            }
-
-            if (account?.provider === "facebook") {
-                // Set the Google ID in the token
-                token.facebookId = account.providerAccountId;
-                token.profileId = account.providerAccountId + '123';
             }
 
             // console.log("Final Token ==> ", token);
@@ -133,18 +104,6 @@ export const authOptions = {
                 session.user.name = token.name;
             }
 
-            if (token?.googleId) {
-                // Set the Google ID in the token
-                session.user.googleId = token.googleId;
-
-            }
-
-            if (token?.facebookId) {
-                // Set the Google ID in the token
-                session.user.facebookId = token.facebookId;
-
-            }
-
             if (token?.profileId) {
                 session.user.profileId = token.profileId;
             }
@@ -158,46 +117,9 @@ export const authOptions = {
             return session
         },
         async signIn({ user, account, profile }) {
-
             // console.log("User ===> ", user);
             // console.log("Account ===> ", account);
             // console.log("Profile ===> ", profile);
-
-            try {
-
-                if (account.provider === "google" || account.provider === "facebook") {
-                    connectDB();
-
-                    // Check if the user already exists in the database
-                    const existingUser = await User.findOne({ email: profile.email });
-
-                    if (!existingUser) {
-                        // If the user doesn't exist, create a new user in the database
-                        const newUser = new User({
-                            name: profile.name,
-                            email: profile.email,
-                            password: 'PasswordNotSet2023#', // Provide a default password
-                            dob: new Date('2000-01-01'), // Provide a default date of birth
-                            profileId: account.providerAccountId, // Use providerAccountId as profileId
-                            // Set provider-specific fields using the ternary operator
-                            ...(account.provider === "google"
-                                ? { googleId: account.providerAccountId, image: profile.photo }
-                                : account.provider === "facebook"
-                                    ? { facebookId: account.providerAccountId, image: profile.picture.data.url }
-                                    : {}),
-                        });
-
-                        // Save the new user to the database
-                        await newUser.save();
-
-                    }
-                }
-
-
-            } catch (error) {
-                console.error("Error handling sign-in:", error);
-                // Handle error as needed
-            }
 
             return true; // Continue with the sign-in process
         }

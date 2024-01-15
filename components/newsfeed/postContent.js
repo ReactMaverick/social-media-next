@@ -3,9 +3,12 @@ import styles from './postContent.module.css';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
-import { likePost, dislikePost } from '@/utils/features/postContentsSlice';
+import { likePost, dislikePost, addComment, deleteComment } from '@/utils/features/postContentsSlice';
+import { useState } from 'react';
 
-export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc, postId }) {
+export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc, postId, currentUser, postedUserId }) {
+
+    const [commentText, setCommentText] = useState('');
 
     const dispatch = useAppDispatch();
 
@@ -45,6 +48,47 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
         } catch (error) {
             console.error('Error liking post:', error);
         }
+    };
+
+    const handleCommentChange = (e) => {
+        const newComment = e.target.value;
+
+        setCommentText(newComment);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && commentText.trim() !== '') {
+            // Prevent the default behavior of the Enter key
+            e.preventDefault();
+
+            handleAddComment();
+        }
+    };
+
+    const handleAddComment = async () => {
+        try {
+            // Dispatch the addComment action
+            dispatch(addComment({ postId, content: commentText }))
+                .then((action) => {
+                    // Handle success if needed
+                    console.log('Comment added successfully!', action);
+                })
+                .catch((error) => {
+                    // Handle error if needed
+                    console.error('Error commenting on post:', error);
+                });
+
+            // Clear the input field after adding a comment
+            setCommentText('');
+        } catch (error) {
+            console.error('Error adding comment:', error);
+        }
+    };
+
+    const handlePostDelete = (e) => {
+        e.preventDefault();
+
+        // Need to be done
     };
 
     return (
@@ -117,6 +161,15 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                             <Icon icon="f7:hand-thumbsdown-fill" />{" "}
                             {dislikes}
                         </Link>
+                        {(currentUser && (postedUserId === currentUser.id)) && (
+                            <Link
+                                className={`${styles.btn} ${styles.textRed}`}
+                                href="#"
+                                onClick={handlePostDelete}
+                            >
+                                <Icon icon="material-symbols:delete" />
+                            </Link>
+                        )}
                     </div>
                     <div
                         className={styles.lineDivider}
@@ -143,6 +196,9 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                             className={styles.formControl}
                             type="text"
                             placeholder="Post a comment"
+                            value={commentText}
+                            onChange={handleCommentChange}
+                            onKeyDown={handleKeyDown}
                         />
                     </div>
                 </div>

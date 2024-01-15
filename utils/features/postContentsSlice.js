@@ -61,7 +61,7 @@ export const addComment = createAsyncThunk('postContents/addComment', async ({ p
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ content }),
+            body: JSON.stringify({ comment: content }),
         });
 
         if (!response.ok) {
@@ -69,7 +69,8 @@ export const addComment = createAsyncThunk('postContents/addComment', async ({ p
         }
 
         const data = await response.json();
-        return { postId, comment: data.comment };
+        console.log("data ==> ", data);
+        return { postId, comment: data.newComment };
     } catch (error) {
         throw new Error(`Error adding comment: ${error.message}`);
     }
@@ -79,7 +80,7 @@ export const addComment = createAsyncThunk('postContents/addComment', async ({ p
 export const deleteComment = createAsyncThunk('postContents/deleteComment', async ({ postId, commentId }) => {
     try {
         const response = await fetch(`/api/1.0/postContents/${postId}/deleteComment/${commentId}`, {
-            method: 'DELETE',
+            method: 'POST',
         });
 
         if (!response.ok) {
@@ -138,7 +139,7 @@ const postContentsSlice = createSlice({
             .addCase(likePost.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 const { postId, likes, dislikes } = action.payload;
-                console.log("Payload ===> ", action.payload);
+                // console.log("Payload ===> ", action.payload);
                 state.posts = state.posts.map(post =>
                     post._id === postId ? { ...post, likes, dislikes } : post
                 );
@@ -170,8 +171,9 @@ const postContentsSlice = createSlice({
             .addCase(addComment.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 const { postId, comment } = action.payload;
+                console.log("Payload ===> ", action.payload);
                 state.posts = state.posts.map(post =>
-                    post.id === postId
+                    post._id === postId
                         ? { ...post, comments: [...post.comments, comment] }
                         : post
                 );
@@ -187,7 +189,7 @@ const postContentsSlice = createSlice({
                 state.status = 'succeeded';
                 const { postId, commentId } = action.payload;
                 state.posts = state.posts.map(post =>
-                    post.id === postId
+                    post._id === postId
                         ? { ...post, comments: post.comments.filter(comment => comment._id !== commentId) }
                         : post
                 );

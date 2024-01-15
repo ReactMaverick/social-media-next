@@ -22,26 +22,12 @@ export async function GET(req, { params }) {
 
         // Check if the user is logged in and has an ID in the session
         if (session?.user?.id) {
-            // Check if the requested ID matches either the MongoDB _id or Google googleId
-            if (session.user.id === id || session.user.googleId === id) {
+            // Check if the requested ID matches the MongoDB _id
+            if (session.user.profileId === id) {
                 // Request is coming from the same user
 
-                // Check if the provided ID is a valid ObjectId
-                const isGoogleId = !!session.user.googleId; // Check if the ID is a Google googleId
-
-                if (!isGoogleId && !mongoose.Types.ObjectId.isValid(id)) {
-                    // If not valid, return a 400 Bad Request response
-                    const invalidIdResponse = new Response(
-                        JSON.stringify({ error: 'Invalid user ID format!' }),
-                        { status: 400, headers: { 'Content-Type': 'application/json' } }
-                    );
-                    return invalidIdResponse;
-                }
-
                 // Fetch the user from the database using the User model and the provided ID
-                const user = isGoogleId
-                    ? await User.findOne({ googleId: session.user.googleId }) // Fetch by Google googleId
-                    : await User.findById(id); // Fetch by MongoDB _id
+                const user = await User.findOne({ profileId: id }) // Fetch by profileId
 
                 console.log("User ===> ", user);
 
@@ -102,18 +88,8 @@ export async function PUT(req, { params, body }) {
 
         // console.log("Params ==> ", params, "Request JSON ==> ", requestJSON);
 
-        // Check if the provided ID is a valid ObjectId
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            // If not valid, return a 400 Bad Request response
-            const invalidIdResponse = new Response(
-                JSON.stringify({ error: 'Invalid user ID format!' }),
-                { status: 400, headers: { 'Content-Type': 'application/json' } }
-            );
-            return invalidIdResponse;
-        }
-
         // Fetch the user from the database using the User model and the provided ID
-        const user = await User.findById(id);
+        const user = await User.findOne({ profileId: id })
 
         // Check if the user was found
         if (!user) {
