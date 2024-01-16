@@ -3,7 +3,7 @@ import styles from './postContent.module.css';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
-import { likePost, dislikePost, addComment, deleteComment } from '@/utils/features/postContentsSlice';
+import { likePost, dislikePost, addComment, deleteComment, removePost } from '@/utils/features/postContentsSlice';
 import { useState } from 'react';
 
 export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc, postId, currentUser, postedUserId }) {
@@ -85,10 +85,40 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
         }
     };
 
-    const handlePostDelete = (e) => {
+    const handleRemovePostButtonClick = (e) => {
         e.preventDefault();
 
-        // Need to be done
+        handlePostDelete(postId);
+    };
+
+    const handlePostDelete = async (postId) => {
+        try {
+            // Make a DELETE request to the API to delete the post
+            const response = await fetch(`/api/1.0/postContents/${postId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+
+            // Check if the request was successful (status code 200-299)
+            if (response.ok) {
+                // Post deleted successfully
+                const responseData = await response.json();
+                console.log('Post deleted successfully:', responseData);
+                // Add any additional logic or state updates as needed
+
+                dispatch(removePost(postId));
+            } else {
+                // Handle other error cases
+                console.error('Error deleting post:', response.error);
+                // Show an error message or handle the error as needed
+            }
+        } catch (error) {
+            console.error('Error deleting post:', error.message);
+            // Handle network errors or other exceptions
+        }
     };
 
     return (
@@ -165,7 +195,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                             <Link
                                 className={`${styles.btn} ${styles.textRed}`}
                                 href="#"
-                                onClick={handlePostDelete}
+                                onClick={handleRemovePostButtonClick}
                             >
                                 <Icon icon="material-symbols:delete" />
                             </Link>

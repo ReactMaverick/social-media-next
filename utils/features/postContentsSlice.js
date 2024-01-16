@@ -107,7 +107,7 @@ const postContentsSlice = createSlice({
             // console.log('Posts after adding a new post ===> ', state.posts);
         },
         removePost: (state, action) => {
-            state.posts = state.posts.filter(post => post.id !== action.payload);
+            state.posts = state.posts.filter(post => post._id !== action.payload);
             // console.log('removePost dispatched with payload:', action.payload);
             // console.log('Posts after removing a post ===> ', state.posts);
         },

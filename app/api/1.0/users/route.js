@@ -1,44 +1,34 @@
 import connectDB from '@/utils/db';
 import { getServerSession } from "next-auth";
-import { authOptions, isAdmin } from "@/utils/auth";
+import { authOptions } from "@/utils/auth";
 import User from '@/models/userModel';
 
 // Connect to MongoDB
 connectDB();
 
-export async function POST(req, res) {
+export async function GET(req, res) {
     try {
 
         const session = await getServerSession(authOptions);
 
         if (session?.user) {
-            const adminOrNot = isAdmin(session.user);
 
             // console.log("Admin or Not ===> ", adminOrNot);
 
-            if (adminOrNot) {
-                // Admin
+            // console.log("Session ===> ", session);
+            // Fetch all users from the database using the User model
+            const users = await User.find().select('firstName lastName profileId image');;
 
-                console.log("Session ===> ", session);
-                // Fetch all users from the database using the User model
-                const users = await User.find();
+            // Respond with the fetched users in JSON format
+            return Response.json({ users });
 
-                // Respond with the fetched users in JSON format
-                return Response.json({ users });
+        } else {
+            const unauthorizedErrorResponse = new Response(
+                JSON.stringify({ error: 'Unauthorized access!' }),
+                { status: 401, headers: { 'Content-Type': 'application/json' } }
+            );
 
-            } else {
-                // User
-
-                console.log("Session ===> ", session);
-
-                const unauthorizedErrorResponse = new Response(
-                    JSON.stringify({ error: 'Unauthorized access!' }),
-                    { status: 401, headers: { 'Content-Type': 'application/json' } }
-                );
-
-                return unauthorizedErrorResponse;
-
-            }
+            return unauthorizedErrorResponse;
         };
 
 

@@ -15,16 +15,22 @@ import FollowUserSuggestionItem from './followUserSuggestionItem';
 import PostComment from './postComment';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
+import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 
 export default function NewsfeedPage({ currentUser }) {
     const dispatch = useDispatch();
     const posts = useSelector(selectPosts);
 
+    const users = useSelector(selectAllUsers);
+
     useEffect(() => {
         dispatch(fetchAllPosts());
+        dispatch(fetchAllUsers());
     }, [dispatch]);
 
-    console.log("Posts ===> ", posts, currentUser);
+    // console.log("Posts ===> ", posts, currentUser);
+
+    console.log("Users ===> ", users);
     return (
 
         <NewsFeedPageContents>
@@ -77,31 +83,17 @@ export default function NewsfeedPage({ currentUser }) {
 
                             <NewsfeedRightColumn>
                                 <SuggestionsSidebar>
-                                    <FollowUserSuggestionItem
-                                        imgSrc='../../images/user_11_image.jpg'
-                                        followUserName='Diane Amber'
-                                        userTimelineLink='/0/users/userId/timeline'
-                                    />
-                                    <FollowUserSuggestionItem
-                                        imgSrc='../../images/user_12_image.jpg'
-                                        followUserName='Cris Haris'
-                                        userTimelineLink='/0/users/userId/timeline'
-                                    />
-                                    <FollowUserSuggestionItem
-                                        imgSrc='../../images/user_13_image.jpg'
-                                        followUserName='Brian Walton'
-                                        userTimelineLink='/0/users/userId/timeline'
-                                    />
-                                    <FollowUserSuggestionItem
-                                        imgSrc='../../images/user_14_image.jpg'
-                                        followUserName='Olivia Steward'
-                                        userTimelineLink='/0/users/userId/timeline'
-                                    />
-                                    <FollowUserSuggestionItem
-                                        imgSrc='../../images/user_15_image.jpg'
-                                        followUserName='Sophia Page'
-                                        userTimelineLink='/0/users/userId/timeline'
-                                    />
+                                    {users && (
+                                        users.map(user =>
+                                            user._id !== currentUser.id &&
+                                            <FollowUserSuggestionItem
+                                                imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
+                                                followUserName={`${user.firstName} ${user.lastName}`}
+                                                userTimelineLink={`/0/timeline/${user.profileId}`}
+                                            />
+                                        )
+                                    )}
+
                                 </SuggestionsSidebar>
                             </NewsfeedRightColumn>
                         </NewsfeedRow>
