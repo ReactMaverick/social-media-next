@@ -11,6 +11,7 @@ import NavbarMenu from '@/components/header/navbarMenu';
 import { useEffect } from "react";
 import Link from "next/link";
 
+
 export default function TimelineLayout({ children }) {
 
     const dispatch = useAppDispatch();
@@ -55,6 +56,7 @@ export default function TimelineLayout({ children }) {
                 {/* Header Element End */}
 
                 {children}
+
             </>
         )
     } else if (status === "loading") {

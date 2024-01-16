@@ -55,6 +55,7 @@ export default function TimelineLayout({ children }) {
                 {/* Header Element End */}
 
                 {children}
+
             </>
         )
     } else if (status === "loading") {

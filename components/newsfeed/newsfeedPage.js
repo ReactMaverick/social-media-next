@@ -66,6 +66,7 @@ export default function NewsfeedPage({ currentUser }) {
                                     >
                                         {(post.comments.length > 0) && post.comments.map((comment) =>
                                             <PostComment
+                                                key={comment._id}
                                                 profileImgSrc={(comment.user.image) !== '' ? (comment.user.image) : '../../images/no_user.webp'}
                                                 profileLink={`/0/timeline/${comment.user.profileId}`}
                                                 userName={`${comment.user.firstName} ${comment.user.lastName}`}
@@ -87,6 +88,7 @@ export default function NewsfeedPage({ currentUser }) {
                                         users.map(user =>
                                             user._id !== currentUser.id &&
                                             <FollowUserSuggestionItem
+                                                key={user._id}
                                                 imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
                                                 followUserName={`${user.firstName} ${user.lastName}`}
                                                 userTimelineLink={`/0/timeline/${user.profileId}`}

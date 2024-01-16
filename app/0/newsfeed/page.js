@@ -58,6 +58,7 @@ export default function Newsfeed() {
                 {/* Newsfeed Start */}
                 <NewsfeedPage currentUser={currentUser} />
                 {/* Newsfeed End */}
+
             </>
         )
     } else if (status === "loading") {
