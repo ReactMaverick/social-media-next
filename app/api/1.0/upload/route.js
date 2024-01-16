@@ -1,5 +1,5 @@
 import { writeFile, mkdir } from 'fs/promises';
-import path, { join, dirname } from 'path';
+import { join, dirname } from 'path';
 
 export async function POST(req, res) {
     try {

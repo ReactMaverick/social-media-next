@@ -48,7 +48,7 @@ export default function NewsfeedPage({ currentUser }) {
                                         postImgSrc={post.image}
                                         postVideSrc={post.video}
                                         postUserImgSrc={(post.user.image) !== '' ? (post.user.image) : '../../images/no_user.webp'}
-                                        postUserTimelineLink={`/user/${post.user.profileId}/timeline`}
+                                        postUserTimelineLink={`/0/timeline/${post.user.profileId}`}
                                         postedUserName={`${post.user.firstName} ${post.user.lastName}`}
                                         updateStatusText={getTimeElapsed(post.createdAt)}
                                         likes={post.likes.length}
@@ -61,7 +61,7 @@ export default function NewsfeedPage({ currentUser }) {
                                         {(post.comments.length > 0) && post.comments.map((comment) =>
                                             <PostComment
                                                 profileImgSrc={(comment.user.image) !== '' ? (comment.user.image) : '../../images/no_user.webp'}
-                                                profileLink={`/user/${comment.user.profileId}/timeline`}
+                                                profileLink={`/0/timeline/${comment.user.profileId}`}
                                                 userName={`${comment.user.firstName} ${comment.user.lastName}`}
                                                 comment={comment.content}
                                                 commentUserId={comment.user._id}
