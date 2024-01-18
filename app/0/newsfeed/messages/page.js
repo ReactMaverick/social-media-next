@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
-import NewsfeedPage from '@/components/newsfeed/newsfeedPage';
+import NewsfeedMessagesPage from "@/components/newsfeed/newsfeedMessagesPage";
 
 export default function Newsfeed() {
 
@@ -38,7 +38,7 @@ export default function Newsfeed() {
         return (
             <>
                 {/* Newsfeed Start */}
-                <NewsfeedPage currentUser={currentUser} />
+                <NewsfeedMessagesPage currentUser={currentUser} />
                 {/* Newsfeed End */}
 
             </>

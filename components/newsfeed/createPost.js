@@ -180,7 +180,7 @@ export default function CreatePost({ currentUser }) {
                             >
                                 <img
                                     className="profile-photo-md"
-                                    src={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
+                                    src={(currentUser.image) !== '' ? (currentUser.image) : process.env.BASE_URL + '/images/no_user.webp'}
                                 />
                                 <textarea
                                     id="exampleTextarea"

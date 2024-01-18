@@ -13,7 +13,7 @@ export default function ProfileCard({ currentUser }) {
                     <img
                         className={styles.profilePhoto}
                         alt="user"
-                        src={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
+                        src={(currentUser.image) !== '' ? (currentUser.image) : process.env.BASE_URL + '/images/no_user.webp'}
                     />
                     <h5
                     >

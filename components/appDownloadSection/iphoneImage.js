@@ -6,7 +6,7 @@ export default function IphoneImage() {
         <img
             className={styles.iphoneImg}
             alt="iPhone"
-            src="images/iPhone_img.png"
+            src={process.env.BASE_URL + "images/iPhone_img.png"}
         />
 
     );

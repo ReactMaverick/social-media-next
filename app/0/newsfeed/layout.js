@@ -1,12 +1,17 @@
 'use client'
-import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
-import NewsfeedPage from '@/components/newsfeed/newsfeedPage';
+import HeaderAll from "@/components/header/headerAll";
+import HeaderContainer from '@/components/header/headerContainer';
+import NavbarHeader from '@/components/header/navbarHeader';
+import Navbar from '@/components/header/navBar';
+import NavbarForm from '@/components/header/navbarForm';
+import NavbarMenu from '@/components/header/navbarMenu';
+import { useEffect } from "react";
+import Link from "next/link";
 
-export default function Newsfeed() {
+export default function TimelineLayout({ children }) {
 
     const dispatch = useAppDispatch();
 
@@ -37,9 +42,19 @@ export default function Newsfeed() {
 
         return (
             <>
-                {/* Newsfeed Start */}
-                <NewsfeedPage currentUser={currentUser} />
-                {/* Newsfeed End */}
+                {/* Header Element Start */}
+                <HeaderAll>
+                    <HeaderContainer>
+                        <NavbarHeader />
+                        <Navbar>
+                            <NavbarForm />
+                            <NavbarMenu currentUser={currentUser} />
+                        </Navbar>
+                    </HeaderContainer>
+                </HeaderAll>
+                {/* Header Element End */}
+
+                {children}
 
             </>
         )
@@ -60,4 +75,4 @@ export default function Newsfeed() {
             </main>
         )
     }
-};
+}

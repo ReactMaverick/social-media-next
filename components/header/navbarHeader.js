@@ -12,7 +12,7 @@ export default function NavbarHeader() {
             >
                 <img
                     alt="logo"
-                    src="../../images/logo.png"
+                    src={process.env.BASE_URL + "/images/logo.png"}
                 />
             </Link>
         </div>

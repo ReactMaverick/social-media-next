@@ -4,7 +4,7 @@ export default function FaceMapImage() {
     return (
         <img
             className={`d-none d-md-block ${styles.faceMap} slideUp`}
-            src="images/face_map.png"
+            src={process.env.BASE_URL + "images/face_map.png"}
         />
     );
 }

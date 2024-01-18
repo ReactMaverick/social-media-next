@@ -31,5 +31,14 @@ $(document).ready(() => {
         $(".slideDown, .slideUp").addClass('appear');
     }, 500);
 
-})
 
+    setTimeout(() => {
+        var $scrollbar = $(".scrollbar-wrapper");
+
+        if ($scrollbar && ($scrollbar.length > 0)) {
+            $scrollbar.scrollbar();
+        };
+    }, 500);
+
+
+})

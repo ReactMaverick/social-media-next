@@ -29,7 +29,7 @@ export async function POST(req, res) {
         await writeFile(filePath, buffer);
 
         // Respond with a success message or the newly created post
-        return Response.json({ status: 200, message: 'File uploaded successfully', filePath: `../../uploads/${fileType}/${uniqueFilename}` });
+        return Response.json({ status: 200, message: 'File uploaded successfully', filePath: `${process.env.BASE_URL}/uploads/${fileType}/${uniqueFilename}` });
     } catch (error) {
         console.error('Error uploading file:', error);
         const internalServerErrorResponse = new Response(

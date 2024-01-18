@@ -1,0 +1,27 @@
+.chatMessage {
+    padding: 0;
+    margin: 0;
+}
+
+.chatMessage li {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.pullRight {
+    float: right !important;
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.pullLeft {
+    float: left !important;
+}
+
+.textMuted {
+    color: #939598;
+}

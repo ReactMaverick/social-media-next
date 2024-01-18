@@ -55,7 +55,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeedMessages"
+                        href="/0/newsfeed/messages"
                     >
                         Messages
                     </Link>
