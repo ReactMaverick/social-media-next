@@ -17,8 +17,8 @@ export default function TimelineNavRow() {
             <div className={`col-md-9 ${styles.timelineCol}`}>
                 <ul className={`${styles.profileMenu} ${styles.listInline}`}>
                     <li>
-                        <a className="active" href="https://themified.com/friend-finder/timeline.html">
-                            Timeline
+                        <a className={`${styles.active}`} href="https://themified.com/friend-finder/timeline.html">
+                            Timeline 
                         </a>
                     </li>
                     <li>
@@ -40,7 +40,7 @@ export default function TimelineNavRow() {
                 <ul className={`${styles.followMe} ${styles.listInline}`}>
                     <li>1,299 people following her</li>
                     <li>
-                        <button className="btn-primary">Add Friend</button>
+                        <button className={`${styles.btnPrimary}`}>Add Friend</button>
                     </li>
                 </ul>
             </div>

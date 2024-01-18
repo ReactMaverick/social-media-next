@@ -29,6 +29,11 @@
     height: 200px;
     width: 200px;
 }
+.timelineCol{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .profileInfo h3 {
     font-family: inherit;
@@ -55,9 +60,41 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-right: 20px;
 }
 
-.profileMenu {
+.profileMenu, .followMe {
     margin: 0;
-    display: table;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+.profileMenu li a {
+    color: #fff;
+    padding: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+.profileMenu li a:hover{
+    color: #27aae1;
+}
+.profileMenu li a.active{
+    color: #27aae1;
+}
+.followMe li {
+    padding: 6px 15px;
+    color: #fff;
+}
+.btnPrimary {
+    background: #27aae1;
+    padding: 7px 25px;
+    border: none;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
+    position: relative;
+    font-weight: 600;
+    outline: none;
+    border-radius: 30px;
+}
+

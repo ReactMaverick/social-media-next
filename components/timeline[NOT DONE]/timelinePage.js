@@ -3,6 +3,8 @@ import Timeline from './timeline';
 import TimelineCover from "./timelineCover";
 import TimelineNav from './timelineNav';
 import TimelineNavRow from './timelineNavRow';
+import TimelinePageContents from './timelinePageContents';
+
 
 export default function TimelinePage() {
     return (
@@ -15,6 +17,7 @@ export default function TimelinePage() {
                         </TimelineNav>
                     </TimelineCover>
                 </Timeline>
+                <TimelinePageContents/>
             </TimelineContainer>
         </>
     );

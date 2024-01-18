@@ -1,0 +1,24 @@
+.heading{
+    color: #6d6e71;
+    margin: 0 auto 20px;
+    font-size: 18px;
+}
+.heading svg {
+    margin-right: 15px;
+    color: #27aae1;
+}
+.line {
+    background: #f1f2f2;
+    height: 1px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.editProfile{
+display: grid;
+gap: 50px;
+margin-bottom: 30px;
+}
+.blockTitle{
+
+}

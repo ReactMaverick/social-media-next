@@ -1,0 +1,41 @@
+.editMenu {
+    margin-top: 100px;
+    padding: 0 20px;
+    list-style: none;
+    text-decoration: none;
+}
+.editMenu li {
+    list-style: none;
+    border-bottom: 1px solid #f1f2f2;
+    padding: 15px 0;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+} 
+.editMenu .active{
+    color: #27aae1;
+}
+.editMenu li:hover a, .editMenu li:hover svg{
+    color: #27aae1;
+}
+.editMenu li a {
+    color: #6d6e71;
+    margin-left: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+.editMenu li.active::before {
+    content: "";
+    background: #8dc63f;
+    width: 2px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    transform: translate(-50%,-50%);
+}
+.editMenu li.active a, .editMenu li.active svg {
+    color: #8dc63f;
+}
+.editMenu li svg {
+    font-size: 20px;
+}
