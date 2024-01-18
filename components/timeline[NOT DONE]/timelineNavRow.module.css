@@ -1,0 +1,63 @@
+.row {
+    margin-right: -10px;
+    margin-left: -10px;
+}
+
+.profileCol,
+.timelineCol {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+    float: left;
+}
+
+.profileInfo {
+    padding: 0px 20px;
+    position: absolute;
+    text-align: center;
+    top: -100px;
+    z-index: 999;
+}
+
+.imgResponsive {
+    vertical-align: middle;
+    display: block;
+    max-width: 100%;
+    border-radius: 50%;
+    border: 10px solid rgb(255, 255, 255);
+    height: 200px;
+    width: 200px;
+}
+
+.profileInfo h3 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: rgb(39, 170, 225);
+}
+
+.textMuted {
+    margin: 0px 0px 10px;
+    color: rgb(147, 149, 152);
+}
+
+.listInline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.followMe {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profileMenu {
+    margin: 0;
+    display: table;
+}
