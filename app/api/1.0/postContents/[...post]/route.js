@@ -59,6 +59,9 @@ export async function POST(req, { params }) {
             case 'addComment':
                 return handleAddComment(requestedUser, requestedPost, requestJSON);
 
+            case 'updateComment':
+                return handleUpdateComment(requestedUser, requestedPost, requestJSON, commentId);
+
             case 'deleteComment':
                 return handleDeleteComment(requestedUser, requestedPost, commentId);
 
@@ -179,6 +182,27 @@ async function handleAddComment(requestedUser, requestedPost, requestJSON) {
     } catch (error) {
         console.error('Error handling add comment:', error);
         return Response.json({ status: 500, success: false, message: 'Internal Server Error', errorCode: 'INTERNAL_SERVER_ERROR' });
+    }
+}
+// Function to handle update comment
+
+async function handleUpdateComment(requestedUser, requestedPost, requestJSON, commentId) {
+    //find comment
+    const commentIndex = requestedPost.comments.findIndex(comment => comment._id == commentId);
+    if (commentIndex === -1) {
+        return Response.json({ status: 404, success: false, message: 'Comment not found' });
+    }
+    const commentToUpdate = requestedPost.comments[commentIndex];
+    // Check if the user deleting the comment is the owner of the comment or the owner of the post
+    if (commentToUpdate.user.toString() !== requestedUser._id.toString() && requestedPost.user.toString() !== requestedUser._id.toString()) {
+        return Response.json({ status: 403, success: false, message: 'Permission denied. You are not allowed to Update this comment' });
+    } else {
+        if (requestJSON.content) {
+            requestedPost.comments[commentIndex].content = requestJSON.content
+        }
+        await requestedPost.save();
+
+        return Response.json({ status: 200, success: true, message: 'Comment Update successfully!', comment: requestedPost.comments[commentIndex] });
     }
 }
 

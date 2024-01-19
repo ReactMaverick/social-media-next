@@ -43,3 +43,40 @@ export async function GET(req, res) {
         return internalServerErrorResponse;
     }
 }
+
+//*** Delete user */
+export async function DELETE(req) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (session?.user) {
+            const result = await User.deleteOne({ _id: session?.user.id });
+
+            if (result.deletedCount === 1) {
+                // User deleted successfully
+                return new Response(
+                    JSON.stringify({ message: 'User deleted successfully' }),
+                    { status: 200, headers: { 'Content-Type': 'application/json' } }
+                );
+            } else {
+                // User not found
+                return new Response(
+                    JSON.stringify({ error: 'User not found' }),
+                    { status: 404, headers: { 'Content-Type': 'application/json' } }
+                );
+            }
+        } else {
+            const errorResponse = new Response(
+                JSON.stringify({ error: 'authentication Error' }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } }
+            );
+            return errorResponse;
+        }
+
+    } catch (error) {
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+}

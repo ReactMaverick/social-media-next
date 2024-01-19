@@ -114,3 +114,93 @@ export async function DELETE(req, { params }) {
         return internalServerErrorResponse;
     }
 }
+
+//*** Update a post */
+
+export async function PUT(req, { params }) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (session?.user) {
+            const { postId } = params;
+            const userId = session.user.id;
+            const requestFormData = await req.formData();
+            const caption = requestFormData.get('caption');
+            const image = requestFormData.get('image');
+            const video = requestFormData.get('video');
+            const postContent = await PostContent.findOne({ _id: postId })
+            if (postContent.user.toString() !== userId) {
+                // User is not the owner of the post
+                const unauthorizedResponse = new Response(
+                    JSON.stringify({ error: 'Unauthorized. You do not have permission to update this post.' }),
+                    { status: 403, headers: { 'Content-Type': 'application/json' } }
+                );
+                return unauthorizedResponse;
+            } else {
+                if (caption) {
+                    postContent.caption = caption;
+                }
+                if (image) {
+                    const fileData = new FormData();
+                    fileData.append('file', image)
+                    try {
+                        const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
+                            method: 'POST',
+                            body: fileData,
+                        });
+                        if (!response.ok) {
+                            // If the response status is not OK, throw an error
+                            throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+                        }
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            postContent.image = data.filePath;
+                        }
+                    } catch (e) {
+                        console.log("error", e)
+
+                    }
+                }
+                if (video) {
+                    const fileData = new FormData();
+                    fileData.append('file', video)
+                    try {
+                        const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
+                            method: 'POST',
+                            body: fileData,
+                        });
+                        if (!response.ok) {
+                            // If the response status is not OK, throw an error
+                            throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+                        }
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            postContent.video = data.filePath;
+                        }
+                    } catch (e) {
+                        console.log("error", e)
+
+                    }
+                }
+                // Save the updated user to the database
+                await postContent.save();
+
+                // Respond with the updated user in JSON format
+                return Response.json({ message: 'postContent updated successfully', postContent });
+            }
+        } else {
+            const errorResponse = new Response(
+                JSON.stringify({ error: 'authentication Error' }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } }
+            );
+            return errorResponse;
+        }
+    } catch (error) {
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+}

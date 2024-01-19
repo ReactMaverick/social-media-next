@@ -1,5 +1,6 @@
 import connectDB from '@/utils/db';
-import Message from '@/models/messageModel'
+import Message from '@/models/messageModel';
+import Conversation from '@/models/conversationModel';
 import { getServerSession } from "next-auth";
 import { authOptions, isAdmin } from "@/utils/auth";
 import mongoose from 'mongoose';
@@ -17,16 +18,20 @@ export async function GET(req, { params }) {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw new Error('Invalid message ID format');
             }
-            let receiver = id;
-            let sender = session.user.id;
-            const message = await Message.find({
-                $or: [
-                    { sender, receiver },
-                    { sender: receiver, receiver: sender },
-                ],
-            }).sort({ timestamp: -1 });
+            let receiverId = id;
+            let senderId = session.user.id;
+            let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } }).populate({
+                path: 'messages',
+                populate: {
+                    path: 'senderId',
+                    select: 'firstName email image',
+                },
+            });
+            if (!conversation) {
+                return Response.json({ message: 'Message Not Found!' });
+            }
             // Process the request and return a response if needed
-            return Response.json({ message: 'Messages received successfully', data: message });
+            return Response.json({ message: 'Messages received successfully', data: conversation.messages });
         } else {
             const errorResponse = new Response(
                 JSON.stringify({ error: 'authentication Error' }),

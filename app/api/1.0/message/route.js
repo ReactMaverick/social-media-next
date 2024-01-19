@@ -1,5 +1,6 @@
 import connectDB from '@/utils/db';
-import Message from '@/models/messageModel'
+import Message from '@/models/messageModel';
+import Conversation from '@/models/conversationModel';
 import { getServerSession } from "next-auth";
 import { authOptions, isAdmin } from "@/utils/auth";
 
@@ -12,16 +13,53 @@ export async function POST(req, res) {
     try {
         const session = await getServerSession(authOptions);
         if (session?.user) {
-            const requestJSON = await req.json();
-            // Create a new post using the Post model
-            const sendMessage = new Message({
-                sender: session.user.id,
-                receiver: requestJSON.receiver,
-                content: requestJSON.content,
-            });
-            await sendMessage.save();
-            // Process the request and return a response if needed
-            return Response.json({ message: 'Message created successfully', Message: sendMessage });
+            const requestFormData = await req.formData();
+            const senderId = session.user.id;
+            const receiverId = requestFormData.get('receiverId');
+            const receivedMessage = requestFormData.get('message');
+            let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
+            if (!conversation) {
+                let newConversation = new Conversation({
+                    participants: [senderId, receiverId],
+                });
+                let conversationResult = await newConversation.save();
+                if (conversationResult) {
+                    let newMessage = new Message({
+                        senderId: senderId,
+                        message: receivedMessage,
+                    });
+                    let messageResult = await newMessage.save();
+                    if (messageResult) {
+                        let updateConversation = await Conversation.findByIdAndUpdate(conversationResult._id, { $push: { messages: messageResult._id } }, { new: true });
+                        if (updateConversation) {
+                            return Response.json({ status: 200, message: 'Message Send Successfully!', messageResult: messageResult });
+                        } else {
+                            return Response.json({ status: 200, message: 'Message Send Failed!' });
+                        }
+                    } else {
+                        return Response.json({ status: 200, message: 'Message Send Failed!' });
+                    }
+                } else {
+                    return Response.json({ status: 200, message: 'Message Send Failed!' });
+                }
+            } else {
+                let newMessage = new Message({
+                    senderId: senderId,
+                    message: receivedMessage,
+                });
+                let messageResult = await newMessage.save();
+                if (messageResult) {
+                    let updateConversation = await Conversation.findByIdAndUpdate(conversation._id, { $push: { messages: messageResult._id } }, { new: true });
+                    if (updateConversation) {
+                        return Response.json({ status: 200, message: 'Message Send Successfully!', messageResult: messageResult });
+                    } else {
+                        return Response.json({ status: 200, message: 'Message Send Failed!' });
+                    }
+
+                } else {
+                    return Response.json({ status: 200, message: 'Message Send Failed!' });
+                }
+            }
         } else {
             const errorResponse = new Response(
                 JSON.stringify({ error: 'authentication Error' }),
