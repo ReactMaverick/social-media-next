@@ -46,7 +46,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                             <NewsfeedMiddleColumn>
                                 <CreatePost currentUser={currentUser} />
 
-                                <ChatRoom currentUser={currentUser} />
+                                <ChatRoom currentUser={currentUser} users={users} />
 
                             </NewsfeedMiddleColumn>
 

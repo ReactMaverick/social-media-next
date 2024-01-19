@@ -31,7 +31,7 @@ export async function GET(req, { params }) {
                 return Response.json({ message: 'Message Not Found!' });
             }
             // Process the request and return a response if needed
-            return Response.json({ message: 'Messages received successfully', data: conversation.messages });
+            return Response.json({ message: 'Messages received successfully', conversations: conversation.messages });
         } else {
             const errorResponse = new Response(
                 JSON.stringify({ error: 'authentication Error' }),

@@ -1,7 +1,19 @@
 import styles from './chatListItem.module.css';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserConversations, selectConversations } from '@/utils/features/chatSlice';
 
-export default function ChatListItem({ href }) {
+export default function ChatListItem({ href, imgSrc, userName, lastMessage, timeAgo, user_id }) {
+    const dispatch = useDispatch();
+    const conversations = useSelector(selectConversations);
+    // console.log(currentUser);
+
+    const handleUserSelect = (userId) => {
+        dispatch(fetchUserConversations(userId));
+
+        console.log(userId, conversations);
+    };
+
     return (
         <li
         >
@@ -9,13 +21,14 @@ export default function ChatListItem({ href }) {
 
                 href={href}
                 data-bs-toggle="tab"
+                onClick={() => handleUserSelect(user_id)}
             >
                 <div
                     className={`${styles.contact} contact`}
                 >
                     <img
                         className={`${styles.profilePhotoSm} ${styles.pullLeft} profile-photo-sm pull-left`}
-                        src={process.env.BASE_URL + "/images/user_2_image.jpg"}
+                        src={process.env.BASE_URL + imgSrc}
                     />
                     <div
                         className={`${styles.msgPreview} msg-preview`}
@@ -23,7 +36,7 @@ export default function ChatListItem({ href }) {
                     >
                         <h6
                         >
-                            Linda Lohan
+                            {userName}
                         </h6>
                         <p
 
