@@ -1,5 +1,4 @@
 import connectDB from '@/utils/db';
-import Message from '@/models/messageModel';
 import Conversation from '@/models/conversationModel';
 import { getServerSession } from "next-auth";
 import { authOptions, isAdmin } from "@/utils/auth";
