@@ -29,7 +29,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
 
     // console.log("Posts ===> ", posts, currentUser);
 
-    console.log("Users ===> ", users);
+    // console.log("Users ===> ", users);
     return (
 
         <NewsFeedPageContents>

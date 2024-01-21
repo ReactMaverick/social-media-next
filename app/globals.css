@@ -266,12 +266,36 @@ body::-webkit-scrollbar-thumb:vertical:hover {
   border-radius: 10px;
 }
 
+.chat-message li.left .chat-item::before {
+  border-bottom: 10px solid transparent;
+  border-right: 8px solid rgba(141, 198, 63, .1);
+  border-top: 10px solid transparent;
+  content: "";
+  height: 0;
+  left: -8px;
+  position: absolute;
+  top: 10px;
+  width: 0;
+}
+
 .chat-message li.right .chat-item {
   background: rgba(39, 170, 225, .1);
   margin-right: 50px;
   padding: 5px 10px;
   position: relative;
   border-radius: 10px;
+}
+
+.chat-message li.right .chat-item::after {
+  border-bottom: 10px solid transparent;
+  border-left: 8px solid rgba(39, 170, 225, .1);
+  border-top: 10px solid transparent;
+  content: "";
+  height: 0;
+  right: -8px;
+  position: absolute;
+  top: 10px;
+  width: 0;
 }
 
 .chat-message li.left .chat-item-header {

@@ -1,6 +1,6 @@
 import styles from './chatSingleMessage.module.css';
 
-export default function ChatSingleMessage({ leftOrRight }) {
+export default function ChatSingleMessage({ leftOrRight, userImg, userName, timeElapsed, message }) {
     return (
         <li
             className={leftOrRight}
@@ -8,7 +8,7 @@ export default function ChatSingleMessage({ leftOrRight }) {
         >
             <img
                 className={`${styles.profilePhotoSm} ${leftOrRight == "left" ? styles.pullLeft + " pull-left" : styles.pullRight + " pull-right"} profile-photo-sm`}
-                src={process.env.BASE_URL + "/images/user_2_image.jpg"}
+                src={process.env.BASE_URL + userImg}
 
             />
             <div
@@ -20,22 +20,21 @@ export default function ChatSingleMessage({ leftOrRight }) {
 
                 >
                     <h5
-
+                        className={styles.h5}
                     >
-                        Linda Lohan
+                        {userName}
                     </h5>
                     <small
                         className={`${styles.textMuted} text-muted`}
 
                     >
-                        3 days ago
+                        {timeElapsed}
                     </small>
                 </div>
                 <p
 
                 >
-                    Hi honey, how are you doing???? Long time no see.
-                    Where have you been?
+                    {message}
                 </p>
             </div>
         </li>

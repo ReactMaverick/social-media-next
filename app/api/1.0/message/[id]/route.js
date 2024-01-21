@@ -3,6 +3,7 @@ import Conversation from '@/models/conversationModel';
 import { getServerSession } from "next-auth";
 import { authOptions, isAdmin } from "@/utils/auth";
 import mongoose from 'mongoose';
+import Message from '@/models/messageModel';
 
 // Connect to MongoDB
 connectDB();
@@ -19,18 +20,25 @@ export async function GET(req, { params }) {
             }
             let receiverId = id;
             let senderId = session.user.id;
+
             let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } }).populate({
                 path: 'messages',
-                populate: {
-                    path: 'senderId',
-                    select: 'firstName email image',
-                },
+                populate: [
+                    {
+                        path: 'sender',
+                        select: 'firstName lastName email image',
+                    },
+                    {
+                        path: 'receiver',
+                        select: 'firstName lastName email image',
+                    },
+                ],
             });
             if (!conversation) {
                 return Response.json({ message: 'Message Not Found!' });
             }
             // Process the request and return a response if needed
-            return Response.json({ message: 'Messages received successfully', conversations: conversation.messages });
+            return Response.json({ message: 'Messages received successfully', conversationId: conversation._id, conversations: conversation.messages });
         } else {
             const errorResponse = new Response(
                 JSON.stringify({ error: 'authentication Error' }),

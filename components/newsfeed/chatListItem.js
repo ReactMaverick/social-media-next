@@ -8,10 +8,8 @@ export default function ChatListItem({ href, imgSrc, userName, lastMessage, time
     const conversations = useSelector(selectConversations);
     // console.log(currentUser);
 
-    const handleUserSelect = (userId) => {
+    const handleFetchConversations = (userId) => {
         dispatch(fetchUserConversations(userId));
-
-        console.log(userId, conversations);
     };
 
     return (
@@ -21,7 +19,7 @@ export default function ChatListItem({ href, imgSrc, userName, lastMessage, time
 
                 href={href}
                 data-bs-toggle="tab"
-                onClick={() => handleUserSelect(user_id)}
+                onClick={() => handleFetchConversations(user_id)}
             >
                 <div
                     className={`${styles.contact} contact`}

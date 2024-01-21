@@ -18,6 +18,7 @@ export async function POST(req, res) {
             const receiverId = requestFormData.get('receiverId');
             const receivedMessage = requestFormData.get('message');
             let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
+
             if (!conversation) {
                 let newConversation = new Conversation({
                     participants: [senderId, receiverId],
@@ -25,14 +26,25 @@ export async function POST(req, res) {
                 let conversationResult = await newConversation.save();
                 if (conversationResult) {
                     let newMessage = new Message({
-                        senderId: senderId,
+                        sender: senderId,
+                        receiver: receiverId,
                         message: receivedMessage,
                     });
                     let messageResult = await newMessage.save();
                     if (messageResult) {
+                        messageResult = await Message.findById(messageResult._id)
+                            .populate({
+                                path: 'sender',
+                                select: 'firstName lastName email image',
+                            })
+                            .populate({
+                                path: 'receiver',
+                                select: 'firstName lastName email image',
+                            });
+
                         let updateConversation = await Conversation.findByIdAndUpdate(conversationResult._id, { $push: { messages: messageResult._id } }, { new: true });
                         if (updateConversation) {
-                            return Response.json({ status: 200, message: 'Message Send Successfully!', messageResult: messageResult });
+                            return Response.json({ status: 200, message: 'Message Send Successfully!', conversationId: conversationResult._id, messageResult: messageResult });
                         } else {
                             return Response.json({ status: 200, message: 'Message Send Failed!' });
                         }
@@ -44,14 +56,25 @@ export async function POST(req, res) {
                 }
             } else {
                 let newMessage = new Message({
-                    senderId: senderId,
+                    sender: senderId,
+                    receiver: receiverId,
                     message: receivedMessage,
                 });
                 let messageResult = await newMessage.save();
                 if (messageResult) {
+                    messageResult = await Message.findById(messageResult._id)
+                        .populate({
+                            path: 'sender',
+                            select: 'firstName lastName email image',
+                        })
+                        .populate({
+                            path: 'receiver',
+                            select: 'firstName lastName email image',
+                        });
+
                     let updateConversation = await Conversation.findByIdAndUpdate(conversation._id, { $push: { messages: messageResult._id } }, { new: true });
                     if (updateConversation) {
-                        return Response.json({ status: 200, message: 'Message Send Successfully!', messageResult: messageResult });
+                        return Response.json({ status: 200, message: 'Message Send Successfully!', conversationId: conversation._id, messageResult: messageResult });
                     } else {
                         return Response.json({ status: 200, message: 'Message Send Failed!' });
                     }
