@@ -14,19 +14,18 @@ export async function POST(req, { params }) {
         const requestJSON = await req.json();
 
         // Retrieve the user ID and action from the request parameters
-        const [userId, action] = params.id;
+        const [typeOfAction, action] = params.userActions;
 
         // console.log(params);
 
         // Log the received parameters
 
-
         const session = await getServerSession(authOptions);
 
-        console.log('Request sent user id:', userId, session.user.profileId);
+        console.log('Request sent user id:', session.user.profileId);
         console.log('Action:', action);
 
-        const requestedUser = await User.findOne({ profileId: userId });
+        const requestedUser = await User.findOne({ profileId: session.user.profileId });
 
         if (!requestedUser) {
             // If the user is not found, return a 404 response
@@ -40,9 +39,7 @@ export async function POST(req, { params }) {
         // Check if the user is logged in and has an ID in the session
         if (session?.user?.profileId) {
             // Check if the requested ID matches either the MongoDB _id or Google googleId
-            if (session.user.profileId === userId) {
-                // Request is coming from the same user
-
+            if (typeOfAction == "friends") {
                 switch (action) {
                     case 'addRequest':
 
@@ -73,18 +70,82 @@ export async function POST(req, { params }) {
                         return invalidActionResponse;
                 }
 
+            };
 
-            } else {
-                // Request is coming from another user
 
-                // Return a 401 Unauthorized response
-                const unauthorizedError = new Response(
-                    JSON.stringify({ error: 'Unauthorized access!' }),
-                    { status: 401, headers: { 'Content-Type': 'application/json' } }
+        } else {
+            // User not logged in
+
+            // Return a 401 Unauthorized response
+            return new Response(
+                JSON.stringify({ error: 'User not logged in!' }),
+                { status: 401, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
+    } catch (error) {
+        // Handle errors if any occur during the database operation
+        console.error('Error processing addRequest:', error);
+        // Create an error response using Response.error
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+}
+
+// Add request handler
+export async function GET(req, { params }) {
+    try {
+
+        // Log the received parameters
+
+        const session = await getServerSession(authOptions);
+
+        // Retrieve the user ID and action from the request parameters
+        const [typeOfAction, action] = params.userActions;
+
+        // Check if the user is logged in and has an ID in the session
+        if (session?.user?.profileId) {
+            // Check if the requested ID matches either the MongoDB _id or Google googleId
+
+            const requestedUser = await User.findOne({ profileId: session.user.profileId });
+
+            if (!requestedUser) {
+                // If the user is not found, return a 404 response
+                const errorResponse = new Response(
+                    JSON.stringify({ error: 'User not found in Database!' }),
+                    { status: 404, headers: { 'Content-Type': 'application/json' } }
                 );
-
-                return unauthorizedError;
+                return errorResponse;
             }
+
+            if (typeOfAction == "friends") {
+
+                switch (action) {
+                    case 'all':
+
+                        return getAllFriends(requestedUser);
+
+                    case 'receivedRequests':
+
+                        return getAllReceivedFriendRequests(requestedUser);
+
+                    case 'sentRequests':
+
+                        return getAllSentFriendRequests(requestedUser);
+
+                    default:
+                        // Return a 400 Bad Request response
+                        const invalidActionResponse = new Response(
+                            JSON.stringify({ error: 'Invalid action!' }),
+                            { status: 400, headers: { 'Content-Type': 'application/json' } }
+                        );
+                        return invalidActionResponse;
+                }
+
+            }
+
         } else {
             // User not logged in
 
@@ -342,8 +403,6 @@ async function removeFriend(requestedUser, requestJSON) {
     try {
         const { removeFriendUserId } = requestJSON;
 
-        // Your logic to cancel a friend request goes here...
-
         const removeFriendUser = await User.findOne({ profileId: removeFriendUserId });
 
         if (!removeFriendUser) {
@@ -384,6 +443,93 @@ async function removeFriend(requestedUser, requestJSON) {
 
     } catch (error) {
         console.error('Error removing friend:', error);
+        // Handle other errors if needed
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+}
+
+async function getAllFriends(requestedUser) {
+    try {
+        // Find all friends where the requestedUser's ID exists in the user field and status is 'friend'
+        const friends = await Friendship.find({
+            user: requestedUser._id,
+            status: 'friend'
+        });
+
+        // If the user has no friends, send a specific response
+        if (friends.length === 0) {
+            return Response.json({ message: 'User has no friends.' });
+        }
+
+        // Populate the friend field with details from the 'User' model
+        await Friendship.populate(friends, { path: 'friend', select: 'firstName lastName email image' });
+
+        return Response.json({ friends });
+
+    } catch (error) {
+        console.error('Error getting friends:', error);
+        // Handle other errors if needed
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+}
+
+async function getAllReceivedFriendRequests(requestedUser) {
+    try {
+        // Find all received friend requests where the requestedUser's ID exists in the user field and status is 'friend'
+        const receivedFriendRequests = await Friendship.find({
+            friend: requestedUser._id,
+            status: 'request_sent'
+        });
+
+        // If the user has no received friend requests, send a specific response
+        if (receivedFriendRequests.length === 0) {
+            return Response.json({ message: 'User has no received friend requests.' });
+        }
+
+        // Populate the friend field with details from the 'User' model
+        await Friendship.populate(receivedFriendRequests, { path: 'user', select: 'firstName lastName email image' });
+
+        return Response.json({ receivedFriendRequests });
+
+    } catch (error) {
+        console.error('Error getting friends:', error);
+        // Handle other errors if needed
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+}
+
+async function getAllSentFriendRequests(requestedUser) {
+    try {
+        // Find all sent friend requests where the requestedUser's ID exists in the user field and status is 'friend'
+        const sentFriendRequests = await Friendship.find({
+            user: requestedUser._id,
+            status: 'request_sent'
+        });
+
+        // If the user has no sent friend requests, send a specific response
+        if (sentFriendRequests.length === 0) {
+            return Response.json({ message: 'User has no sent friend requests.' });
+        }
+
+        // Populate the friend field with details from the 'User' model
+        await Friendship.populate(sentFriendRequests, { path: 'friend', select: 'firstName lastName email image' });
+
+        return Response.json({ sentFriendRequests });
+
+    } catch (error) {
+        console.error('Error getting friends:', error);
         // Handle other errors if needed
         const internalServerErrorResponse = new Response(
             JSON.stringify({ error: 'Internal Server Error' }),

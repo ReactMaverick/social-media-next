@@ -9,6 +9,21 @@ export default function ChatListItem({ href, imgSrc, userName, lastMessage, time
     // console.log(currentUser);
 
     const handleFetchConversations = (userId) => {
+
+        $("html, body").animate({
+            scrollTop: $(document).height()
+        }, 100);
+
+        setTimeout(() => {
+            var lastLi = $(".chat-body li:last");
+            if (lastLi.length > 0) {
+                $(".chatRoom_tabContent__sPppD").animate({
+                    scrollTop: lastLi.offset().top
+                }, 1000);
+            }
+
+        }, 1000);
+
         dispatch(fetchUserConversations(userId));
     };
 

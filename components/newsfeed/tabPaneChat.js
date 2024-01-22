@@ -1,25 +1,16 @@
 import styles from './tabPaneChat.module.css';
 import ChatSingleMessage from './chatSingleMessage';
 import { getTimeElapsed } from '@/utils/common';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function TabPaneChat({ currentUser, tabId, conversations }) {
     // console.log("Conversations in TabPaneChat ==> ", conversations, tabId);
 
-    if (!conversations || conversations.length === 0) {
-        return (
-            <div
-                id={tabId}
-                className="tab-pane"
-                role='tabpanel'
+    useEffect(() => {
+        console.log("Conversations updated in tabpanechat component", conversations);
+    }, [conversations]);
 
-            >
-                <div className="chat-body">
-                    <p>No conversations available</p>
-                </div>
-            </div>
-        );
-    }
+    // console.log("convos ==> ", conversations);
 
     const isConversationActive = conversations.some((conversation) => conversation.receiver._id === tabId || conversation.sender._id === tabId)
 
@@ -35,7 +26,7 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
                     className={`${styles.chatMessage} chat-message`}
 
                 >
-                    {conversations.map((conversation) => {
+                    {conversations.length ? conversations.map((conversation) => {
                         const isCurrentUserSender = conversation.sender._id === currentUser.id;
                         const isCurrentUserReceiver = conversation.receiver._id === currentUser.id;
                         const isParticipantIdMatch = conversation.receiver._id === tabId || conversation.sender._id === tabId;
@@ -54,7 +45,9 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
                         }
 
                         return null; // Return null if the condition is not met
-                    })}
+                    }) :
+                        <p>No conversations available</p>
+                    }
                 </ul>
             </div>
         </div>

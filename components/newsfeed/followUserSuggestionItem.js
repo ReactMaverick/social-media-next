@@ -2,6 +2,13 @@ import styles from './followUserSuggestionItem.module.css';
 import Link from 'next/link';
 
 export default function FollowUserSuggestionItem({ imgSrc, followUserName, userTimelineLink }) {
+
+    const handleAddFriendRequest = (e) => {
+        e.preventDefault();
+
+
+    };
+
     return (
         <div
             className={styles.followUser}
@@ -23,7 +30,8 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
                 </h5>
                 <Link
                     className={styles.textGreen}
-                    href="#"
+                    href=""
+                    onClick={handleAddFriendRequest}
                 >
                     Add friend
                 </Link>

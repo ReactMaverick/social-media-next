@@ -16,6 +16,7 @@ import PostComment from './postComment';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
+import { fetchAllFriends, addFriend, removeFriend, selectFriends } from '@/utils/features/friendsSlice';
 import { getTimeElapsed } from '@/utils/common';
 
 export default function NewsfeedPage({ currentUser }) {
@@ -24,14 +25,19 @@ export default function NewsfeedPage({ currentUser }) {
 
     const users = useSelector(selectAllUsers);
 
+    const friends = useSelector(selectFriends);
+
     useEffect(() => {
         dispatch(fetchAllPosts());
         dispatch(fetchAllUsers());
+        dispatch(fetchAllFriends());
     }, [dispatch]);
 
     // console.log("Posts ===> ", posts, currentUser);
 
     console.log("Users ===> ", users);
+
+    console.log("All Friends ===> ", friends);
     return (
 
         <NewsFeedPageContents>

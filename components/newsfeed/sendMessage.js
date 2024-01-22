@@ -61,6 +61,20 @@ export default function SendMessage({ currentUser, conversations }) {
                     // console.log("Data ===> ", data);
                     // console.log("Previous Conversations ==> ", conversations);
                     dispatch(updateFromSocket({ conversation: data.payload }));
+
+                    setTimeout(() => {
+                        const lastLi = $(".chat-body li:last");
+
+                        if (lastLi.length > 0) {
+                            const container = $(".chatRoom_tabContent__sPppD");
+                            const scrollTo = lastLi.position().top + container.scrollTop();
+
+                            container.animate({
+                                scrollTop: scrollTo
+                            }, 1000);
+                        }
+                    }, 1000);
+
                 };
 
             });
@@ -107,6 +121,18 @@ export default function SendMessage({ currentUser, conversations }) {
 
                     setMessage('');
                     setReceiverId(null);
+
+                    const lastLi = $(".chat-body li:last");
+
+                    if (lastLi.length > 0) {
+                        const container = $(".chatRoom_tabContent__sPppD");
+                        const scrollTo = lastLi.position().top + container.scrollTop();
+
+                        container.animate({
+                            scrollTop: scrollTo
+                        }, 1000);
+                    }
+
                 })
                 .catch((error) => {
                     // Handle error if needed

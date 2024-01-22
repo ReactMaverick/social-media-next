@@ -14,6 +14,10 @@ export const fetchUserConversations = createAsyncThunk(
 
             const data = await response.json();
 
+            if (data.message == "Message Not Found!") {
+                return []; // Return blank array if no messages found
+            }
+
             return data.conversations;
         } catch (error) {
             throw new Error(`Error fetching conversations: ${error.message}`);
@@ -52,7 +56,7 @@ export const updateFromSocket = createAction('chat/updateFromSocket');
 const chatSlice = createSlice({
     name: 'chat',
     initialState: {
-        conversations: [],
+        conversations: null,
         status: 'idle', // To track the loading status of conversations
         error: null,    // To store any error that may occur during the API request
     },

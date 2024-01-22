@@ -37,6 +37,16 @@ export async function GET(req, { params }) {
             if (!conversation) {
                 return Response.json({ message: 'Message Not Found!' });
             }
+
+            // Update isRead property for all messages in the conversation
+            conversation.messages.forEach(async (message) => {
+
+                if (message.receiver._id.toString() === senderId) {
+                    // If the receiver of the message is sending the request then isRead will be true
+                    await Message.findByIdAndUpdate(message._id, { isRead: true });
+                }
+            });
+
             // Process the request and return a response if needed
             return Response.json({ message: 'Messages received successfully', conversationId: conversation._id, conversations: conversation.messages });
         } else {

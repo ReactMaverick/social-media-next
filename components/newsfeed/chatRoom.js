@@ -85,7 +85,7 @@ export default function ChatRoom({ currentUser, users }) {
                                 </div>
 
                             </div>
-                            {(currentUser && conversations.length) ?
+                            {(currentUser && conversations) ?
                                 <SendMessage
                                     currentUser={currentUser}
                                     conversations={conversations}
