@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 
 // Define the async thunk action to fetch all friends
 export const fetchAllFriends = createAsyncThunk('friends/fetchAllFriends', async () => {
@@ -21,10 +21,36 @@ export const fetchAllFriends = createAsyncThunk('friends/fetchAllFriends', async
     }
 });
 
+export const fetchLastMessageForFriends = createAsyncThunk(
+    'friends/fetchLastMessageForFriends',
+    async (friends) => {
+        const promises = friends.map(async (friend) => {
+            try {
+                const response = await fetch(`/api/1.0/message/${friend.friend._id}/lastMessage`);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch last message for friend ${friend._id}: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return { friendId: friend.friend._id, lastMessage: data.lastMessage };
+            } catch (error) {
+                console.error(error);
+                return { friendId: friend._id, lastMessage: null };
+            }
+        });
+
+        return Promise.all(promises);
+    }
+);
+
+export const updateLastMessageForFriends = createAction('friends/updateLastMessageForFriends');
+
 const friendsSlice = createSlice({
     name: 'friends',
     initialState: {
         friends: [],
+        lastMessages: {},
         status: 'idle',
         error: null,
     },
@@ -35,6 +61,15 @@ const friendsSlice = createSlice({
         removeFriend: (state, action) => {
             state.friends = state.friends.filter(friend => friend._id !== action.payload._id);
         },
+        updateLastMessageForFriends: (state, action) => {
+            const { friendId, lastMessage } = action.payload;
+
+            // Update or add the last message for the specified friendId
+            state.lastMessages = {
+                ...state.lastMessages,
+                [friendId]: lastMessage,
+            };
+        },
     },
     extraReducers: builder => {
         // Handle the pending and fulfilled states of the fetchAllFriends async thunk
@@ -44,10 +79,24 @@ const friendsSlice = createSlice({
             })
             .addCase(fetchAllFriends.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                console.log("payload ==> ", action.payload);
                 state.friends = action.payload;
             })
             .addCase(fetchAllFriends.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
+
+        builder
+            .addCase(fetchLastMessageForFriends.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchLastMessageForFriends.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                action.payload.forEach(({ friendId, lastMessage }) => {
+                    state.lastMessages[friendId] = lastMessage;
+                });
+            })
+            .addCase(fetchLastMessageForFriends.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });
@@ -55,6 +104,7 @@ const friendsSlice = createSlice({
 });
 
 export const { addFriend, removeFriend } = friendsSlice.actions;
-export const selectFriends = (state) => state.friends;
+export const selectFriends = (state) => state.friends.friends;
+export const selectLastMessages = (state) => state.friends.lastMessages;
 
 export default friendsSlice.reducer;

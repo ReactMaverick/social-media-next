@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 import ChatRoom from '@/components/newsfeed/chatRoom';
+import { fetchAllFriends, addFriend, removeFriend, selectFriends, fetchLastMessageForFriends, selectLastMessages } from '@/utils/features/friendsSlice';
 
 export default function NewsfeedMessagesPage({ currentUser }) {
     const dispatch = useDispatch();
@@ -22,14 +23,27 @@ export default function NewsfeedMessagesPage({ currentUser }) {
 
     const users = useSelector(selectAllUsers);
 
+    const friends = useSelector(selectFriends);
+
+    const lastMessages = useSelector(selectLastMessages);
+
     useEffect(() => {
         dispatch(fetchAllPosts());
         dispatch(fetchAllUsers());
+        dispatch(fetchAllFriends());
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchLastMessageForFriends(friends));
+    }, [friends]);
 
     // console.log("Posts ===> ", posts, currentUser);
 
     // console.log("Users ===> ", users);
+
+    // console.log("All Friends ===> ", friends);
+
+    // console.log("Last Messages ===> ", lastMessages);
     return (
 
         <NewsFeedPageContents>
@@ -46,21 +60,28 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                             <NewsfeedMiddleColumn>
                                 <CreatePost currentUser={currentUser} />
 
-                                <ChatRoom currentUser={currentUser} users={users} />
+                                <ChatRoom currentUser={currentUser} users={users} friends={friends} lastMessages={lastMessages} />
 
                             </NewsfeedMiddleColumn>
 
                             <NewsfeedRightColumn>
                                 <SuggestionsSidebar>
-                                    {users && (
-                                        users.map(user =>
-                                            user._id !== currentUser.id &&
-                                            <FollowUserSuggestionItem
-                                                key={user._id}
-                                                imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
-                                                followUserName={`${user.firstName} ${user.lastName}`}
-                                                userTimelineLink={`/0/timeline/${user.profileId}`}
-                                            />
+                                    {(users && friends) && (
+                                        users.map(user => {
+                                            const isUserFriend = friends.some((friend) => friend.friend._id === user._id);
+
+                                            if (user._id !== currentUser.id && !isUserFriend) {
+                                                return (
+                                                    <FollowUserSuggestionItem
+                                                        key={user._id}
+                                                        imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
+                                                        followUserName={`${user.firstName} ${user.lastName}`}
+                                                        userTimelineLink={`/0/timeline/${user.profileId}`}
+                                                    />
+                                                )
+                                            }
+                                        }
+
                                         )
                                     )}
 

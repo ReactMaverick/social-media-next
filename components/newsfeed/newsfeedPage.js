@@ -35,9 +35,9 @@ export default function NewsfeedPage({ currentUser }) {
 
     // console.log("Posts ===> ", posts, currentUser);
 
-    console.log("Users ===> ", users);
+    // console.log("Users ===> ", users);
 
-    console.log("All Friends ===> ", friends);
+    // console.log("All Friends ===> ", friends);
     return (
 
         <NewsFeedPageContents>
@@ -91,15 +91,22 @@ export default function NewsfeedPage({ currentUser }) {
 
                             <NewsfeedRightColumn>
                                 <SuggestionsSidebar>
-                                    {users && (
-                                        users.map(user =>
-                                            user._id !== currentUser.id &&
-                                            <FollowUserSuggestionItem
-                                                key={user._id}
-                                                imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
-                                                followUserName={`${user.firstName} ${user.lastName}`}
-                                                userTimelineLink={`/0/timeline/${user.profileId}`}
-                                            />
+                                    {(users && friends) && (
+                                        users.map(user => {
+                                            const isUserFriend = friends.some((friend) => friend.friend._id === user._id);
+
+                                            if (user._id !== currentUser.id && !isUserFriend) {
+                                                return (
+                                                    <FollowUserSuggestionItem
+                                                        key={user._id}
+                                                        imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
+                                                        followUserName={`${user.firstName} ${user.lastName}`}
+                                                        userTimelineLink={`/0/timeline/${user.profileId}`}
+                                                    />
+                                                )
+                                            }
+                                        }
+
                                         )
                                     )}
 

@@ -9,21 +9,21 @@ import { fetchUserConversations, selectConversations } from '@/utils/features/ch
 import { useEffect } from 'react';
 
 
-export default function ChatRoom({ currentUser, users }) {
+export default function ChatRoom({ currentUser, users, friends, lastMessages }) {
 
     const dispatch = useDispatch();
     const conversations = useSelector(selectConversations);
 
     useEffect(() => {
         // Logic to run after conversations state changes
-        console.log('Conversations updated in chatroom:', conversations);
+        // console.log('Conversations updated in chatroom:', conversations);
     }, [conversations]); // Run the effect when conversations state changes
 
     // console.log("current conversations ==> ", conversations);
 
     return (
         <>
-            {(currentUser && users) && (
+            {(currentUser && friends) && (
                 <div className="chatRoom">
                     <div
                         className={`${styles.row} row`}
@@ -37,14 +37,14 @@ export default function ChatRoom({ currentUser, users }) {
                                 <ul
                                     className="nav nav-tabs contact-list"
                                 >
-                                    {users.map((user) =>
-                                        (user._id !== currentUser.id) &&
+                                    {friends.map((friend) =>
                                         <ChatListItem
-                                            user_id={user._id}
-                                            key={user._id}
-                                            href={"#" + user._id}
-                                            imgSrc={user.image}
-                                            userName={user.firstName + ' ' + user.lastName}
+                                            user_id={friend.friend._id}
+                                            key={friend.friend._id}
+                                            href={"#" + friend.friend._id}
+                                            imgSrc={friend.friend.image}
+                                            userName={friend.friend.firstName + ' ' + friend.friend.lastName}
+                                            lastMessageOfFriend={lastMessages[friend.friend._id]}
 
                                         />)}
 

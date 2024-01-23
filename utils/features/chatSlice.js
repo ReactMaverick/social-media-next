@@ -75,7 +75,7 @@ const chatSlice = createSlice({
     reducers: {
         updateFromSocket: (state, action) => {
             const { chat } = action.payload;
-            console.log("Received chat ==> ", action.payload);
+            // console.log("Received chat ==> ", action.payload);
             state.conversations.chats.push(chat);
         },
     },

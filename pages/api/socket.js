@@ -43,6 +43,12 @@ export default async function SocketHandler(req, res) {
 
         });
 
+        socket.on("typing", (data) => {
+            // console.log("Received typing:", data);
+            const chatRoom = io.to(data.roomId);
+            chatRoom.emit("user-typing", data);
+        });
+
         socket.on("send-message", (data) => {
             // console.log("Received message:", data);
             const chatRoom = io.to(data.roomId);

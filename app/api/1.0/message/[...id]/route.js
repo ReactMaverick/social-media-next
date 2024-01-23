@@ -32,6 +32,7 @@ export async function POST(req, { params }) {
                 }
             } else {
                 console.log("No conversation found");
+                return Response.json({ success: true, message: 'No Message found!' });
             }
 
         } else {
@@ -48,5 +49,80 @@ export async function POST(req, { params }) {
             { status: 500, headers: { 'Content-Type': 'application/json' } }
         );
         return internalServerErrorResponse;
+    }
+}
+
+export async function GET(req, { params }) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (session?.user) {
+            let senderId = session.user.id;
+            const [receiverId, action] = params.id;
+
+            // console.log("receiverId, Action ==> ", receiverId, action);
+
+            switch (action) {
+                case 'lastMessage':
+
+                    return getLastMessage(senderId, receiverId);
+
+                default:
+                    return Response.json({ message: 'Error occured!' });
+            }
+
+        } else {
+            const errorResponse = new Response(
+                JSON.stringify({ error: 'authentication Error' }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } }
+            );
+            return errorResponse;
+        }
+    } catch (error) {
+        console.error('Error creating post:', error);
+        const internalServerErrorResponse = new Response(
+            JSON.stringify({ error: 'Internal Server Error' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+        return internalServerErrorResponse;
+    }
+}
+
+async function getLastMessage(senderId, receiverId) {
+    const conversation = await Conversation.findOne({
+        participants: { $all: [senderId, receiverId] }
+    });
+
+    // console.log("Conversation ==> ", conversation);
+
+    if (conversation) {
+        const lastMessage = await Message.findOne({
+            $or: [
+                { sender: senderId, receiver: receiverId },
+                { sender: receiverId, receiver: senderId }
+            ]
+        })
+            .sort({ createdAt: -1 })
+            .limit(1);
+
+        // console.log("Last message ==> ", lastMessage);
+
+        if (lastMessage) {
+            return Response.json({
+                status: 200,
+                success: true,
+                lastMessage: lastMessage.message,
+                message: 'Last message fetched successfully!'
+            });
+        } else {
+            return Response.json({
+                success: true,
+                message: 'No messages found for the conversation!'
+            });
+        }
+    } else {
+        return Response.json({
+            success: true,
+            message: 'No conversation found!'
+        });
     }
 }

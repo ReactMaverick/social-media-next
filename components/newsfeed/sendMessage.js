@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
+import { updateLastMessageForFriends } from '@/utils/features/friendsSlice';
 
 // Import io conditionally to avoid importing it on the server
 let io;
@@ -20,6 +21,7 @@ export default function SendMessage({ currentUser, conversations }) {
     const [isSocketInitilized, setIsSocketInitialized] = useState(false);
     const [roomId, setRoomId] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [isUserTyping, setIsUserTyping] = useState(false);
 
     const dispatch = useAppDispatch();
 
@@ -75,11 +77,18 @@ export default function SendMessage({ currentUser, conversations }) {
 
             });
 
+            socket.on("user-typing", (data) => {
+                // console.log("Typing ==> ", data);
+
+            });
+
 
             socket.on("receive-message", (data) => {
                 // console.log("Received message:", data);
 
                 dispatch(updateFromSocket({ chat: data.payload.chat }));
+
+                dispatch(updateLastMessageForFriends({ friendId: receiverId, lastMessage: message }));
 
                 setTimeout(() => {
                     const lastLi = $(".chat-body li:last");
@@ -132,6 +141,22 @@ export default function SendMessage({ currentUser, conversations }) {
 
         setMessage(newMessage);
 
+        // console.log(socket);
+
+        if (socket) {
+            const currentUserId = currentUser.id;
+
+            // console.log(currentUserId, roomId, receiverId, newMessage.trim() !== '');
+
+            // Emit send-message event with user details and room ID
+            socket.emit("typing", {
+                roomId,
+                currentUserId,
+                receiverId,
+                isTyping: newMessage.trim() !== '',
+            });
+        }
+
     };
 
     const handleKeyDown = (e) => {
@@ -150,7 +175,7 @@ export default function SendMessage({ currentUser, conversations }) {
             dispatch(sendMessage({ receiverId, message, selectedImage }))
                 .then((action) => {
                     // Handle success if needed
-                    console.log('Sent message successfully!', action);
+                    // console.log('Sent message successfully!', action);
 
                     if (socket) {
                         const currentUserId = currentUser.id;
@@ -164,6 +189,7 @@ export default function SendMessage({ currentUser, conversations }) {
                         });
                     }
 
+                    dispatch(updateLastMessageForFriends({ friendId: receiverId, lastMessage: message }));
 
                     setSelectedImage(null);
                     setMessage('');

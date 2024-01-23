@@ -320,3 +320,7 @@ body::-webkit-scrollbar-thumb:vertical:hover {
   top: 15px;
   right: 20px;
 }
+
+.contact-list {
+  width: 100%;
+}

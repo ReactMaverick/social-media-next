@@ -2,11 +2,16 @@ import styles from './chatListItem.module.css';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserConversations, selectConversations } from '@/utils/features/chatSlice';
+import { useEffect } from 'react';
 
-export default function ChatListItem({ href, imgSrc, userName, lastMessage, timeAgo, user_id }) {
+export default function ChatListItem({ href, imgSrc, userName, lastMessage, timeAgo, user_id, lastMessageOfFriend }) {
     const dispatch = useDispatch();
     const conversations = useSelector(selectConversations);
     // console.log(currentUser);
+
+    // useEffect(() => {
+    //     console.log("Component Reloaded");
+    // }, [lastMessageOfFriend])
 
     const handleFetchConversations = (userId) => {
 
@@ -54,7 +59,7 @@ export default function ChatListItem({ href, imgSrc, userName, lastMessage, time
                         <p
 
                         >
-                            Hi there, how are you
+                            {lastMessageOfFriend ? lastMessageOfFriend : ''}
                         </p>
                         <small
                             className={`${styles.textMuted} text-muted`}
