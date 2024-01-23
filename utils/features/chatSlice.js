@@ -15,10 +15,17 @@ export const fetchUserConversations = createAsyncThunk(
             const data = await response.json();
 
             if (data.message == "Message Not Found!") {
-                return []; // Return blank array if no messages found
+                return {
+                    chatId: null,
+                    chats: []
+                }; // Return blank array if no messages found
             }
 
-            return data.conversations;
+
+            return {
+                chatId: data.conversationId,
+                chats: data.conversations
+            };
         } catch (error) {
             throw new Error(`Error fetching conversations: ${error.message}`);
         }
@@ -27,11 +34,13 @@ export const fetchUserConversations = createAsyncThunk(
 
 export const sendMessage = createAsyncThunk(
     'chat/sendMessage',
-    async ({ receiverId, message }) => {
+    async ({ receiverId, message, selectedImage }) => {
         try {
             const formData = new FormData();
             formData.append('receiverId', receiverId);
             formData.append('message', message);
+            if (selectedImage)
+                formData.append('image', selectedImage);
             const response = await fetch('/api/1.0/message', {
                 method: 'POST',
                 body: formData,
@@ -44,7 +53,10 @@ export const sendMessage = createAsyncThunk(
             const data = await response.json();
 
             if (data?.messageResult)
-                return data.messageResult;
+                return {
+                    chatId: data.conversationId,
+                    chat: data.messageResult
+                };
         } catch (error) {
             throw new Error(`Error sending message: ${error.message}`);
         }
@@ -62,8 +74,9 @@ const chatSlice = createSlice({
     },
     reducers: {
         updateFromSocket: (state, action) => {
-            const { conversation } = action.payload;
-            state.conversations.push(conversation);
+            const { chat } = action.payload;
+            console.log("Received chat ==> ", action.payload);
+            state.conversations.chats.push(chat);
         },
     },
     extraReducers: (builder) => {
@@ -74,6 +87,7 @@ const chatSlice = createSlice({
             })
             .addCase(fetchUserConversations.fulfilled, (state, action) => {
                 state.status = 'succeeded';
+                // console.log("Payload ==> ", action.payload);
                 if (action?.payload)
                     state.conversations = action.payload; // Will erase previous conversations and add new ones
                 // state.conversations = [...state.conversations, ...action.payload]; //Add Conversations
@@ -93,13 +107,13 @@ const chatSlice = createSlice({
                 // console.log("Action payload", action.payload);
                 // Update the state based on the response from the server
                 // For example, you can append the new message to the current conversation
-                state.conversations.push({
-                    _id: action.payload._id,
-                    sender: action.payload.sender,
-                    receiver: action.payload.receiver,
-                    message: action.payload.message,
-                    createdAt: action.payload.createdAt
-                })
+                if (state.conversations.chatId === action.payload.chatId)
+                    state.conversations.chats.push(action.payload.chat);
+
+                if (state.conversations.chatId === null) {
+                    state.conversations.chatId = action.payload.chatId;
+                    state.conversations.chats.push(action.payload.chat);
+                }
             })
             .addCase(sendMessage.rejected, (state, action) => {
                 state.status = 'failed';

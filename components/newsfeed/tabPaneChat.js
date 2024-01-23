@@ -7,12 +7,14 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
     // console.log("Conversations in TabPaneChat ==> ", conversations, tabId);
 
     useEffect(() => {
-        console.log("Conversations updated in tabpanechat component", conversations);
+        // console.log("Conversations updated in tabpanechat component", conversations);
     }, [conversations]);
 
     // console.log("convos ==> ", conversations);
 
-    const isConversationActive = conversations.some((conversation) => conversation.receiver._id === tabId || conversation.sender._id === tabId)
+    const isConversationActive = conversations?.chats?.some((conversation) => conversation.receiver._id === tabId || conversation.sender._id === tabId)
+
+    // const isConversationActive = true;
 
     return (
 
@@ -26,7 +28,7 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
                     className={`${styles.chatMessage} chat-message`}
 
                 >
-                    {conversations.length ? conversations.map((conversation) => {
+                    {conversations?.chats?.length ? conversations.chats.map((conversation) => {
                         const isCurrentUserSender = conversation.sender._id === currentUser.id;
                         const isCurrentUserReceiver = conversation.receiver._id === currentUser.id;
                         const isParticipantIdMatch = conversation.receiver._id === tabId || conversation.sender._id === tabId;
@@ -40,6 +42,7 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
                                     userName={conversation.sender.firstName + ' ' + conversation.sender.lastName}
                                     timeElapsed={getTimeElapsed(conversation.createdAt)}
                                     message={conversation.message}
+                                    image={conversation.image}
                                 />
                             );
                         }

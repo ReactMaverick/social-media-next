@@ -17,7 +17,58 @@ export async function POST(req, res) {
             const senderId = session.user.id;
             const receiverId = requestFormData.get('receiverId');
             const receivedMessage = requestFormData.get('message');
+            const image = requestFormData.get('image');
+            const video = requestFormData.get('video');
+            let imagePath = '';
+            let videoPath = '';
             let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
+
+            console.log(image, video);
+
+            if (image) {
+                const fileData = new FormData();
+                fileData.append('file', image)
+                try {
+                    const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
+                        method: 'POST',
+                        body: fileData,
+                    });
+                    if (!response.ok) {
+                        // If the response status is not OK, throw an error
+                        throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+                    }
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        imagePath = data.filePath;
+                    }
+                } catch (e) {
+                    console.log("error", e)
+
+                }
+            }
+            if (video) {
+                const fileData = new FormData();
+                fileData.append('file', video)
+                try {
+                    const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
+                        method: 'POST',
+                        body: fileData,
+                    });
+                    if (!response.ok) {
+                        // If the response status is not OK, throw an error
+                        throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+                    }
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        videoPath = data.filePath;
+                    }
+                } catch (e) {
+                    console.log("error", e)
+
+                }
+            }
 
             if (!conversation) {
                 let newConversation = new Conversation({
@@ -29,6 +80,8 @@ export async function POST(req, res) {
                         sender: senderId,
                         receiver: receiverId,
                         message: receivedMessage,
+                        image: imagePath,
+                        video: videoPath
                     });
                     let messageResult = await newMessage.save();
                     if (messageResult) {
@@ -59,6 +112,8 @@ export async function POST(req, res) {
                     sender: senderId,
                     receiver: receiverId,
                     message: receivedMessage,
+                    image: imagePath,
+                    video: videoPath
                 });
                 let messageResult = await newMessage.save();
                 if (messageResult) {

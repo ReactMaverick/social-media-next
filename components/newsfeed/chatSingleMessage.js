@@ -1,6 +1,6 @@
 import styles from './chatSingleMessage.module.css';
 
-export default function ChatSingleMessage({ leftOrRight, userImg, userName, timeElapsed, message }) {
+export default function ChatSingleMessage({ leftOrRight, userImg, userName, timeElapsed, message, image }) {
     return (
         <li
             className={leftOrRight}
@@ -36,6 +36,11 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
                 >
                     {message}
                 </p>
+
+                {image ?
+                    <img src={process.env.BASE_URL + image} className={styles.chatImage} /> :
+                    <></>}
+
             </div>
         </li>
     )
