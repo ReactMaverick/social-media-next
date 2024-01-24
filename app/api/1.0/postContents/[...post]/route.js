@@ -24,7 +24,7 @@ export async function POST(req, { params }) {
         // Retrieve the user ID and action from the request parameters
         const [postId, action, commentId] = params.post;
 
-        console.log(params);
+        // console.log(params);
 
         // Log the received parameters
 
@@ -47,7 +47,7 @@ export async function POST(req, { params }) {
             return Response.json({ success: false, status: 404, message: 'Post not found' });
         }
 
-        console.log(requestedUser, requestedPost);
+        // console.log(requestedUser, requestedPost);
 
         switch (action) {
             case 'like':
@@ -61,6 +61,15 @@ export async function POST(req, { params }) {
 
             case 'updateComment':
                 return handleUpdateComment(requestedUser, requestedPost, requestJSON, commentId);
+
+            case 'replyComment':
+                return handleReplyComment(requestedUser, requestedPost, requestJSON, commentId);
+
+            case 'updateReplyComment':
+                return handleUpdateReplyComment(requestedUser, requestedPost, requestJSON, commentId);
+
+            case 'deleteReplyComment':
+                return handleDeleteReplyComment(requestedUser, requestedPost, requestJSON, commentId);
 
             case 'deleteComment':
                 return handleDeleteComment(requestedUser, requestedPost, commentId);
@@ -194,7 +203,7 @@ async function handleUpdateComment(requestedUser, requestedPost, requestJSON, co
     }
     const commentToUpdate = requestedPost.comments[commentIndex];
     // Check if the user deleting the comment is the owner of the comment or the owner of the post
-    if (commentToUpdate.user.toString() !== requestedUser._id.toString() && requestedPost.user.toString() !== requestedUser._id.toString()) {
+    if (commentToUpdate.user.toString() !== requestedUser._id.toString()) {
         return Response.json({ status: 403, success: false, message: 'Permission denied. You are not allowed to Update this comment' });
     } else {
         if (requestJSON.content) {
@@ -205,7 +214,163 @@ async function handleUpdateComment(requestedUser, requestedPost, requestJSON, co
         return Response.json({ status: 200, success: true, message: 'Comment Update successfully!', comment: requestedPost.comments[commentIndex] });
     }
 }
+//Function to handle reply comment
 
+async function handleReplyComment(requestedUser, requestedPost, requestJSON, commentId) {
+    try {
+        const { replyContent } = requestJSON;
+
+        if (replyContent) {
+            const newReplyComment = {
+                user: requestedUser._id, // Assuming requestedUser is a User instance
+                replyContent: replyContent,
+                createdAt: new Date(),
+            };
+
+            let post = await PostContent.findById(requestedPost._id);
+
+            if (post) {
+                let comment = post.comments.id(commentId);
+
+                if (comment) {
+                    // Add replyComment to the replyComment array of the specific comment
+                    comment.replyComment.push(newReplyComment);
+
+                    // Save the updated post
+                    await post.save();
+
+                    // Assuming Response is a variable or object you have defined
+                    return Response.json({
+                        status: 200,
+                        success: true,
+                        message: 'Added reply comment successfully!',
+                        newReplyComment,
+                    });
+                } else {
+                    return Response.json({
+                        status: 404,
+                        success: false,
+                        message: 'Comment not found',
+                    });
+                }
+            } else {
+                return Response.json({
+                    status: 404,
+                    success: false,
+                    message: 'Post not found',
+                });
+            }
+        } else {
+            return Response.json({
+                status: 400,
+                success: false,
+                message: 'Invalid replyContent',
+            });
+        }
+    } catch (error) {
+        console.error('Error handling reply comment:', error);
+        return Response.json({
+            status: 500,
+            success: false,
+            message: 'Internal Server Error',
+            errorCode: 'INTERNAL_SERVER_ERROR',
+        });
+    }
+}
+//Function to handle update reply comment
+
+async function handleUpdateReplyComment(requestedUser, requestedPost, requestJSON, commentId) {
+    try {
+        const { replyContent, replyContentID } = requestJSON;
+        let post = await PostContent.findById(requestedPost._id);
+        if (post) {
+            let comment = post.comments.id(commentId);
+
+            if (comment) {
+                const commentIndex = comment.replyComment.findIndex(comment => comment._id == replyContentID);
+                if (commentIndex === -1) {
+                    return Response.json({ status: 404, success: false, message: 'Comment not found' });
+                }
+                const commentToUpdate = comment.replyComment[commentIndex];
+                if (commentToUpdate.user.toString() !== requestedUser._id.toString()) {
+                    return Response.json({ status: 403, success: false, message: 'Permission denied. You are not allowed to Update this comment' });
+                } else {
+                    if (replyContent) {
+                        commentToUpdate.replyContent = replyContent
+                        await post.save();
+                    }
+                    return Response.json({ status: 200, success: true, message: 'Comment Update successfully!', comment: commentToUpdate.replyContent });
+                }
+            } else {
+                return Response.json({
+                    status: 404,
+                    success: false,
+                    message: 'Comment not found',
+                });
+            }
+        } else {
+            return Response.json({
+                status: 404,
+                success: false,
+                message: 'Post not found',
+            });
+        }
+    } catch (error) {
+        console.error('Error handling reply comment:', error);
+        return Response.json({
+            status: 500,
+            success: false,
+            message: 'Internal Server Error',
+            errorCode: 'INTERNAL_SERVER_ERROR',
+        });
+    }
+}
+//Function to handle delete reply comment
+
+async function handleDeleteReplyComment(requestedUser, requestedPost, requestJSON, commentId) {
+    try {
+        const { replyContentId } = requestJSON;
+        let post = await PostContent.findById(requestedPost._id);
+        if (post) {
+            let comment = post.comments.id(commentId);
+
+            if (comment) {
+                const commentIndex = comment.replyComment.findIndex(comment => comment._id == replyContentId);
+                if (commentIndex === -1) {
+                    return Response.json({ status: 404, success: false, message: 'Comment not found' });
+                }
+                const commentToDelete = comment.replyComment[commentIndex];
+                // Check if the user deleting the comment is the owner of the comment or the owner of the post
+                if (commentToDelete.user.toString() !== requestedUser._id.toString()) {
+                    return Response.json({ status: 403, success: false, message: 'Permission denied. You are not allowed to delete this comment' });
+                }
+                comment.replyComment.splice(commentIndex, 1);
+                await post.save();
+                return Response.json({ status: 200, success: true, message: ' Replay Comment Delete successfully!' });
+            } else {
+                return Response.json({
+                    status: 404,
+                    success: false,
+                    message: 'Comment not found',
+                });
+            }
+        } else {
+            return Response.json({
+                status: 404,
+                success: false,
+                message: 'Post not found',
+            });
+        }
+    } catch (error) {
+        console.error('Error handling reply comment:', error);
+        return Response.json({
+            status: 500,
+            success: false,
+            message: 'Internal Server Error',
+            errorCode: 'INTERNAL_SERVER_ERROR',
+        });
+    }
+}
 // Delete Comment
 export async function handleDeleteComment(requestedUser, requestedPost, commentId) {
     try {

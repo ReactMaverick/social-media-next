@@ -1,5 +1,15 @@
 import mongoose from "mongoose";
 
+const replyCommentSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    replyContent: { type: String },
+    createdAt: { type: Date, default: Date.now }
+})
+
 const postContentSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     caption: {
@@ -16,6 +26,7 @@ const postContentSchema = new mongoose.Schema({
     comments: [{
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         content: { type: String, required: true },
+        replyComment: [replyCommentSchema],
         createdAt: { type: Date, default: Date.now },
     }],
     createdAt: { type: Date, default: Date.now },
