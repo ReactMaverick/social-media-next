@@ -64,7 +64,9 @@ export async function GET(req, { params }) {
             switch (action) {
                 case 'lastMessage':
 
-                    return getLastMessage(senderId, receiverId);
+                    return getLastMessageWithUnreadCount(senderId, receiverId);
+
+                case 'unreadCount':
 
                 default:
                     return Response.json({ message: 'Error occured!' });
@@ -87,7 +89,7 @@ export async function GET(req, { params }) {
     }
 }
 
-async function getLastMessage(senderId, receiverId) {
+async function getLastMessageWithUnreadCount(senderId, receiverId) {
     const conversation = await Conversation.findOne({
         participants: { $all: [senderId, receiverId] }
     });
@@ -104,6 +106,19 @@ async function getLastMessage(senderId, receiverId) {
             .sort({ createdAt: -1 })
             .limit(1);
 
+        let unreadCount = await Message.countDocuments({
+            sender: receiverId,
+            receiver: senderId,
+            isRead: false
+        });
+
+        // If unreadCount is null, set it to 0
+        if (unreadCount === null) {
+            unreadCount = 0;
+        }
+
+        const lastMessageTime = lastMessage.createdAt;
+
         // console.log("Last message ==> ", lastMessage);
 
         if (lastMessage) {
@@ -111,12 +126,14 @@ async function getLastMessage(senderId, receiverId) {
                 status: 200,
                 success: true,
                 lastMessage: lastMessage.message,
-                message: 'Last message fetched successfully!'
+                lastMessageTime: lastMessageTime,
+                unreadCount: unreadCount,
+                message: 'Last message and unread count fetched successfully!'
             });
         } else {
             return Response.json({
                 success: true,
-                message: 'No messages found for the conversation!'
+                message: 'Error fetching last message with unread count!'
             });
         }
     } else {

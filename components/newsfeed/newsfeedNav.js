@@ -14,7 +14,7 @@ export default function NewsfeedNav({ currentUser }) {
                 <div
                 >
                     <Link
-                        href="#"
+                        href="/0/newsfeed"
                     >
                         My Newsfeed
                     </Link>
@@ -27,7 +27,7 @@ export default function NewsfeedNav({ currentUser }) {
                 <div
                 >
                     <Link
-                        href="/0/peopleNearby"
+                        href="/0/newsfeed/peopleNearby"
                     >
                         People Nearby
                     </Link>
@@ -41,7 +41,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeedFriends"
+                        href="/0/newsfeed/newsfeedFriends"
                     >
                         Friends
                     </Link>
@@ -69,7 +69,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeedImages"
+                        href="/0/newsfeed/newsfeedImages"
                     >
                         Images
                     </Link>
@@ -83,7 +83,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeedVideos"
+                        href="/0/newsfeed/newsfeedVideos"
                     >
                         Videos
                     </Link>

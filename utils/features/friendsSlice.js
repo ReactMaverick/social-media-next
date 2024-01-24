@@ -33,10 +33,10 @@ export const fetchLastMessageForFriends = createAsyncThunk(
                 }
 
                 const data = await response.json();
-                return { friendId: friend.friend._id, lastMessage: data.lastMessage };
+                return { friendId: friend.friend._id, lastMessage: data.lastMessage, unreadCount: data.unreadCount, lastMessageTime: data.lastMessageTime };
             } catch (error) {
                 console.error(error);
-                return { friendId: friend._id, lastMessage: null };
+                return { friendId: friend._id, lastMessage: null, unreadCount: null, lastMessageTime: null };
             }
         });
 
@@ -51,6 +51,8 @@ const friendsSlice = createSlice({
     initialState: {
         friends: [],
         lastMessages: {},
+        lastMessageTime: {},
+        unreadCount: {},
         status: 'idle',
         error: null,
     },
@@ -62,13 +64,23 @@ const friendsSlice = createSlice({
             state.friends = state.friends.filter(friend => friend._id !== action.payload._id);
         },
         updateLastMessageForFriends: (state, action) => {
-            const { friendId, lastMessage } = action.payload;
+            const { friendId, lastMessage, unreadCount, lastMessageTime } = action.payload;
 
             // Update or add the last message for the specified friendId
             state.lastMessages = {
                 ...state.lastMessages,
                 [friendId]: lastMessage,
             };
+
+            state.unreadCount = {
+                ...state.unreadCount,
+                [friendId]: unreadCount,
+            }
+
+            state.lastMessageTime = {
+                ...state.lastMessageTime,
+                [friendId]: lastMessageTime,
+            }
         },
     },
     extraReducers: builder => {
@@ -92,8 +104,10 @@ const friendsSlice = createSlice({
             })
             .addCase(fetchLastMessageForFriends.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                action.payload.forEach(({ friendId, lastMessage }) => {
+                action.payload.forEach(({ friendId, lastMessage, unreadCount, lastMessageTime }) => {
                     state.lastMessages[friendId] = lastMessage;
+                    state.unreadCount[friendId] = unreadCount;
+                    state.lastMessageTime[friendId] = lastMessageTime;
                 });
             })
             .addCase(fetchLastMessageForFriends.rejected, (state, action) => {
@@ -106,5 +120,7 @@ const friendsSlice = createSlice({
 export const { addFriend, removeFriend } = friendsSlice.actions;
 export const selectFriends = (state) => state.friends.friends;
 export const selectLastMessages = (state) => state.friends.lastMessages;
+export const selectUnreadCount = (state) => state.friends.unreadCount;
+export const selectLastMessagesTime = (state) => state.friends.lastMessageTime;
 
 export default friendsSlice.reducer;

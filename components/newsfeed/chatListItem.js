@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserConversations, selectConversations } from '@/utils/features/chatSlice';
 import { useEffect } from 'react';
 
-export default function ChatListItem({ href, imgSrc, userName, lastMessage, timeAgo, user_id, lastMessageOfFriend }) {
+export default function ChatListItem({ href, imgSrc, userName, user_id, lastMessageOfFriend, unreadCountOfFriend, lastMessageTime }) {
     const dispatch = useDispatch();
     const conversations = useSelector(selectConversations);
     // console.log(currentUser);
@@ -61,16 +61,23 @@ export default function ChatListItem({ href, imgSrc, userName, lastMessage, time
                         >
                             {lastMessageOfFriend ? lastMessageOfFriend : ''}
                         </p>
-                        <small
-                            className={`${styles.textMuted} text-muted`}
-                        >
-                            a min ago
-                        </small>
-                        <div
-                            className={`${styles.chatAlert} chat-alert`}
-                        >
-                            1
-                        </div>
+                        {lastMessageTime ?
+                            <small
+                                className={`${styles.textMuted} text-muted`}
+                            >
+                                {lastMessageTime}
+                            </small> :
+                            <></>
+                        }
+
+                        {unreadCountOfFriend ?
+                            <div
+                                className={`${styles.chatAlert} chat-alert`}
+                            >
+                                {unreadCountOfFriend}
+                            </div> :
+                            <></>
+                        }
                     </div>
                 </div>
             </Link>

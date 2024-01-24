@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 import ChatRoom from '@/components/newsfeed/chatRoom';
-import { fetchAllFriends, addFriend, removeFriend, selectFriends, fetchLastMessageForFriends, selectLastMessages } from '@/utils/features/friendsSlice';
+import { fetchAllFriends, addFriend, removeFriend, selectFriends, fetchLastMessageForFriends, selectLastMessages, selectUnreadCount, selectLastMessagesTime } from '@/utils/features/friendsSlice';
 
 export default function NewsfeedMessagesPage({ currentUser }) {
     const dispatch = useDispatch();
@@ -26,6 +26,10 @@ export default function NewsfeedMessagesPage({ currentUser }) {
     const friends = useSelector(selectFriends);
 
     const lastMessages = useSelector(selectLastMessages);
+
+    const unreadCount = useSelector(selectUnreadCount);
+
+    const lastMessageTimes = useSelector(selectLastMessagesTime);
 
     useEffect(() => {
         dispatch(fetchAllPosts());
@@ -44,6 +48,10 @@ export default function NewsfeedMessagesPage({ currentUser }) {
     // console.log("All Friends ===> ", friends);
 
     // console.log("Last Messages ===> ", lastMessages);
+
+    // console.log("Unread Count ===> ", unreadCount);
+
+    // console.log("Last Message times ===> ", lastMessageTimes);
     return (
 
         <NewsFeedPageContents>
@@ -60,7 +68,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                             <NewsfeedMiddleColumn>
                                 <CreatePost currentUser={currentUser} />
 
-                                <ChatRoom currentUser={currentUser} users={users} friends={friends} lastMessages={lastMessages} />
+                                <ChatRoom currentUser={currentUser} users={users} friends={friends} lastMessages={lastMessages} unreadCount={unreadCount} lastMessageTimes={lastMessageTimes} />
 
                             </NewsfeedMiddleColumn>
 

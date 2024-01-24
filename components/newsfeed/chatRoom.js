@@ -7,9 +7,10 @@ import SendMessage from './sendMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserConversations, selectConversations } from '@/utils/features/chatSlice';
 import { useEffect } from 'react';
+import { getTimeElapsed } from '@/utils/common';
 
 
-export default function ChatRoom({ currentUser, users, friends, lastMessages }) {
+export default function ChatRoom({ currentUser, users, friends, lastMessages, unreadCount, lastMessageTimes }) {
 
     const dispatch = useDispatch();
     const conversations = useSelector(selectConversations);
@@ -45,7 +46,8 @@ export default function ChatRoom({ currentUser, users, friends, lastMessages }) 
                                             imgSrc={friend.friend.image}
                                             userName={friend.friend.firstName + ' ' + friend.friend.lastName}
                                             lastMessageOfFriend={lastMessages[friend.friend._id]}
-
+                                            unreadCountOfFriend={unreadCount[friend.friend._id]}
+                                            lastMessageTime={lastMessageTimes[friend.friend._id] && getTimeElapsed(lastMessageTimes[friend.friend._id])}
                                         />)}
 
                                 </ul>

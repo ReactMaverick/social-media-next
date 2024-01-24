@@ -189,7 +189,7 @@ export default function SendMessage({ currentUser, conversations }) {
                         });
                     }
 
-                    dispatch(updateLastMessageForFriends({ friendId: receiverId, lastMessage: message }));
+                    dispatch(updateLastMessageForFriends({ friendId: receiverId, lastMessage: message, unreadCount: 0, lastMessageTime: new Date() }));
 
                     setSelectedImage(null);
                     setMessage('');
