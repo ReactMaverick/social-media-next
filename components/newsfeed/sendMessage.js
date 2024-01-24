@@ -15,13 +15,12 @@ if (typeof window !== "undefined") {
 
 let socket;
 
-export default function SendMessage({ currentUser, conversations }) {
+export default function SendMessage({ currentUser, conversations, setIsUserTyping }) {
     const [message, setMessage] = useState('');
     const [receiverId, setReceiverId] = useState(null);
     const [isSocketInitilized, setIsSocketInitialized] = useState(false);
     const [roomId, setRoomId] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const [isUserTyping, setIsUserTyping] = useState(false);
 
     const dispatch = useAppDispatch();
 
@@ -79,12 +78,31 @@ export default function SendMessage({ currentUser, conversations }) {
 
             socket.on("user-typing", (data) => {
                 // console.log("Typing ==> ", data);
+                if (data.receiverId === currentUser.id) {
+                    setIsUserTyping(data.isTyping);
+                    setTimeout(() => {
+                        const lastLi = $(".tab-pane.active.show .chat-body li:last");
+
+                        // console.log(lastLi);
+
+                        if (lastLi.length > 0) {
+                            const container = $(".chatRoom_tabContent__sPppD");
+                            const scrollTo = lastLi.position().top + container.scrollTop();
+
+                            container.animate({
+                                scrollTop: scrollTo
+                            }, 1000);
+                        }
+                    }, 1000);
+                }
 
             });
 
 
             socket.on("receive-message", (data) => {
                 // console.log("Received message:", data);
+
+                setIsUserTyping(false);
 
                 dispatch(updateFromSocket({ chat: data.payload.chat }));
 

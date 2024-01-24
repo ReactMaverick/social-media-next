@@ -216,7 +216,7 @@ async function addFriendRequest(requestedUser, requestJSON) {
         await newFriendship.save();
 
         // Respond with a success message
-        return Response.json({ message: 'Friend request sent successfully!' });
+        return Response.json({ message: 'Friend request sent successfully!', newFriendship });
 
     } catch (error) {
         console.error('Error sending friend request:', error);
@@ -284,7 +284,7 @@ async function acceptFriendRequest(requestedUser, requestJSON) {
         );
 
         // Respond with a success message
-        return Response.json({ message: 'Friend request accepted successfully!' });
+        return Response.json({ message: 'Friend request accepted successfully!', newFriendshipAccept });
 
     } catch (error) {
         console.error('Error accepting request:', error);

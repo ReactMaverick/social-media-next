@@ -3,8 +3,11 @@ import ChatSingleMessage from './chatSingleMessage';
 import { getTimeElapsed } from '@/utils/common';
 import { useEffect, useState } from 'react';
 
-export default function TabPaneChat({ currentUser, tabId, conversations }) {
+export default function TabPaneChat({ currentUser, tabId, conversations, isUserTyping }) {
     // console.log("Conversations in TabPaneChat ==> ", conversations, tabId);
+
+    const [userImg, setUserImg] = useState('');
+    const [isUserImgSet, setIsUserImgSet] = useState(false);
 
     useEffect(() => {
         // console.log("Conversations updated in tabpanechat component", conversations);
@@ -15,6 +18,8 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
     const isConversationActive = conversations?.chats?.some((conversation) => conversation.receiver._id === tabId || conversation.sender._id === tabId)
 
     // const isConversationActive = true;
+
+    // console.log(isUserTyping);
 
     return (
 
@@ -33,6 +38,11 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
                         const isCurrentUserReceiver = conversation.receiver._id === currentUser.id;
                         const isParticipantIdMatch = conversation.receiver._id === tabId || conversation.sender._id === tabId;
 
+                        if (!isCurrentUserSender && isUserImgSet) {
+                            setUserImg(conversation.sender.image)
+                            setIsUserImgSet(true)
+                        }
+
                         if (isParticipantIdMatch && (isCurrentUserSender || isCurrentUserReceiver)) {
                             return (
                                 <ChatSingleMessage
@@ -50,6 +60,15 @@ export default function TabPaneChat({ currentUser, tabId, conversations }) {
                         return null; // Return null if the condition is not met
                     }) :
                         <p>No conversations available</p>
+                    }
+
+                    {isUserTyping &&
+                        <ChatSingleMessage
+                            leftOrRight='left'
+                            userImg={userImg}
+                            message={isUserTyping ? 'typing....' : ''}
+                            isUserTyping={isUserTyping}
+                        />
                     }
                 </ul>
             </div>

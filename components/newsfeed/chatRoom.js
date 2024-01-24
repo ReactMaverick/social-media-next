@@ -6,14 +6,18 @@ import TabPaneChat from './tabPaneChat';
 import SendMessage from './sendMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserConversations, selectConversations } from '@/utils/features/chatSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getTimeElapsed } from '@/utils/common';
 
 
 export default function ChatRoom({ currentUser, users, friends, lastMessages, unreadCount, lastMessageTimes }) {
 
+    const [isUserTyping, setIsUserTyping] = useState(false);
+
     const dispatch = useDispatch();
     const conversations = useSelector(selectConversations);
+
+    // console.log(isUserTyping);
 
     useEffect(() => {
         // Logic to run after conversations state changes
@@ -71,6 +75,7 @@ export default function ChatRoom({ currentUser, users, friends, lastMessages, un
                                                 tabId={user._id}
                                                 conversations={conversations}
                                                 currentUser={currentUser}
+                                                isUserTyping={isUserTyping}
                                             />
                                         ) :
                                         users.map((user) =>
@@ -91,6 +96,7 @@ export default function ChatRoom({ currentUser, users, friends, lastMessages, un
                                 <SendMessage
                                     currentUser={currentUser}
                                     conversations={conversations}
+                                    setIsUserTyping={setIsUserTyping}
                                 /> :
                                 <></>
                             }

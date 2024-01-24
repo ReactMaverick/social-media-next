@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 import ChatRoom from '@/components/newsfeed/chatRoom';
-import { fetchAllFriends, addFriend, removeFriend, selectFriends, fetchLastMessageForFriends, selectLastMessages, selectUnreadCount, selectLastMessagesTime } from '@/utils/features/friendsSlice';
+import { fetchAllFriends, addFriend, removeFriend, selectFriends, fetchLastMessageForFriends, selectLastMessages, selectUnreadCount, selectLastMessagesTime, selectSentFriendRequests, selectReceivedFriendRequests, fetchSentFriendRequests, fetchReceivedFriendRequests } from '@/utils/features/friendsSlice';
 
 export default function NewsfeedMessagesPage({ currentUser }) {
     const dispatch = useDispatch();
@@ -31,10 +31,16 @@ export default function NewsfeedMessagesPage({ currentUser }) {
 
     const lastMessageTimes = useSelector(selectLastMessagesTime);
 
+    const sentFriendRequests = useSelector(selectSentFriendRequests);
+
+    const receivedFriendRequests = useSelector(selectReceivedFriendRequests);
+
     useEffect(() => {
         dispatch(fetchAllPosts());
         dispatch(fetchAllUsers());
         dispatch(fetchAllFriends());
+        dispatch(fetchSentFriendRequests());
+        dispatch(fetchReceivedFriendRequests());
     }, [dispatch]);
 
     useEffect(() => {
@@ -60,7 +66,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                     <NewsFeedContainer>
                         <NewsfeedRow>
                             <NewsfeedLeftColumn>
-                                <ProfileCard currentUser={currentUser} />
+                                <ProfileCard currentUser={currentUser} friends={friends} />
                                 <NewsfeedNav currentUser={currentUser} />
                                 {/* Chat Block (Not Done) */}
                             </NewsfeedLeftColumn>
@@ -77,14 +83,33 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                                     {(users && friends) && (
                                         users.map(user => {
                                             const isUserFriend = friends.some((friend) => friend.friend._id === user._id);
+                                            const isFriendRequestSent = sentFriendRequests.some((friend) => friend.status === "request_sent" && friend.friend._id === user._id);
+                                            const isFriendRequestReceived = receivedFriendRequests.some((friend) => friend.status === "request_sent" && friend.user._id === user._id);
 
-                                            if (user._id !== currentUser.id && !isUserFriend) {
+                                            // console.log(isFriendRequestSent, user.firstName);
+
+                                            if (user._id !== currentUser.id && !isUserFriend && !isFriendRequestSent && !isFriendRequestReceived) {
                                                 return (
                                                     <FollowUserSuggestionItem
                                                         key={user._id}
+                                                        userProfileId={user.profileId}
+                                                        currentUser={currentUser}
                                                         imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
                                                         followUserName={`${user.firstName} ${user.lastName}`}
                                                         userTimelineLink={`/0/timeline/${user.profileId}`}
+                                                        receivedRequest={false}
+                                                    />
+                                                )
+                                            } else if (isFriendRequestReceived) {
+                                                return (
+                                                    <FollowUserSuggestionItem
+                                                        key={user._id}
+                                                        userProfileId={user.profileId}
+                                                        currentUser={currentUser}
+                                                        imgSrc={(user.image) !== '' ? (user.image) : '../../images/no_user.webp'}
+                                                        followUserName={`${user.firstName} ${user.lastName}`}
+                                                        userTimelineLink={`/0/timeline/${user.profileId}`}
+                                                        receivedRequest={true}
                                                     />
                                                 )
                                             }
@@ -102,31 +127,4 @@ export default function NewsfeedMessagesPage({ currentUser }) {
 
         </NewsFeedPageContents>
     );
-};
-
-// Function to calculate the time difference and return a human-readable string
-const getTimeElapsed = (createdAt) => {
-    const now = new Date();
-    const createdDate = new Date(createdAt);
-
-    const timeDifference = now - createdDate;
-    const seconds = Math.floor(timeDifference / 1000);
-
-    if (seconds < 60) {
-        return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
-    }
-
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) {
-        return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
-    }
-
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) {
-        return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
-    }
-
-    // If more than 24 hours, you may want to display the actual date
-    const options = { month: 'short', day: 'numeric', year: 'numeric' };
-    return createdDate.toLocaleDateString(undefined, options);
 };

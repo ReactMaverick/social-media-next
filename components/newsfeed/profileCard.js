@@ -2,7 +2,8 @@ import styles from './profileCard.module.css';
 import Link from "next/link";
 import { Icon } from '@iconify/react';
 
-export default function ProfileCard({ currentUser }) {
+export default function ProfileCard({ currentUser, friends }) {
+
     return (
 
         <div
@@ -31,7 +32,7 @@ export default function ProfileCard({ currentUser }) {
 
                     >
                         <Icon className="icon" icon="ion:person-add" />{" "}
-                        1,299 followers
+                        {friends && friends.length} friends
                     </Link>
                 </>
             )}

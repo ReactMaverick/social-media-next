@@ -46,10 +46,51 @@ export const fetchLastMessageForFriends = createAsyncThunk(
 
 export const updateLastMessageForFriends = createAction('friends/updateLastMessageForFriends');
 
+export const fetchSentFriendRequests = createAsyncThunk(
+    'friends/fetchSentFriendRequests',
+    async () => {
+        try {
+            const response = await fetch('/api/1.0/users/friends/sentRequests');
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch sent friend requests');
+            }
+
+            const data = await response.json();
+
+            return data.sentFriendRequests || [];
+        } catch (error) {
+            throw new Error(`Error fetching sent friend requests: ${error.message}`);
+        }
+    }
+);
+
+export const fetchReceivedFriendRequests = createAsyncThunk(
+    'friends/fetchReceivedFriendRequests',
+    async () => {
+        try {
+            const response = await fetch('/api/1.0/users/friends/receivedRequests');
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch received friend requests');
+            }
+
+            const data = await response.json();
+
+            return data.receivedFriendRequests || [];
+        } catch (error) {
+            throw new Error(`Error fetching received friend requests: ${error.message}`);
+        }
+    }
+);
+
+
 const friendsSlice = createSlice({
     name: 'friends',
     initialState: {
         friends: [],
+        sentFriendRequests: [],
+        receivedFriendRequests: [],
         lastMessages: {},
         lastMessageTime: {},
         unreadCount: {},
@@ -81,6 +122,12 @@ const friendsSlice = createSlice({
                 ...state.lastMessageTime,
                 [friendId]: lastMessageTime,
             }
+        },
+        addSentFriendRequest: (state, action) => {
+            state.sentFriendRequests.push(action.payload);
+        },
+        addReceivedFriendRequest: (state, action) => {
+            state.receivedFriendRequests.push(action.payload);
         },
     },
     extraReducers: builder => {
@@ -114,11 +161,39 @@ const friendsSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             });
+
+        builder
+            .addCase(fetchSentFriendRequests.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchSentFriendRequests.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.sentFriendRequests = action.payload;
+            })
+            .addCase(fetchSentFriendRequests.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
+
+        builder
+            .addCase(fetchReceivedFriendRequests.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchReceivedFriendRequests.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.receivedFriendRequests = action.payload;
+            })
+            .addCase(fetchReceivedFriendRequests.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
     },
 });
 
 export const { addFriend, removeFriend } = friendsSlice.actions;
 export const selectFriends = (state) => state.friends.friends;
+export const selectSentFriendRequests = (state) => state.friends.sentFriendRequests;
+export const selectReceivedFriendRequests = (state) => state.friends.receivedFriendRequests;
 export const selectLastMessages = (state) => state.friends.lastMessages;
 export const selectUnreadCount = (state) => state.friends.unreadCount;
 export const selectLastMessagesTime = (state) => state.friends.lastMessageTime;

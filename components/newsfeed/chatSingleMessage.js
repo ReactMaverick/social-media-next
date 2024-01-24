@@ -1,6 +1,9 @@
 import styles from './chatSingleMessage.module.css';
 
-export default function ChatSingleMessage({ leftOrRight, userImg, userName, timeElapsed, message, image }) {
+export default function ChatSingleMessage({ leftOrRight, userImg, userName, timeElapsed, message, image, isUserTyping }) {
+
+    const text = "typing...";
+
     return (
         <li
             className={leftOrRight}
@@ -15,27 +18,39 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
                 className="chat-item"
 
             >
-                <div
-                    className="chat-item-header"
-
-                >
-                    <h5
-                        className={styles.h5}
-                    >
-                        {userName}
-                    </h5>
-                    <small
-                        className={`${styles.textMuted} text-muted`}
+                {userName ?
+                    <div
+                        className="chat-item-header"
 
                     >
-                        {timeElapsed}
-                    </small>
-                </div>
-                <p
+                        <h5
+                            className={styles.h5}
+                        >
+                            {userName}
+                        </h5>
+                        <small
+                            className={`${styles.textMuted} text-muted`}
 
-                >
-                    {message}
-                </p>
+                        >
+                            {timeElapsed}
+                        </small>
+                    </div>
+                    : <></>}
+                {isUserTyping ?
+                    <div className={styles.wavyTypingText}>
+                        {text.split('').map((char, index) => (
+                            <span key={index} style={{ '--i': index + 1 }}>
+                                {char}
+                            </span>
+                        ))}
+                    </div> :
+                    <p
+
+                    >
+                        {message}
+                    </p>
+                }
+
 
                 {image ?
                     <img src={process.env.BASE_URL + image} className={styles.chatImage} /> :

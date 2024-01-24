@@ -25,3 +25,29 @@
     width: 100%;
     border-radius: 10px;
 }
+
+.wavyTypingText {
+    position: relative;
+}
+
+.wavyTypingText span {
+    position: relative;
+    display: inline-block;
+    animation: animate 1.5s ease-in-out infinite;
+    animation-delay: calc(0.1s * var(--i));
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(0px);
+    }
+
+    20% {
+        transform: translateY(-3px);
+    }
+
+    40%,
+    100% {
+        transform: translateY(0px);
+    }
+}
