@@ -52,3 +52,52 @@
     position: absolute;
     right: 0;
 }
+
+.replyComment {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 10px;
+    color: #27aae1;
+}
+
+.replyComment:hover {
+    color: #1f83ad;
+}
+
+.postCommentReply {
+    display: inline-flex;
+    margin: 10px auto;
+    width: 100%;
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.postCommentReply .profilePhotoSm {
+    margin-right: 10px;
+}
+
+.postCommentReply .formControl {
+    height: 30px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    margin: 7px 0;
+    min-width: 0;
+}
+
+.formControl {
+    border-radius: 4px;
+    color: #939598;
+    width: 100% !important;
+    background: #fff;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
+
+.formControl:focus {
+    outline: 0;
+}

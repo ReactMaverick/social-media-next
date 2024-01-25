@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { likePost, dislikePost, addComment, deleteComment } from '@/utils/features/postContentsSlice';
 
-export default function PostComment({ profileImgSrc, profileLink, userName, comment, commentUserId, currentUser, commentId, postId }) {
+export default function PostComment({ profileImgSrc, profileLink, userName, comment, commentUserId, currentUser, commentId, postId, currentUserImgSrc }) {
 
     const dispatch = useAppDispatch();
 
@@ -50,6 +50,12 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
                 </Link>
                 {comment}
             </p>
+            <Link
+                className={`${styles.replyComment}`}
+                href="#"
+            >
+                Reply
+            </Link>
             {(currentUser && (commentUserId === currentUser.id)) && (
                 <Link
                     className={`${styles.btn} ${styles.textRed}`}
@@ -59,6 +65,24 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
                     <Icon icon="material-symbols:delete" />
                 </Link>
             )}
+            {/* {isReplyPressed &&  */}
+            <div
+                className={styles.postCommentReply}
+            >
+                <img
+                    className={styles.profilePhotoSm}
+                    src={currentUserImgSrc}
+                />
+                <input
+                    className={styles.formControl}
+                    type="text"
+                    placeholder="Post a reply"
+                // value={commentReplyText}
+                // onChange={handleCommentReplyChange}
+                // onKeyDown={handleKeyDown}
+                />
+            </div>
+            {/* } */}
         </div>
     );
 };
