@@ -172,7 +172,7 @@ async function handleAddComment(requestedUser, requestedPost, requestJSON) {
         if (comment) {
 
             const newComment = {
-                user: await User.findById(requestedUser._id).select('firstName lastName image profileId'),
+                user: await User.findById(requestedUser._id).select('firstName lastName image profileId coverImage'),
                 content: comment,
                 createdAt: new Date(),
             };
@@ -183,7 +183,9 @@ async function handleAddComment(requestedUser, requestedPost, requestJSON) {
             // Save the updated post
             await requestedPost.save();
 
-            return Response.json({ status: 200, success: true, message: 'Added comment successfully!', newComment });
+            const newCommentId = requestedPost.comments[requestedPost.comments.length - 1]._id;
+
+            return Response.json({ status: 200, success: true, message: 'Added comment successfully!', newCommentId, newComment });
         } else {
             // No comment given
             return Response.json({ status: 400, success: false, message: 'Please provide a comment!', errorCode: 'NO_COMMENT_PROVIDED' });
@@ -222,7 +224,7 @@ async function handleReplyComment(requestedUser, requestedPost, requestJSON, com
 
         if (replyContent) {
             const newReplyComment = {
-                user: requestedUser._id, // Assuming requestedUser is a User instance
+                user: await User.findById(requestedUser._id).select('firstName lastName image profileId coverImage'),
                 replyContent: replyContent,
                 createdAt: new Date(),
             };
@@ -239,11 +241,14 @@ async function handleReplyComment(requestedUser, requestedPost, requestJSON, com
                     // Save the updated post
                     await post.save();
 
+                    const newReplyCommentId = comment.replyComment[comment.replyComment.length - 1]._id;
+
                     // Assuming Response is a variable or object you have defined
                     return Response.json({
                         status: 200,
                         success: true,
                         message: 'Added reply comment successfully!',
+                        newReplyCommentId,
                         newReplyComment,
                     });
                 } else {
@@ -346,7 +351,7 @@ async function handleDeleteReplyComment(requestedUser, requestedPost, requestJSO
                 }
                 comment.replyComment.splice(commentIndex, 1);
                 await post.save();
-                return Response.json({ status: 200, success: true, message: ' Replay Comment Delete successfully!' });
+                return Response.json({ status: 200, success: true, message: ' Reply Comment Deleted successfully!' });
             } else {
                 return Response.json({
                     status: 404,

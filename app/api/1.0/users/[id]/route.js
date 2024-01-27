@@ -120,6 +120,7 @@ export async function PUT(req, { params, body }) {
             designation,
             company_city,
             image,
+            coverImage,
             hobbies,
             follow_me,
             send_notification,
@@ -144,6 +145,7 @@ export async function PUT(req, { params, body }) {
         if (designation) user.designation = designation;
         if (company_city) user.company_city = company_city;
         if (image) user.image = image;
+        if (coverImage) user.coverImage = coverImage;
         if (hobbies) user.hobbies = hobbies;
         if (follow_me !== undefined) user.follow_me = follow_me;
         if (send_notification !== undefined) user.send_notification = send_notification;

@@ -70,7 +70,7 @@ export const addComment = createAsyncThunk('postContents/addComment', async ({ p
 
         const data = await response.json();
         console.log("data ==> ", data);
-        return { postId, comment: data.newComment };
+        return { postId, newCommentId: data.newCommentId, comment: data.newComment };
     } catch (error) {
         throw new Error(`Error adding comment: ${error.message}`);
     }
@@ -90,6 +90,51 @@ export const deleteComment = createAsyncThunk('postContents/deleteComment', asyn
         return { postId, commentId };
     } catch (error) {
         throw new Error(`Error deleting comment: ${error.message}`);
+    }
+});
+
+// Add CommentReply
+export const addCommentReply = createAsyncThunk('postContents/addCommentReply', async ({ postId, commentId, reply }) => {
+    try {
+        const response = await fetch(`/api/1.0/postContents/${postId}/replyComment/${commentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ replyContent: reply }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add reply');
+        }
+
+        const data = await response.json();
+        console.log("data ==> ", data);
+        return { postId, commentId, newReplyCommentId: data.newReplyCommentId, commentReply: data.newReplyComment };
+    } catch (error) {
+        throw new Error(`Error adding reply: ${error.message}`);
+    }
+});
+
+// Delete Comment Reply
+export const deleteCommentReply = createAsyncThunk('postContents/deleteCommentReply', async ({ postId, commentId, replyCommentId }) => {
+    try {
+        console.log("ids...", postId, commentId, replyCommentId);
+        const response = await fetch(`/api/1.0/postContents/${postId}/deleteReplyComment/${commentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ replyContentId: replyCommentId }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete comment reply');
+        }
+
+        return { postId, commentId, replyCommentId };
+    } catch (error) {
+        throw new Error(`Error deleting comment reply: ${error.message}`);
     }
 });
 
@@ -170,11 +215,14 @@ const postContentsSlice = createSlice({
         builder
             .addCase(addComment.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                const { postId, comment } = action.payload;
-                console.log("Payload ===> ", action.payload);
+                const { postId, comment, newCommentId } = action.payload;
+                // console.log("Payload ===> ", action.payload);
+
+                comment._id = newCommentId; //Addd id to the new reply
+
                 state.posts = state.posts.map(post =>
                     post._id === postId
-                        ? { ...post, comments: [...post.comments, comment] }
+                        ? { ...post, comments: post.comments ? [...post.comments, comment] : [comment] }
                         : post
                 );
             })
@@ -195,6 +243,52 @@ const postContentsSlice = createSlice({
                 );
             })
             .addCase(deleteComment.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
+
+        // Add Comment Reply
+        builder
+            .addCase(addCommentReply.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                const { postId, commentId, newReplyCommentId, commentReply } = action.payload;
+
+                commentReply._id = newReplyCommentId; //Addd id to the new reply
+
+                console.log("Comment Reply Payload ===> ", action.payload);
+
+                state.posts = state.posts.map(post =>
+                    post._id === postId
+                        ? {
+                            ...post, comments: post.comments.map((comment) =>
+                                comment._id === commentId ? { ...comment, replyComment: comment.replyComment ? [...comment.replyComment, commentReply] : replyComment } : comment)
+                        }
+                        : post
+                );
+            })
+            .addCase(addCommentReply.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
+
+        // Delete Comment Reply
+        builder
+            .addCase(deleteCommentReply.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                const { postId, commentId, replyCommentId } = action.payload;
+
+                console.log("Comment Reply Delete Payload ===> ", action.payload);
+
+                state.posts = state.posts.map(post =>
+                    post._id === postId
+                        ? {
+                            ...post, comments: post.comments.map((comment) =>
+                                comment._id === commentId ? { ...comment, replyComment: comment.replyComment.filter(reply => reply._id !== replyCommentId) } : comment)
+                        }
+                        : post
+                );
+            })
+            .addCase(deleteCommentReply.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

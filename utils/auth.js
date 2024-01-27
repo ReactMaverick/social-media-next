@@ -79,6 +79,10 @@ export const authOptions = {
                 token.image = user.image;
             }
 
+            if (user?.coverImage) {
+                token.coverImage = user.coverImage;
+            }
+
             // console.log("Final Token ==> ", token);
 
             return token
@@ -110,6 +114,10 @@ export const authOptions = {
 
             if (token?.image) {
                 session.user.image = token.image;
+            }
+
+            if (token?.coverImage) {
+                session.user.coverImage = token.coverImage;
             }
 
             // console.log("Final Session ===> ", session);

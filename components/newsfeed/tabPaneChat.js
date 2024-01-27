@@ -1,13 +1,15 @@
 import styles from './tabPaneChat.module.css';
 import ChatSingleMessage from './chatSingleMessage';
 import { getTimeElapsed } from '@/utils/common';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default function TabPaneChat({ currentUser, tabId, conversations, isUserTyping }) {
+export default function TabPaneChat({ currentUser, tabId, conversations, isUserTyping, setActiveTab, activeTab }) {
     // console.log("Conversations in TabPaneChat ==> ", conversations, tabId);
 
     const [userImg, setUserImg] = useState('');
     const [isUserImgSet, setIsUserImgSet] = useState(false);
+
+    const tabRef = useRef(null);
 
     useEffect(() => {
         // console.log("Conversations updated in tabpanechat component", conversations);
@@ -21,12 +23,21 @@ export default function TabPaneChat({ currentUser, tabId, conversations, isUserT
 
     // console.log(isUserTyping);
 
+    const isActiveTab = tabRef?.current?.classList?.contains('active');
+
+    useEffect(() => {
+        if (isActiveTab && tabId !== activeTab) {
+            setActiveTab(tabId);
+        }
+    }, [isActiveTab, activeTab, tabId]);
+
     return (
 
         <div
             id={tabId}
             className={`tab-pane ${isConversationActive ? 'active show' : ''}`}
             role='tabpanel'
+            ref={tabRef}
         >
             <div className="chat-body">
                 <ul

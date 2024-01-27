@@ -57,11 +57,11 @@ export async function POST(req, res) {
         const populatedPost = await PostContent.findById(newPost._id)
             .populate({
                 path: 'user',
-                select: 'firstName lastName image profileId' // Include only these fields
+                select: 'firstName lastName image profileId coverImage' // Include only these fields
             })
             .populate({
                 path: 'comments.user',
-                select: 'firstName lastName image profileId' // Include only these fields for each comment's user
+                select: 'firstName lastName image profileId coverImage' // Include only these fields for each comment's user
             });
 
         // Respond with success message and populated post
@@ -89,11 +89,15 @@ export async function GET(req, res) {
             const posts = await PostContent.find()
                 .populate({
                     path: 'user',
-                    select: 'firstName lastName image profileId' // Include only these fields
+                    select: 'firstName lastName image profileId coverImage' // Include only these fields
                 })
                 .populate({
                     path: 'comments.user',
-                    select: 'firstName lastName image profileId' // Include only these fields for each comment's user
+                    select: 'firstName lastName image profileId coverImage' // Include only these fields for each comment's user
+                })
+                .populate({
+                    path: 'comments.replyComment.user',
+                    select: 'firstName lastName image profileId coverImage' // Include only these fields for each comment's user
                 });
 
             // Respond with the fetched posts in JSON format

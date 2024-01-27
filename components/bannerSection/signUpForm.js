@@ -271,6 +271,7 @@ export default function SignUpForm() {
     designation: '',
     company_city: '',
     image: '',
+    coverImage: '',
     hobbies: [],
     follow_me: true,
     send_notification: true,

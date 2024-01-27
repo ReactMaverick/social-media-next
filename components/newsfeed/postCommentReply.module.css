@@ -1,0 +1,55 @@
+.postCommentReply {
+    display: flex;
+    margin: 10px auto;
+    width: 90%;
+    margin-left: 50px;
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.postCommentReply .profilePhotoSm {
+    margin-right: 10px;
+}
+
+.profileLink {
+    font-weight: 600;
+    color: #27aae1;
+    text-decoration: none;
+}
+
+.textRed {
+    color: #ef4136;
+}
+
+.textRed:hover {
+    color: #d6100b;
+}
+
+.btn {
+    display: inline-block;
+    padding: 2px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-decoration: none;
+    position: absolute;
+    right: 0;
+}

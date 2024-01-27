@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema({
     designation: { type: String },
     company_city: { type: String },
     image: { type: String },
+    coverImage: { type: String },
     role: { type: String, default: 'user' },
     hobbies: { type: [String], default: [] },
     follow_me: { type: Boolean, enum: [true, false], default: true },

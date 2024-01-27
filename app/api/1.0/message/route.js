@@ -88,11 +88,11 @@ export async function POST(req, res) {
                         messageResult = await Message.findById(messageResult._id)
                             .populate({
                                 path: 'sender',
-                                select: 'firstName lastName email image',
+                                select: 'firstName lastName email image coverImage',
                             })
                             .populate({
                                 path: 'receiver',
-                                select: 'firstName lastName email image',
+                                select: 'firstName lastName email image coverImage',
                             });
 
                         let updateConversation = await Conversation.findByIdAndUpdate(conversationResult._id, { $push: { messages: messageResult._id } }, { new: true });
@@ -120,11 +120,11 @@ export async function POST(req, res) {
                     messageResult = await Message.findById(messageResult._id)
                         .populate({
                             path: 'sender',
-                            select: 'firstName lastName email image',
+                            select: 'firstName lastName email image coverImage',
                         })
                         .populate({
                             path: 'receiver',
-                            select: 'firstName lastName email image',
+                            select: 'firstName lastName email image coverImage',
                         });
 
                     let updateConversation = await Conversation.findByIdAndUpdate(conversation._id, { $push: { messages: messageResult._id } }, { new: true });

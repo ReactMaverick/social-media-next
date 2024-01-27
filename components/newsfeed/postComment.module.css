@@ -1,5 +1,10 @@
+.postCommentOuter {
+    display: flex;
+    flex-direction: column;
+}
+
 .postComment {
-    display: inline-flex;
+    display: flex;
     margin: 10px auto;
     width: 100%;
 }
@@ -55,12 +60,17 @@
 
 .replyComment {
     display: flex;
-    align-items: flex-end;
-    margin-left: 10px;
-    color: #27aae1;
+    align-items: center;
+    margin-left: 50px;
+    gap: 15px;
 }
 
-.replyComment:hover {
+.replyComment a {
+    color: #27aae1;
+    font-weight: 600;
+}
+
+.replyComment a:hover {
     color: #1f83ad;
 }
 
@@ -68,12 +78,6 @@
     display: inline-flex;
     margin: 10px auto;
     width: 100%;
-}
-
-.profilePhotoSm {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
 }
 
 .postCommentReply .profilePhotoSm {

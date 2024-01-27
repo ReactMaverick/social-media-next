@@ -15,7 +15,7 @@ if (typeof window !== "undefined") {
 
 let socket;
 
-export default function SendMessage({ currentUser, conversations, setIsUserTyping }) {
+export default function SendMessage({ currentUser, conversations, setIsUserTyping, activeTab }) {
     const [message, setMessage] = useState('');
     const [receiverId, setReceiverId] = useState(null);
     const [isSocketInitilized, setIsSocketInitialized] = useState(false);
@@ -25,6 +25,12 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
     const dispatch = useAppDispatch();
 
     // console.log(conversations);
+
+    useEffect(() => {
+        // console.log("Active Tab ===> ", activeTab);
+    }, [activeTab])
+
+
 
     useEffect(() => {
         // Initialize socket only on the client
@@ -58,9 +64,11 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
 
             console.log("Initializing socket");
 
-            const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
+            // console.log(activeTab);
 
-            setReceiverId(activeTabUserId);
+            // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
+
+            setReceiverId(activeTab);
 
             socket = io();
 

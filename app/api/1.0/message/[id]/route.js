@@ -26,11 +26,11 @@ export async function GET(req, { params }) {
                 populate: [
                     {
                         path: 'sender',
-                        select: 'firstName lastName email image',
+                        select: 'firstName lastName email image coverImage',
                     },
                     {
                         path: 'receiver',
-                        select: 'firstName lastName email image',
+                        select: 'firstName lastName email image coverImage',
                     },
                 ],
             });

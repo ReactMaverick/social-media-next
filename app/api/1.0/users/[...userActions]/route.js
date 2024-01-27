@@ -466,7 +466,7 @@ async function getAllFriends(requestedUser) {
         }
 
         // Populate the friend field with details from the 'User' model
-        await Friendship.populate(friends, { path: 'friend', select: 'firstName lastName email image' });
+        await Friendship.populate(friends, { path: 'friend', select: 'firstName lastName email image coverImage' });
 
         return Response.json({ friends });
 
@@ -495,7 +495,7 @@ async function getAllReceivedFriendRequests(requestedUser) {
         }
 
         // Populate the friend field with details from the 'User' model
-        await Friendship.populate(receivedFriendRequests, { path: 'user', select: 'firstName lastName email image' });
+        await Friendship.populate(receivedFriendRequests, { path: 'user', select: 'firstName lastName email image coverImage' });
 
         return Response.json({ receivedFriendRequests });
 
@@ -524,7 +524,7 @@ async function getAllSentFriendRequests(requestedUser) {
         }
 
         // Populate the friend field with details from the 'User' model
-        await Friendship.populate(sentFriendRequests, { path: 'friend', select: 'firstName lastName email image' });
+        await Friendship.populate(sentFriendRequests, { path: 'friend', select: 'firstName lastName email image coverImage' });
 
         return Response.json({ sentFriendRequests });
 

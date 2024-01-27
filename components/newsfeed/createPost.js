@@ -2,7 +2,7 @@
 import styles from './createPost.module.css';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { addPost, removePost, clearPosts } from '@/utils/features/postContentsSlice';
 
@@ -10,6 +10,8 @@ export default function CreatePost({ currentUser }) {
     const [caption, setCaption] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedVideo, setSelectedVideo] = useState(null);
+
+    const createPostTextareaRef = useRef(null);
 
     const dispatch = useAppDispatch();
 
@@ -163,6 +165,12 @@ export default function CreatePost({ currentUser }) {
         // console.log("Selected Video", selectedVideo);
     };
 
+    const handleComposeIconClick = (e) => {
+        e.preventDefault();
+
+        createPostTextareaRef.current.focus();
+    }
+
     return (
         <div
             className={styles.createPost}
@@ -191,6 +199,7 @@ export default function CreatePost({ currentUser }) {
                                     value={caption}
                                     placeholder="Write what you wish"
                                     onChange={handleCaptionChange}
+                                    ref={createPostTextareaRef}
                                 />
                             </div>
                             {selectedImage && (
@@ -228,9 +237,10 @@ export default function CreatePost({ currentUser }) {
                                 >
                                     <li
                                         key={`compose_${currentUser.id}`}
+                                        onClick={handleComposeIconClick}
                                     >
                                         <Link
-                                            href="#"
+                                            href=""
 
                                         >
                                             <Icon icon="fluent:compose-16-filled" />
@@ -241,7 +251,7 @@ export default function CreatePost({ currentUser }) {
                                         key={`image_${currentUser.id}`}
                                     >
                                         <Link
-                                            href="#"
+                                            href=""
 
                                         >
                                             <Icon icon="entypo:images" />
@@ -252,13 +262,13 @@ export default function CreatePost({ currentUser }) {
                                         key={`video_${currentUser.id}`}
                                     >
                                         <Link
-                                            href="#"
+                                            href=""
 
                                         >
                                             <Icon icon="material-symbols:videocam-rounded" />
                                         </Link>
                                     </li>
-                                    <li
+                                    {/* <li
                                         key={`map_${currentUser.id}`}
                                     >
                                         <Link
@@ -267,7 +277,7 @@ export default function CreatePost({ currentUser }) {
                                         >
                                             <Icon icon="lets-icons:map-fill" />
                                         </Link>
-                                    </li>
+                                    </li> */}
                                 </ul>
                                 {/* Hidden file input */}
                                 <input

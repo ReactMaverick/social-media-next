@@ -17,7 +17,7 @@ export async function GET(req, res) {
 
             // console.log("Session ===> ", session);
             // Fetch all users from the database using the User model
-            const users = await User.find().select('firstName lastName profileId image');;
+            const users = await User.find().select('firstName lastName profileId image coverImg');;
 
             // Respond with the fetched users in JSON format
             return Response.json({ users });
