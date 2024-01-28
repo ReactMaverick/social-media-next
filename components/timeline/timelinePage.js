@@ -7,7 +7,7 @@ import TimelineNavRow from './timelineNavRow';
 import TimelineNavRowMobile from './timelineNavRowMobile';
 
 
-export default function TimelinePage() {
+export default function TimelinePage({ timelineUser }) {
     return (
         <>
             <TimelineContainer>
@@ -15,12 +15,12 @@ export default function TimelinePage() {
                     <TimelineCover>
                         {/* For Large Screens */}
                         <TimelineNav>
-                            <TimelineNavRow whichPage='timeline' />
+                            <TimelineNavRow whichPage='timeline' timelineUser={timelineUser} />
                         </TimelineNav>
                         {/* For Large Screens */}
                         {/* For Small Screens */}
                         <TimelineNavMobile>
-                            <TimelineNavRowMobile whichPage='timeline' />
+                            <TimelineNavRowMobile whichPage='timeline' timelineUser={timelineUser} />
                         </TimelineNavMobile>
                         {/* For Small Screens */}
                     </TimelineCover>

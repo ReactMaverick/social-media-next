@@ -68,6 +68,7 @@ export default function NewsfeedFriendsPage({ currentUser }) {
                                 <FriendList>
                                     {friends.map((friend) =>
                                         <FriendColumn
+                                            key={friend.friend._id}
                                             friendName={`${friend.friend.firstName} ${friend.friend.lastName}`}
                                             friendImg={(friend.friend.image) !== '' ? (friend.friend.image) : '../../images/no_user.webp'}
                                             friendCoverImg={process.env.BASE_URL + `/images/profile_card_cover.jpg`}

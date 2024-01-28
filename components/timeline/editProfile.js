@@ -252,7 +252,7 @@ export default function EditProfile({ option }) {
           <div className={`block-title`}>
             <h4 className={`${styles.heading}`}><Icon icon="material-symbols-light:lock-person-outline" />Change Password</h4>
             <div className={`${styles.line}`}></div>
-            <p className={`para`}>Change your passowrd.</p>
+            <p className={`para`}>Change your password.</p>
             <div className={`${styles.line}`}></div>
           </div>
         </div>

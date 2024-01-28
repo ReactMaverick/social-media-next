@@ -1,7 +1,7 @@
 import styles from './timelineNavRow.module.css';
 import Link from 'next/link';
 
-export default function TimelineNavRow({ whichPage }) {
+export default function TimelineNavRow({ whichPage, timelineUser }) {
     // console.log(whichPage);
     return (
         <div className={`${styles.row} row`}>
@@ -18,22 +18,22 @@ export default function TimelineNavRow({ whichPage }) {
             <div className={`col-md-9 ${styles.timelineCol}`}>
                 <ul className={`${styles.profileMenu} ${styles.listInline}`}>
                     <li>
-                        <Link className={whichPage == 'timeline' ? styles.active : ''} href="/0/timeline">
+                        <Link className={whichPage == 'timeline' ? styles.active : ''} href={"/0/timeline/" + timelineUser}>
                             Timeline
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineEdit' ? styles.active : ''} href="/0/timeline/about">
+                        <Link className={whichPage == 'timelineEdit' ? styles.active : ''} href={"/0/timeline/" + timelineUser + "/about"}>
                             About
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineAlbum' ? styles.active : ''} href="/0/timeline/album">
+                        <Link className={whichPage == 'timelineAlbum' ? styles.active : ''} href={"/0/timeline/" + timelineUser + "/album"}>
                             Album
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href="/0/timeline/friends">
+                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href={"/0/timeline/" + timelineUser + "/friends"}>
                             Friends
                         </Link>
                     </li>

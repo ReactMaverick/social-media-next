@@ -46,7 +46,7 @@ export default function NavbarMenu({ currentUser }) {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("../../images/list_bullet.png")',
+                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
                     position: "relative",
                     display: "block",
                     float: "left",
@@ -81,7 +81,7 @@ export default function NavbarMenu({ currentUser }) {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("../../images/list_bullet.png")',
+                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
                     position: "relative",
                     display: "block",
                     float: "left",
@@ -332,7 +332,7 @@ export default function NavbarMenu({ currentUser }) {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("../../images/list_bullet.png")',
+                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
                     position: "relative",
                     display: "block",
                     float: "left",
@@ -671,7 +671,7 @@ export default function NavbarMenu({ currentUser }) {
                 style={{
                     boxSizing: "border-box",
                     listStyleImage:
-                        'url("../../images/list_bullet.png")',
+                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
                     position: "relative",
                     display: "block",
                     float: "left",
@@ -705,7 +705,7 @@ export default function NavbarMenu({ currentUser }) {
                     style={{
                         boxSizing: "border-box",
                         listStyleImage:
-                            'url("../../images/list_bullet.png")',
+                            `url("${process.env.BASE_URL}/images/list_bullet.png")`,
                         position: "relative",
                         display: "block",
                         float: "left",

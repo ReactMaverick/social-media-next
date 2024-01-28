@@ -1,7 +1,7 @@
 import styles from './timelineNavRowMobile.module.css';
 import Link from 'next/link';
 
-export default function TimelineNavRowMobile({ whichPage }) {
+export default function TimelineNavRowMobile({ whichPage, timelineUser }) {
     return (
         <>
             <div
@@ -27,7 +27,7 @@ export default function TimelineNavRowMobile({ whichPage }) {
                     <li
                     >
                         <Link
-                            href="/0/timeline"
+                            href={"/0/timeline/" + timelineUser}
                             className={whichPage == 'timeline' ? styles.active : ''}
                         >
                             Timeline
@@ -38,7 +38,7 @@ export default function TimelineNavRowMobile({ whichPage }) {
                     >
                         <Link
                             className={whichPage == 'timelineEdit' ? styles.active : ''}
-                            href="/0/timeline/about"
+                            href={"/0/timeline/" + timelineUser + "/about"}
 
                         >
                             About
@@ -48,7 +48,7 @@ export default function TimelineNavRowMobile({ whichPage }) {
 
                     >
                         <Link
-                            href="/0/timeline/album"
+                            href={"/0/timeline/" + timelineUser + "/album"}
                             className={whichPage == 'timelineAlbum' ? styles.active : ''}
                         >
                             Album
@@ -58,7 +58,7 @@ export default function TimelineNavRowMobile({ whichPage }) {
 
                     >
                         <Link
-                            href="/0/timeline/friends"
+                            href={"/0/timeline/" + timelineUser + "/friends"}
                             className={whichPage == 'timelineFriends' ? styles.active : ''}
                         >
                             Friends
