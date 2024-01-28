@@ -1,0 +1,79 @@
+.imgResponsive {
+    display: block;
+    max-width: 100%;
+}
+
+.profilePhoto {
+    border: 10px solid #fff;
+    border-radius: 50%;
+    height: 200px;
+    margin: auto;
+    width: 200px;
+}
+
+.h4 {
+    color: #27aae1;
+    font-size: 18px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.textMuted {
+    color: #939598;
+}
+
+.listInline {
+    margin: 0 0 20px;
+    padding-left: 0;
+    list-style: none;
+}
+
+.listInline li {
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    display: inline-block;
+    list-style-image: url("../../public/images/list_bullet.png");
+}
+
+.listInline li::after {
+    content: "";
+    height: 20px;
+    background: none;
+    border-right: 1px solid #f1f2f2;
+    position: absolute;
+    right: 0;
+}
+
+.listInline li:nth-child(4)::after {
+    content: none;
+}
+
+.listInline li a {
+    color: #4d4d4d;
+}
+
+.listInline li a.active {
+    color: #27aae1;
+}
+
+.btnPrimary {
+    background: #27aae1;
+    padding: 7px 25px;
+    border: none;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
+    position: relative;
+    font-weight: 600;
+    outline: none;
+    border-radius: 30px;
+}
+
+.btnPrimary:hover {
+    background: #149AC9;
+    transition: all 1s;
+}

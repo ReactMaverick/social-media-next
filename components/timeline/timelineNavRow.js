@@ -1,40 +1,41 @@
 import styles from './timelineNavRow.module.css';
+import Link from 'next/link';
 
-export default function TimelineNavRow() {
+export default function TimelineNavRow({ whichPage }) {
+    // console.log(whichPage);
     return (
         <div className={`${styles.row} row`}>
             <div className={`col-md-3 ${styles.profileCol}`}>
                 <div className={styles.profileInfo}>
                     <img
                         className={`${styles.imgResponsive} profile-photo`}
-                        src="https://themified.com/friend-finder/images/users/user-1.jpg"
+                        src={process.env.BASE_URL + '/images/user_1_image.jpg'}
                         alt="Profile"
                     />
                     <h3>Sarah Cruiz</h3>
-                    <p className={styles.textMuted}>Creative Director</p>
                 </div>
             </div>
             <div className={`col-md-9 ${styles.timelineCol}`}>
                 <ul className={`${styles.profileMenu} ${styles.listInline}`}>
                     <li>
-                        <a className={`${styles.active}`} href="https://themified.com/friend-finder/timeline.html">
-                            Timeline 
-                        </a>
+                        <Link className={whichPage == 'timeline' ? styles.active : ''} href="/0/timeline">
+                            Timeline
+                        </Link>
                     </li>
                     <li>
-                        <a href="https://themified.com/friend-finder/timeline-about.html">
+                        <Link className={whichPage == 'timelineEdit' ? styles.active : ''} href="/0/timeline/about">
                             About
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="https://themified.com/friend-finder/timeline-album.html">
+                        <Link className={whichPage == 'timelineAlbum' ? styles.active : ''} href="/0/timeline/album">
                             Album
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="https://themified.com/friend-finder/timeline-friends.html">
+                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href="/0/timeline/friends">
                             Friends
-                        </a>
+                        </Link>
                     </li>
                 </ul>
                 <ul className={`${styles.followMe} ${styles.listInline}`}>

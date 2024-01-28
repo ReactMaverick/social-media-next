@@ -5,7 +5,7 @@ export default function HeaderLazyLoad({ children }) {
     return (
         <header id="header" className={`${styles.mainHeader} ${styles.lazyLoad} lazy-load`} >
             <nav
-                className={`${styles.navMenu} ${styles.navbarFixedTop} navbar navbar-default navbar-fixed-top`}
+                className={`${styles.navMenu} ${styles.navbarFixedTop} navbar navbar-default fixed-top`}
             >
                 {children}
             </nav>

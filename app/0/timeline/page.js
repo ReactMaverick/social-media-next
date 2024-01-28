@@ -1,7 +1,6 @@
 import TimelinePage from "@/components/timeline/timelinePage";
 
-export default function TimelineUser({ params }) {
-
+export default function Timeline() {
     return (
         <TimelinePage />
     )

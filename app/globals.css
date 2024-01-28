@@ -98,7 +98,6 @@ body::-webkit-scrollbar-thumb:vertical:hover {
   padding-left: 10px;
   margin-right: auto;
   margin-left: auto;
-  max-width: 1050px !important;
   flex-wrap: nowrap;
 }
 
