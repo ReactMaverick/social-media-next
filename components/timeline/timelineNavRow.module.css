@@ -28,6 +28,7 @@
     border: 10px solid rgb(255, 255, 255);
     height: 200px;
     width: 200px;
+    cursor: pointer;
 }
 
 .timelineCol {
@@ -103,4 +104,8 @@
     font-weight: 600;
     outline: none;
     border-radius: 30px;
+}
+
+.hiddenFileInput {
+    display: none;
 }

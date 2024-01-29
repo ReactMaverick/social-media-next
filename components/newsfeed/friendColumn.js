@@ -1,7 +1,7 @@
 import styles from './friendColumn.module.css';
 import Link from 'next/link';
 
-export default function FriendColumn({ friendName, friendImg, friendCoverImg }) {
+export default function FriendColumn({ friendName, friendImg, friendCoverImg, friendProfileId }) {
     return (
         <div className={`${styles.friendColumn} col-md-6 col-sm-6`}>
             <div className={`${styles.friendCard}`}>
@@ -22,7 +22,7 @@ export default function FriendColumn({ friendName, friendImg, friendCoverImg }) 
                     <div className="friend-info">
                         <Link
                             className={`pull-right text-green ${styles.pullRight} ${styles.textGreen} ${styles.link}`}
-                            href="https://themified.com/friend-finder/newsfeed-friends.html#"
+                            href=''
                         >
                             My Friend
                         </Link>
@@ -31,7 +31,7 @@ export default function FriendColumn({ friendName, friendImg, friendCoverImg }) 
                         >
                             <Link
                                 className={`profile-link ${styles.profileLink} ${styles.link}`}
-                                href="https://themified.com/friend-finder/timeline.html"
+                                href={`/0/timeline/${friendProfileId}`}
                             >
                                 {friendName}
                             </Link>
