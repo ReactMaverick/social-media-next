@@ -466,7 +466,7 @@ async function getAllFriends(requestedUser) {
         }
 
         // Populate the friend field with details from the 'User' model
-        await Friendship.populate(friends, { path: 'friend', select: 'firstName lastName email image coverImage' });
+        await Friendship.populate(friends, { path: 'friend', select: 'firstName lastName email image coverImage profileId' });
 
         return Response.json({ friends });
 

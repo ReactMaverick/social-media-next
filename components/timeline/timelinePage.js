@@ -5,9 +5,15 @@ import TimelineNav from './timelineNav';
 import TimelineNavMobile from './timelineNavMobile';
 import TimelineNavRow from './timelineNavRow';
 import TimelineNavRowMobile from './timelineNavRowMobile';
+import { useEffect } from 'react';
 
 
-export default function TimelinePage({ timelineUser }) {
+export default function TimelinePage({ timelineUserId, timelineUser, friendshipStatus }) {
+
+    useEffect(() => {
+        // console.log("Timeline User ===> ", timelineUser, friendshipStatus);
+    }, [timelineUser, friendshipStatus])
+
     return (
         <>
             <TimelineContainer>
@@ -15,12 +21,22 @@ export default function TimelinePage({ timelineUser }) {
                     <TimelineCover>
                         {/* For Large Screens */}
                         <TimelineNav>
-                            <TimelineNavRow whichPage='timeline' timelineUser={timelineUser} />
+                            <TimelineNavRow
+                                whichPage='timeline'
+                                timelineUserId={timelineUserId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                            />
                         </TimelineNav>
                         {/* For Large Screens */}
                         {/* For Small Screens */}
                         <TimelineNavMobile>
-                            <TimelineNavRowMobile whichPage='timeline' timelineUser={timelineUser} />
+                            <TimelineNavRowMobile
+                                whichPage='timeline'
+                                timelineUserId={timelineUserId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                            />
                         </TimelineNavMobile>
                         {/* For Small Screens */}
                     </TimelineCover>

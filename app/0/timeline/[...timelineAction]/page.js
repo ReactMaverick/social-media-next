@@ -3,24 +3,85 @@ import TimelinePage from "@/components/timeline/timelinePage";
 import TimelineEditPage from "@/components/timeline//timelineEditPage";
 import { useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
-import { useEffect } from "react";
+import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
+import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
+import { fetchAllFriends, addFriend, removeFriend, selectFriends, selectSentFriendRequests, selectReceivedFriendRequests, fetchSentFriendRequests, fetchReceivedFriendRequests } from '@/utils/features/friendsSlice';
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Timeline({ params }) {
     // console.log(params);
 
     const [profileId, page] = params.timelineAction;
 
+    const [timelineUser, setTimelineUser] = useState(null);
+
+    const [friendshipStatus, setFriendshipStatus] = useState(null);
+
     // console.log(profileId, page);
 
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch();
 
-    const currentUser = useAppSelector((state) => {
-        // console.log('Redux state:', state);
-        return selectCurrentUser(state);
-    });
+    const currentUser = useSelector(selectCurrentUser);
 
-    // console.log('Current User in Timeline Page:', currentUser);
+    const posts = useSelector(selectPosts);
+
+    const users = useSelector(selectAllUsers);
+
+    const friends = useSelector(selectFriends);
+
+    const sentFriendRequests = useSelector(selectSentFriendRequests);
+
+    const receivedFriendRequests = useSelector(selectReceivedFriendRequests);
+
+    useEffect(() => {
+        dispatch(fetchAllPosts());
+        dispatch(fetchAllUsers());
+        dispatch(fetchAllFriends());
+        dispatch(fetchSentFriendRequests());
+        dispatch(fetchReceivedFriendRequests());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (currentUser?.profileId === profileId) {
+            console.log("if condition => ", currentUser.profileId, profileId);
+            setTimelineUser(currentUser)
+            setFriendshipStatus('currentUser');
+        } else {
+            for (const user of users) {
+                if (user?.profileId === profileId) {
+                    console.log("else condition => ", user.profileId, profileId);
+                    setTimelineUser(user)
+                }
+            };
+        }
+
+        for (const friend of friends) {
+            if (friend?.friend?.profileId === profileId) {
+                // Existing friend
+                setFriendshipStatus('friend')
+            }
+        }
+
+        // console.log(friendshipStatus);
+
+    }, [currentUser, users, timelineUser, friends, friendshipStatus])
+
+
+    // console.log("Posts ===> ", posts);
+
+    // console.log("Users ===> ", users);
+
+    // console.log("All Friends ===> ", friends);
+
+    // console.log("Sent Friend Requests ===> ", sentFriendRequests);
+
+    // console.log("Received Friend Requests ===> ", receivedFriendRequests);
+
+
+    // console.log('Current User in Timeline Page:', currentUser, timelineUser);
 
     const { data: session, status } = useSession()
 
@@ -37,13 +98,13 @@ export default function Timeline({ params }) {
         // router.push('/profile');
     }, [dispatch, session]);
 
-    if (status === "authenticated") {
+    if (status === "authenticated" && timelineUser && friendshipStatus) {
         // Authenticated User
-
+        // console.log(timelineUser);
         switch (page) {
             case 'edit':
                 return (
-                    <TimelineEditPage timelineUser={profileId} />
+                    <TimelineEditPage timelineUserId={profileId} timelineUser={timelineUser} />
                 )
 
             case 'about':
@@ -63,7 +124,11 @@ export default function Timeline({ params }) {
 
             default:
                 return (
-                    <TimelinePage timelineUser={profileId} />
+                    <TimelinePage
+                        timelineUserId={profileId}
+                        timelineUser={timelineUser}
+                        friendshipStatus={friendshipStatus}
+                    />
                 )
         }
     } else if (status === "loading") {

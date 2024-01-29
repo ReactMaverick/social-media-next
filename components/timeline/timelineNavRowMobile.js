@@ -1,7 +1,7 @@
 import styles from './timelineNavRowMobile.module.css';
 import Link from 'next/link';
 
-export default function TimelineNavRowMobile({ whichPage, timelineUser }) {
+export default function TimelineNavRowMobile({ whichPage, timelineUserId, timelineUser, friendshipStatus }) {
     return (
         <>
             <div
@@ -9,12 +9,12 @@ export default function TimelineNavRowMobile({ whichPage, timelineUser }) {
             >
                 <img
                     className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
-                    src={process.env.BASE_URL + '/images/user_1_image.jpg'}
+                    src={process.env.BASE_URL + timelineUser.image}
                 />
                 <h4
                     className={styles.h4}
                 >
-                    Sarah Cruiz
+                    {timelineUser.firstName + ' ' + timelineUser.lastName}
                 </h4>
             </div>
 
@@ -27,7 +27,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUser }) {
                     <li
                     >
                         <Link
-                            href={"/0/timeline/" + timelineUser}
+                            href={"/0/timeline/" + timelineUserId}
                             className={whichPage == 'timeline' ? styles.active : ''}
                         >
                             Timeline
@@ -38,7 +38,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUser }) {
                     >
                         <Link
                             className={whichPage == 'timelineEdit' ? styles.active : ''}
-                            href={"/0/timeline/" + timelineUser + "/about"}
+                            href={"/0/timeline/" + timelineUserId + "/about"}
 
                         >
                             About
@@ -48,7 +48,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUser }) {
 
                     >
                         <Link
-                            href={"/0/timeline/" + timelineUser + "/album"}
+                            href={"/0/timeline/" + timelineUserId + "/album"}
                             className={whichPage == 'timelineAlbum' ? styles.active : ''}
                         >
                             Album
@@ -58,18 +58,17 @@ export default function TimelineNavRowMobile({ whichPage, timelineUser }) {
 
                     >
                         <Link
-                            href={"/0/timeline/" + timelineUser + "/friends"}
+                            href={"/0/timeline/" + timelineUserId + "/friends"}
                             className={whichPage == 'timelineFriends' ? styles.active : ''}
                         >
                             Friends
                         </Link>
                     </li>
                 </ul>
-                <button
-                    className={`btn-primary ${styles.btnPrimary}`}
-                >
-                    Add Friend
-                </button>
+                {friendshipStatus == 'friend' ?
+                    <button className={`${styles.btnPrimary}`}>Friend</button> :
+                    <button className={`${styles.btnPrimary}`}>Add Friend</button>
+                }
             </div>
         </>
     );
