@@ -14,7 +14,9 @@ export async function POST(req, res) {
         const buffer = Buffer.from(bytes);
 
         // Generate a unique filename to avoid conflicts
-        const uniqueFilename = `${Date.now()}_${uploadedFile.name}`;
+        const uniqueFilename = `${Date.now()}_${uploadedFile.name.replace(/\s/g, '')}`;
+
+        // console.log(uniqueFilename);
 
         // Determine the type of file (image or video)
         const fileType = uploadedFile.type.startsWith('image/') ? 'images' : 'videos';

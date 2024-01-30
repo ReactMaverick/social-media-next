@@ -72,7 +72,7 @@ export default function NewsfeedFriendsPage({ currentUser }) {
                                             friendProfileId={friend.friend.profileId}
                                             friendName={`${friend.friend.firstName} ${friend.friend.lastName}`}
                                             friendImg={(friend.friend.image) !== '' ? (friend.friend.image) : '../../images/no_user.webp'}
-                                            friendCoverImg={process.env.BASE_URL + `/images/profile_card_cover.jpg`}
+                                            friendCoverImg={(friend.friend.coverImage) !== '' ? (friend.friend.coverImage) : `/images/profile_card_cover.jpg`}
                                         />
                                     )}
                                 </FriendList>

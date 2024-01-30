@@ -18,7 +18,11 @@ export default function TimelinePage({ timelineUserId, timelineUser, friendshipS
         <>
             <TimelineContainer>
                 <Timeline>
-                    <TimelineCover>
+                    <TimelineCover
+                        timelineUserId={timelineUserId}
+                        timelineUser={timelineUser}
+                        friendshipStatus={friendshipStatus}
+                    >
                         {/* For Large Screens */}
                         <TimelineNav>
                             <TimelineNavRow
