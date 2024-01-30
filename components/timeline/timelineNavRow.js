@@ -66,6 +66,10 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         e.stopPropagation();
     };
 
+    const handleTimelineColClick = (e) => {
+        e.stopPropagation();
+    };
+
     return (
         <div className={`${styles.row} row`}>
             <div className={`col-md-3 ${styles.profileCol}`}>
@@ -100,7 +104,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                     onChange={handleProfileImageChange}
                 />
             }
-            <div className={`col-md-9 ${styles.timelineCol}`}>
+            <div className={`col-md-9 ${styles.timelineCol}`} onClick={handleTimelineColClick}>
                 <ul className={`${styles.profileMenu} ${styles.listInline}`}>
                     <li>
                         <Link className={whichPage == 'timeline' ? styles.active : ''} href={"/0/timeline/" + timelineUserId}>

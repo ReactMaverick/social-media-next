@@ -14,6 +14,11 @@ export default function TimelinePage({ timelineUserId, timelineUser, friendshipS
         // console.log("Timeline User ===> ", timelineUser, friendshipStatus);
     }, [timelineUser, friendshipStatus])
 
+    const handleTimelineNavClick = (e) => {
+        console.log("Clicked");
+        e.stopPropagation();
+    }
+
     return (
         <>
             <TimelineContainer>
@@ -24,7 +29,8 @@ export default function TimelinePage({ timelineUserId, timelineUser, friendshipS
                         friendshipStatus={friendshipStatus}
                     >
                         {/* For Large Screens */}
-                        <TimelineNav>
+                        <TimelineNav
+                        >
                             <TimelineNavRow
                                 whichPage='timeline'
                                 timelineUserId={timelineUserId}
