@@ -46,13 +46,13 @@ export default function Timeline({ params }) {
 
     useEffect(() => {
         if (currentUser?.profileId === profileId) {
-            console.log("if condition => ", currentUser.profileId, profileId);
+            // console.log("if condition => ", currentUser, profileId);
             setTimelineUser(currentUser)
             setFriendshipStatus('currentUser');
         } else {
             for (const user of users) {
                 if (user?.profileId === profileId) {
-                    console.log("else condition => ", user.profileId, profileId);
+                    // console.log("else condition => ", user, profileId);
                     setTimelineUser(user)
                 }
             };

@@ -27,7 +27,7 @@ export async function POST(req) {
                     const data = await response.json();
                     const updatedUser = await User.findOneAndUpdate(
                         { _id: session.user.id },
-                        { $set: { image: data.filePath } },
+                        { $set: { coverImage: data.filePath } },
                         { new: true }
                     )
                     return Response.json({ status: 200, message: 'File uploaded successfully', updatedUser: updatedUser });
@@ -58,7 +58,7 @@ export async function DELETE() {
         if (session?.user) {
             const updatedUser = await User.findOneAndUpdate(
                 { _id: session.user.id },
-                { $unset: { image: 1 } },
+                { $unset: { coverImage: 1 } },
                 { new: true }
             );
             return Response.json({ status: 200, message: 'File Delete successfully', updatedUser: updatedUser });

@@ -9,6 +9,8 @@
     height: 200px;
     margin: auto;
     width: 200px;
+    cursor: pointer;
+    object-fit: cover;
 }
 
 .h4 {
@@ -76,4 +78,8 @@
 .btnPrimary:hover {
     background: #149AC9;
     transition: all 1s;
+}
+
+.hiddenFileInput {
+    display: none;
 }

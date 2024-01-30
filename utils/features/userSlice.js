@@ -18,13 +18,13 @@ export const fetchAllUsers = createAsyncThunk('user/fetchAllUsers', async () => 
 });
 
 // Update User Profile Picture
-export const updateProfilePictureUser = createAsyncThunk('user/updateProfilePictureUser', async ({ selectedImage }) => {
+export const updateProfilePictureUser = createAsyncThunk('user/updateProfilePictureUser', async ({ selectedProfileImage }) => {
     try {
 
-        console.log(selectedImage);
+        console.log(selectedProfileImage);
         const fileData = new FormData();
 
-        fileData.append('image', selectedImage);
+        fileData.append('image', selectedProfileImage);
 
         const response = await fetch('/api/1.0/users/profilePic', {
             method: 'POST',
@@ -33,43 +33,43 @@ export const updateProfilePictureUser = createAsyncThunk('user/updateProfilePict
 
         if (!response.ok) {
             // If the response status is not OK, throw an error
-            throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+            throw new Error(`Failed to upload image. Status: ${response.status}`);
         }
 
         const data = await response.json();
         // console.log("data ==> ", data);
         return { userId: data.updatedUser._id, newProfileImage: data.updatedUser.image };
     } catch (error) {
-        throw new Error(`Error adding comment: ${error.message}`);
+        throw new Error(`Error adding image: ${error.message}`);
     }
 });
 
 // // Update User Cover Picture
-// export const updateCoverPictureUser = createAsyncThunk('user/updateCoverPictureUser', async ({ selectedImage }) => {
-//     try {
+export const updateCoverPictureUser = createAsyncThunk('user/updateCoverPictureUser', async ({ selectedCoverImage }) => {
+    try {
 
-//         console.log(selectedImage);
-//         const fileData = new FormData();
+        console.log(selectedCoverImage);
+        const fileData = new FormData();
 
-//         fileData.append('image', selectedImage);
+        fileData.append('image', selectedCoverImage);
 
-//         const response = await fetch('/api/1.0/users/profilePic', {
-//             method: 'POST',
-//             body: fileData,
-//         });
+        const response = await fetch('/api/1.0/users/coverPic', {
+            method: 'POST',
+            body: fileData,
+        });
 
-//         if (!response.ok) {
-//             // If the response status is not OK, throw an error
-//             throw new Error(`Failed to upload image/video. Status: ${response.status}`);
-//         }
+        if (!response.ok) {
+            // If the response status is not OK, throw an error
+            throw new Error(`Failed to upload image. Status: ${response.status}`);
+        }
 
-//         const data = await response.json();
-//         // console.log("data ==> ", data);
-//         return { userId: data.updatedUser._id, newProfileImage: data.updatedUser.image };
-//     } catch (error) {
-//         throw new Error(`Error adding comment: ${error.message}`);
-//     }
-// });
+        const data = await response.json();
+        // console.log("data ==> ", data);
+        return { userId: data.updatedUser._id, newCoverImage: data.updatedUser.coverImage };
+    } catch (error) {
+        throw new Error(`Error adding image: ${error.message}`);
+    }
+});
 
 const userSlice = createSlice({
     name: 'user',
@@ -132,6 +132,37 @@ const userSlice = createSlice({
 
             })
             .addCase(updateProfilePictureUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
+
+        builder
+            .addCase(updateCoverPictureUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateCoverPictureUser.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                // console.log("Updated User Details ==>", action.payload);
+
+                const { userId, newCoverImage } = action.payload;
+
+                // console.log(state.currentUser);
+
+                // Update the currentUser's coverImage if it matches the userId
+                if (state.currentUser && state.currentUser._id === userId) {
+
+                    state.currentUser.coverImage = newCoverImage;
+                }
+
+                // Update the user's coverImage in the users array if applicable
+                state.users = state.users.map(user =>
+                    user._id === userId
+                        ? { ...user, coverImage: newCoverImage }
+                        : user
+                );
+
+            })
+            .addCase(updateCoverPictureUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

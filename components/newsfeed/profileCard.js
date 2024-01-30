@@ -8,6 +8,9 @@ export default function ProfileCard({ currentUser, friends }) {
 
         <div
             className={styles.profileCard}
+            style={{
+                background: `linear-gradient(to bottom, rgba(39, 170, 225, .8), rgba(28, 117, 188, .8)), url("${currentUser.coverImage}") no-repeat`
+            }}
         >
             {currentUser && (
                 <>

@@ -6,24 +6,23 @@ import { updateProfilePictureUser } from '@/utils/features/userSlice';
 
 export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser, friendshipStatus }) {
     // console.log(whichPage);
-
-    useEffect(() => {
-        console.log("Timeline user image in nav ===> ", timelineUser.image);
-
-        setSelectedImage(process.env.BASE_URL + timelineUser.image);
-    }, [timelineUser]);
-
     const dispatch = useAppDispatch();
 
-    const [selectedImage, setSelectedImage] = useState(process.env.BASE_URL + timelineUser.image);
+    const [selectedProfileImage, setSelectedProfileImage] = useState(process.env.BASE_URL + timelineUser.image);
 
     useEffect(() => {
-        // console.log("Selected Image ===> ", selectedImage);
+        // console.log("Timeline user image in nav ===> ", timelineUser.image);
+
+        setSelectedProfileImage(process.env.BASE_URL + timelineUser.image);
+    }, [timelineUser]);
+
+    useEffect(() => {
+        // console.log("Selected Image ===> ", selectedProfileImage);
         const profileImageChange = async () => {
-            if (typeof (selectedImage) == 'object') {
+            if (typeof (selectedProfileImage) == 'object') {
                 try {
                     // Dispatch the addComment action
-                    dispatch(updateProfilePictureUser({ selectedImage }))
+                    dispatch(updateProfilePictureUser({ selectedProfileImage }))
                         .then((action) => {
                             // Handle success if needed
                             // console.log('Profile Picture Updated Successfully!', action);
@@ -41,22 +40,30 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         profileImageChange();
 
 
-    }, [selectedImage])
+    }, [selectedProfileImage])
 
-    const handleImageChange = (event) => {
+    const handleProfileImageChange = (event) => {
         // console.log(event.target);
         const file = event.target.files[0];
 
-        if (typeof (selectedImage) == 'object')
-            URL.revokeObjectURL(URL.createObjectURL(selectedImage));
+        if (typeof (selectedProfileImage) == 'object')
+            URL.revokeObjectURL(URL.createObjectURL(selectedProfileImage));
 
-        setSelectedImage(file); //Set the selected file in selectedImage
+        setSelectedProfileImage(file); //Set the selected file in selectedProfileImage
 
     };
 
-    const handleImageLinkClick = () => {
-        $("#imageInput").click();
-        // console.log(selectedImage);
+    const handleProfileImageLinkClick = (e) => {
+        e.stopPropagation();
+
+        console.log($("#profileImageInput"));
+
+        $("#profileImageInput").click();
+        // console.log(selectedProfileImage);
+    };
+
+    const handleProfileImageInputClick = (e) => {
+        e.stopPropagation();
     };
 
     return (
@@ -66,13 +73,14 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                     {friendshipStatus == 'currentUser' ?
                         <img
                             className={`${styles.imgResponsive} profile-photo`}
-                            src={typeof (selectedImage) == 'string' ? selectedImage : URL.createObjectURL(selectedImage)}
+                            src={typeof (selectedProfileImage) == 'string' ? selectedProfileImage : selectedProfileImage instanceof File || selectedProfileImage instanceof Blob
+                                ? URL.createObjectURL(selectedProfileImage) : {}}
                             alt="Profile"
-                            onClick={handleImageLinkClick}
+                            onClick={handleProfileImageLinkClick}
                         /> :
                         <img
                             className={`${styles.imgResponsive} profile-photo`}
-                            src={selectedImage}
+                            src={selectedProfileImage}
                             alt="Profile"
                         />
                     }
@@ -86,9 +94,10 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                 <input
                     type="file"
                     accept="image/*"
-                    id="imageInput"
+                    id="profileImageInput"
                     className={styles.hiddenFileInput}
-                    onChange={handleImageChange}
+                    onClick={handleProfileImageInputClick}
+                    onChange={handleProfileImageChange}
                 />
             }
             <div className={`col-md-9 ${styles.timelineCol}`}>
