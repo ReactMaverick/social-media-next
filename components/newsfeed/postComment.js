@@ -108,7 +108,7 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
                     </Link>
                     {comment}
                 </p>
-                {(currentUser && (commentUserId === currentUser.id)) && (
+                {(currentUser && (commentUserId === currentUser._id)) && (
                     <Link
                         className={`${styles.btn} ${styles.textRed}`}
                         href=""

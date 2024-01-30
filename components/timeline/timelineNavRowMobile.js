@@ -2,6 +2,8 @@ import styles from './timelineNavRowMobile.module.css';
 import Link from 'next/link';
 
 export default function TimelineNavRowMobile({ whichPage, timelineUserId, timelineUser, friendshipStatus }) {
+
+    // console.log("Timeline User ===> ", timelineUser);
     return (
         <>
             <div

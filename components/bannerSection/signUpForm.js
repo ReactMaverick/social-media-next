@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 import styles from './signUpForm.module.css';
 import { useRouter } from "next/navigation";
+import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 
 const SignUpFormContainer = styled.div`
   box-sizing: border-box;
@@ -237,18 +238,30 @@ export default function SignUpForm() {
     return selectCurrentUser(state);
   });
 
+  const users = useAppSelector(selectAllUsers);
+
+  // console.log(session, status);
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
+
   // console.log('Current User in Home (/0/) Page:', currentUser);
 
   useEffect(() => {
     if (session?.user) {
       // Dispatch action to set current user in Redux store
       // console.log(session.user);
-      dispatch(setCurrentUser(session.user));
+      users?.forEach((user) => {
+        if (user._id === session.user.id)
+          dispatch(setCurrentUser(user));
+      })
+
     }
 
     // Redirect to the desired page
     // router.push('/profile');
-  }, [dispatch, session]);
+  }, [dispatch, session, users]);
 
   const [signInInterface, setSignInInterface] = useState(false);
 

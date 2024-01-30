@@ -8,7 +8,7 @@ export default function NewsfeedNav({ currentUser }) {
             className={styles.newsfeedNav}
         >
             <li
-                key={`newsfeed_${currentUser.id}`}
+                key={`newsfeed_${currentUser._id}`}
             >
                 <Icon icon="mingcute:paper-fill" color='#8dc63f' />
                 <div
@@ -21,7 +21,7 @@ export default function NewsfeedNav({ currentUser }) {
                 </div>
             </li>
             <li
-                key={`peopleNearby_${currentUser.id}`}
+                key={`peopleNearby_${currentUser._id}`}
             >
                 <Icon icon="mdi:people-group" color='#662d91' />
                 <div
@@ -34,7 +34,7 @@ export default function NewsfeedNav({ currentUser }) {
                 </div>
             </li>
             <li
-                key={`newsfeedFriends_${currentUser.id}`}
+                key={`newsfeedFriends_${currentUser._id}`}
             >
                 <Icon icon="mdi:people-group-outline" color='#ee2a7b' />
                 <div
@@ -48,7 +48,7 @@ export default function NewsfeedNav({ currentUser }) {
                 </div>
             </li>
             <li
-                key={`newsfeedMessages_${currentUser.id}`}
+                key={`newsfeedMessages_${currentUser._id}`}
             >
                 <Icon icon="heroicons-solid:chat-alt-2" color='#f7941e' />
                 <div
@@ -62,7 +62,7 @@ export default function NewsfeedNav({ currentUser }) {
                 </div>
             </li>
             <li
-                key={`newsfeedImages_${currentUser.id}`}
+                key={`newsfeedImages_${currentUser._id}`}
             >
                 <Icon icon="entypo:images" color='#1c75bc' />
                 <div
@@ -76,7 +76,7 @@ export default function NewsfeedNav({ currentUser }) {
                 </div>
             </li>
             <li
-                key={`newsfeedVideos_${currentUser.id}`}
+                key={`newsfeedVideos_${currentUser._id}`}
             >
                 <Icon icon="material-symbols:videocam-rounded" color='#9e1f63' />
                 <div

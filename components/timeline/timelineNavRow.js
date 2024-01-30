@@ -1,9 +1,19 @@
 import styles from './timelineNavRow.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { updateProfilePictureUser } from '@/utils/features/userSlice';
 
 export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser, friendshipStatus }) {
     // console.log(whichPage);
+
+    useEffect(() => {
+        console.log("Timeline user image in nav ===> ", timelineUser.image);
+
+        setSelectedImage(process.env.BASE_URL + timelineUser.image);
+    }, [timelineUser]);
+
+    const dispatch = useAppDispatch();
 
     const [selectedImage, setSelectedImage] = useState(process.env.BASE_URL + timelineUser.image);
 
@@ -12,26 +22,16 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         const profileImageChange = async () => {
             if (typeof (selectedImage) == 'object') {
                 try {
-                    const fileData = new FormData();
-
-                    fileData.append('image', selectedImage);
-
-                    const response = await fetch('/api/1.0/users/profilePic', {
-                        method: 'POST',
-                        body: fileData,
-                    });
-
-                    if (!response.ok) {
-                        // If the response status is not OK, throw an error
-                        throw new Error(`Failed to upload image/video. Status: ${response.status}`);
-                    }
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log(data); // Log the response from the server
-
-
-                    }
+                    // Dispatch the addComment action
+                    dispatch(updateProfilePictureUser({ selectedImage }))
+                        .then((action) => {
+                            // Handle success if needed
+                            // console.log('Profile Picture Updated Successfully!', action);
+                        })
+                        .catch((error) => {
+                            // Handle error if needed
+                            console.error('Error Updating picture:', error);
+                        });
                 } catch (error) {
                     console.error(error);
                 }
@@ -77,10 +77,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                         />
                     }
 
-                    {friendshipStatus == 'currentUser' ?
-                        <h3>{timelineUser.name}</h3> :
-                        <h3>{timelineUser.firstName + ' ' + timelineUser.lastName}</h3>
-                    }
+                    <h3>{timelineUser.firstName + ' ' + timelineUser.lastName}</h3>
 
                 </div>
             </div>

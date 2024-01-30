@@ -72,7 +72,7 @@ export default function ChatRoom({ currentUser, users, friends, lastMessages, un
                                 >
                                     {conversations ?
                                         users.map((user) =>
-                                            (user._id !== currentUser.id) &&
+                                            (user._id !== currentUser._id) &&
                                             <TabPaneChat
                                                 key={user._id}
                                                 tabId={user._id}
@@ -84,7 +84,7 @@ export default function ChatRoom({ currentUser, users, friends, lastMessages, un
                                             />
                                         ) :
                                         users.map((user) =>
-                                            (user._id !== currentUser.id) &&
+                                            (user._id !== currentUser._id) &&
                                             <TabPaneChat
                                                 key={user._id}
                                                 tabId={user._id}

@@ -8,7 +8,7 @@ import TimelineNavRowMobile from './timelineNavRowMobile';
 import TimelineEditPageContents from './timelineEditPageContents';
 
 
-export default function TimelineEditPage({ timelineUserId }) {
+export default function TimelineEditPage({ timelineUserId, timelineUser, friendshipStatus }) {
     return (
         <>
             <TimelineContainer>
@@ -16,12 +16,22 @@ export default function TimelineEditPage({ timelineUserId }) {
                     <TimelineCover>
                         {/* For Large Screens */}
                         <TimelineNav>
-                            <TimelineNavRow whichPage='timelineEdit' timelineUserId={timelineUserId} />
+                            <TimelineNavRow
+                                whichPage='timeline'
+                                timelineUserId={timelineUserId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                            />
                         </TimelineNav>
                         {/* For Large Screens */}
                         {/* For Small Screens */}
                         <TimelineNavMobile>
-                            <TimelineNavRowMobile whichPage='timelineEdit' timelineUserId={timelineUserId} />
+                            <TimelineNavRowMobile
+                                whichPage='timeline'
+                                timelineUserId={timelineUserId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                            />
                         </TimelineNavMobile>
                         {/* For Small Screens */}
                     </TimelineCover>

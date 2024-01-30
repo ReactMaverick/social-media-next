@@ -81,7 +81,7 @@ export default function Timeline({ params }) {
     // console.log("Received Friend Requests ===> ", receivedFriendRequests);
 
 
-    // console.log('Current User in Timeline Page:', currentUser, timelineUser);
+    // console.log('Current User in Timeline Page:', currentUser);
 
     const { data: session, status } = useSession()
 
@@ -91,12 +91,16 @@ export default function Timeline({ params }) {
         if (session?.user) {
             // Dispatch action to set current user in Redux store
             // console.log(session.user);
-            dispatch(setCurrentUser(session.user));
+            users?.forEach((user) => {
+                if (user._id === session.user.id)
+                    dispatch(setCurrentUser(user));
+            })
+
         }
 
         // Redirect to the desired page
         // router.push('/profile');
-    }, [dispatch, session]);
+    }, [dispatch, session, users]);
 
     if (status === "authenticated" && timelineUser && friendshipStatus) {
         // Authenticated User
@@ -104,7 +108,11 @@ export default function Timeline({ params }) {
         switch (page) {
             case 'edit':
                 return (
-                    <TimelineEditPage timelineUserId={profileId} timelineUser={timelineUser} />
+                    <TimelineEditPage
+                        timelineUserId={profileId}
+                        timelineUser={timelineUser}
+                        friendshipStatus={friendshipStatus}
+                    />
                 )
 
             case 'about':

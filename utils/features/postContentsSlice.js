@@ -218,6 +218,8 @@ const postContentsSlice = createSlice({
                 const { postId, comment, newCommentId } = action.payload;
                 // console.log("Payload ===> ", action.payload);
 
+                // console.log("State ==> ", state.posts);
+
                 comment._id = newCommentId; //Addd id to the new reply
 
                 state.posts = state.posts.map(post =>

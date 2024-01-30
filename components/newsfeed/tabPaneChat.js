@@ -45,8 +45,8 @@ export default function TabPaneChat({ currentUser, tabId, conversations, isUserT
 
                 >
                     {conversations?.chats?.length ? conversations.chats.map((conversation) => {
-                        const isCurrentUserSender = conversation.sender._id === currentUser.id;
-                        const isCurrentUserReceiver = conversation.receiver._id === currentUser.id;
+                        const isCurrentUserSender = conversation.sender._id === currentUser._id;
+                        const isCurrentUserReceiver = conversation.receiver._id === currentUser._id;
                         const isParticipantIdMatch = conversation.receiver._id === tabId || conversation.sender._id === tabId;
 
                         if (!isCurrentUserSender && isUserImgSet) {

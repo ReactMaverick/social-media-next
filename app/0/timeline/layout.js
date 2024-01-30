@@ -10,6 +10,7 @@ import NavbarForm from '@/components/header/navbarForm';
 import NavbarMenu from '@/components/header/navbarMenu';
 import { useEffect } from "react";
 import Link from "next/link";
+import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 
 
 export default function TimelineLayout({ children }) {
@@ -25,18 +26,30 @@ export default function TimelineLayout({ children }) {
 
     const { data: session, status } = useSession()
 
+    const users = useAppSelector(selectAllUsers);
+
     // console.log(session, status);
+
+    // console.log("Users in layout ===> ", users);
+
+    useEffect(() => {
+        dispatch(fetchAllUsers());
+    }, [dispatch]);
 
     useEffect(() => {
         if (session?.user) {
             // Dispatch action to set current user in Redux store
             // console.log(session.user);
-            dispatch(setCurrentUser(session.user));
+            users?.forEach((user) => {
+                if (user._id === session.user.id)
+                    dispatch(setCurrentUser(user));
+            })
+
         }
 
         // Redirect to the desired page
         // router.push('/profile');
-    }, [dispatch, session]);
+    }, [dispatch, session, users]);
 
     if (status === "authenticated") {
         // Authenticated User

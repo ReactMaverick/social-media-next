@@ -17,6 +17,60 @@ export const fetchAllUsers = createAsyncThunk('user/fetchAllUsers', async () => 
     }
 });
 
+// Update User Profile Picture
+export const updateProfilePictureUser = createAsyncThunk('user/updateProfilePictureUser', async ({ selectedImage }) => {
+    try {
+
+        console.log(selectedImage);
+        const fileData = new FormData();
+
+        fileData.append('image', selectedImage);
+
+        const response = await fetch('/api/1.0/users/profilePic', {
+            method: 'POST',
+            body: fileData,
+        });
+
+        if (!response.ok) {
+            // If the response status is not OK, throw an error
+            throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log("data ==> ", data);
+        return { userId: data.updatedUser._id, newProfileImage: data.updatedUser.image };
+    } catch (error) {
+        throw new Error(`Error adding comment: ${error.message}`);
+    }
+});
+
+// // Update User Cover Picture
+// export const updateCoverPictureUser = createAsyncThunk('user/updateCoverPictureUser', async ({ selectedImage }) => {
+//     try {
+
+//         console.log(selectedImage);
+//         const fileData = new FormData();
+
+//         fileData.append('image', selectedImage);
+
+//         const response = await fetch('/api/1.0/users/profilePic', {
+//             method: 'POST',
+//             body: fileData,
+//         });
+
+//         if (!response.ok) {
+//             // If the response status is not OK, throw an error
+//             throw new Error(`Failed to upload image/video. Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         // console.log("data ==> ", data);
+//         return { userId: data.updatedUser._id, newProfileImage: data.updatedUser.image };
+//     } catch (error) {
+//         throw new Error(`Error adding comment: ${error.message}`);
+//     }
+// });
+
 const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -47,6 +101,37 @@ const userSlice = createSlice({
                 state.users = action.payload;
             })
             .addCase(fetchAllUsers.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
+
+        builder
+            .addCase(updateProfilePictureUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateProfilePictureUser.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                // console.log("Updated User Details ==>", action.payload);
+
+                const { userId, newProfileImage } = action.payload;
+
+                // console.log(state.currentUser);
+
+                // Update the currentUser's image if it matches the userId
+                if (state.currentUser && state.currentUser._id === userId) {
+
+                    state.currentUser.image = newProfileImage;
+                }
+
+                // Update the user's image in the users array if applicable
+                state.users = state.users.map(user =>
+                    user._id === userId
+                        ? { ...user, image: newProfileImage }
+                        : user
+                );
+
+            })
+            .addCase(updateProfilePictureUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

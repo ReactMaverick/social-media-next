@@ -191,7 +191,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                             <Icon icon="f7:hand-thumbsdown-fill" />{" "}
                             {dislikes}
                         </Link>
-                        {(currentUser && (postedUserId === currentUser.id)) && (
+                        {(currentUser && (postedUserId === currentUser._id)) && (
                             <Link
                                 className={`${styles.btn} ${styles.textRed}`}
                                 href="#"

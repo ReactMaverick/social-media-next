@@ -88,7 +88,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
 
                                             // console.log(isFriendRequestSent, user.firstName);
 
-                                            if (user._id !== currentUser.id && !isUserFriend && !isFriendRequestSent && !isFriendRequestReceived) {
+                                            if (user._id !== currentUser._id && !isUserFriend && !isFriendRequestSent && !isFriendRequestReceived) {
                                                 return (
                                                     <FollowUserSuggestionItem
                                                         key={user._id}

@@ -710,7 +710,7 @@ export default function NavbarMenu({ currentUser }) {
                         display: "block",
                         float: "left",
                     }}
-                    key={`${currentUser.id}_logout`}
+                    key={`${currentUser._id}_logout`}
                 >
                     <button
                         onClick={handleLogout}

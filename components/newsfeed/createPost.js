@@ -84,7 +84,7 @@ export default function CreatePost({ currentUser }) {
         try {
             const formData = new FormData();
 
-            formData.append('user', currentUser.id);
+            formData.append('user', currentUser._id);
 
             if (caption.length > 0) {
                 formData.append('caption', caption);
@@ -236,7 +236,7 @@ export default function CreatePost({ currentUser }) {
                                     className={`${styles.publishingTools} ${styles.listInline}`}
                                 >
                                     <li
-                                        key={`compose_${currentUser.id}`}
+                                        key={`compose_${currentUser._id}`}
                                         onClick={handleComposeIconClick}
                                     >
                                         <Link
@@ -248,7 +248,7 @@ export default function CreatePost({ currentUser }) {
                                     </li>
                                     <li
                                         onClick={handleImageLinkClick}
-                                        key={`image_${currentUser.id}`}
+                                        key={`image_${currentUser._id}`}
                                     >
                                         <Link
                                             href=""
@@ -259,7 +259,7 @@ export default function CreatePost({ currentUser }) {
                                     </li>
                                     <li
                                         onClick={handleVideoLinkClick}
-                                        key={`video_${currentUser.id}`}
+                                        key={`video_${currentUser._id}`}
                                     >
                                         <Link
                                             href=""
@@ -269,7 +269,7 @@ export default function CreatePost({ currentUser }) {
                                         </Link>
                                     </li>
                                     {/* <li
-                                        key={`map_${currentUser.id}`}
+                                        key={`map_${currentUser._id}`}
                                     >
                                         <Link
                                             href="#"

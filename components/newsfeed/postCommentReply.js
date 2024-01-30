@@ -50,7 +50,7 @@ export default function PostCommentReply({ profileImgSrc, profileLink, userName,
                 </Link>
                 {commentReply}
             </p>
-            {(currentUser && (commentReplyUserId === currentUser.id)) && (
+            {(currentUser && (commentReplyUserId === currentUser._id)) && (
                 <Link
                     className={`${styles.btn} ${styles.textRed}`}
                     href=""

@@ -73,7 +73,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
             socket = io();
 
             socket.on("connect", () => {
-                const currentUserId = currentUser.id;
+                const currentUserId = currentUser._id;
 
 
                 // console.log(userId, roomId);
@@ -86,7 +86,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
 
             socket.on("user-typing", (data) => {
                 // console.log("Typing ==> ", data);
-                if (data.receiverId === currentUser.id) {
+                if (data.receiverId === currentUser._id) {
                     setIsUserTyping(data.isTyping);
                     setTimeout(() => {
                         const lastLi = $(".tab-pane.active.show .chat-body li:last");
@@ -170,7 +170,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
         // console.log(socket);
 
         if (socket) {
-            const currentUserId = currentUser.id;
+            const currentUserId = currentUser._id;
 
             // console.log(currentUserId, roomId, receiverId, newMessage.trim() !== '');
 
@@ -204,7 +204,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
                     // console.log('Sent message successfully!', action);
 
                     if (socket) {
-                        const currentUserId = currentUser.id;
+                        const currentUserId = currentUser._id;
 
                         // Emit send-message event with user details and room ID
                         socket.emit("send-message", {
