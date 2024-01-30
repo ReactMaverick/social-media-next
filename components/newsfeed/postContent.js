@@ -160,11 +160,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                             >
                                 {postedUserName}
                             </Link>{" "}
-                            <span
-                                className={styles.following}
-                            >
-                                following
-                            </span>
+
                         </h5>
                         <p
                             className={`${styles.textMuted} text-muted`}

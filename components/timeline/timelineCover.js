@@ -10,7 +10,7 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        console.log("Timeline user cover image in timeline cover ===> ", timelineUser.coverImage);
+        // console.log("Timeline user cover image in timeline cover ===> ", timelineUser.coverImage);
 
         setSelectedCoverImage(process.env.BASE_URL + timelineUser.coverImage);
     }, [timelineUser]);
@@ -38,7 +38,7 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
 
         coverImageChange();
 
-        console.log(typeof (selectedCoverImage));
+        // console.log(typeof (selectedCoverImage));
 
 
     }, [selectedCoverImage])

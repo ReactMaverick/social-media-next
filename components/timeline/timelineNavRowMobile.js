@@ -3,19 +3,21 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { updateProfilePictureUser } from '@/utils/features/userSlice';
+import { useRouter } from 'next/navigation';
 
-export default function TimelineNavRowMobile({ whichPage, timelineUserId, timelineUser, friendshipStatus }) {
-
-
+export default function TimelineNavRowMobile({ whichPage, timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus }) {
 
     const dispatch = useAppDispatch();
 
+    const router = useRouter();
+
     const [selectedImage, setSelectedImage] = useState(process.env.BASE_URL + timelineUser.image);
+
 
     useEffect(() => {
         // console.log("Timeline user image in nav ===> ", timelineUser.image);
 
-        console.log(friendshipStatus);
+        // console.log(friendshipStatus);
 
         setSelectedImage(process.env.BASE_URL + timelineUser.image);
     }, [timelineUser]);
@@ -68,7 +70,23 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         // console.log(selectedImage);
     };
 
+    const handleMobileMenuClick = (e) => {
+        e.stopPropagation();
+    };
+
+    const handleEditProfileButton = () => {
+        // console.log("Edit Button Clicked");
+        router.push('/0/timeline/' + timelineUserId + '/edit');
+    }
+
+    const handleConfirmRequestClick = () => {
+        // setFriendshipStatus('friend')
+    }
+
     // console.log("Timeline User ===> ", timelineUser);
+
+    // console.log(setFriendshipStatus);
+
     return (
         <>
             <div
@@ -108,6 +126,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
             <div
                 className="mobile-menu"
+                onClick={handleMobileMenuClick}
             >
                 <ul
                     className={`list-inline ${styles.listInline}`}
@@ -153,10 +172,57 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                         </Link>
                     </li>
                 </ul>
-                {console.log(friendshipStatus)}
-                {friendshipStatus == 'friend' || friendshipStatus == 'currentUser' ?
-                    <button className={`${styles.btnPrimary}`}>Friend</button> :
-                    <button className={`${styles.btnPrimary}`}>Add Friend</button>
+                {friendshipStatus == 'friend' ?
+                    // Button For Existing Friend
+                    <button
+                        className={`${styles.btnPrimary}`}
+                    >
+                        Friend
+                    </button>
+                    // Button For Existing Friend
+                    : (friendshipStatus == 'currentUser') ?
+                        // Button For Current User
+                        <button
+                            className={`${styles.btnPrimary}`}
+                            onClick={handleEditProfileButton}
+                        >
+                            Edit Profile
+                        </button>
+                        // Button For Current User
+                        : (friendshipStatus == 'sentFriendRequest') ?
+                            // Button For Friend Request Sent User
+                            <button
+                                className={`${styles.btnPrimary}`}
+                            >
+                                Cancel Request
+                            </button>
+                            // Button For Friend Request Sent User
+                            : (friendshipStatus == 'receivedFriendRequest') ?
+                                // Button For Friend Request Received User
+                                <>
+                                    <button
+                                        className={`${styles.btnPrimary}`}
+                                        style={{ margin: '5px' }}
+                                        onClick={handleConfirmRequestClick}
+                                    >
+                                        Confirm Friend
+                                    </button>
+                                    <button
+                                        className={`${styles.btnPrimary}`}
+                                        style={{ margin: '5px' }}
+                                    >
+                                        Delete Request
+                                    </button>
+                                </>
+                                // Button For Friend Request Received User
+                                :
+                                // Button For Not Friend User
+                                <button
+                                    className={`${styles.btnPrimary}`}
+                                >
+                                    Add Friend
+                                </button>
+                    // Button For Not Friend User
                 }
             </div>
         </>

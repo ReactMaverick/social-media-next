@@ -1,8 +1,15 @@
 import styles from './profileCard.module.css';
 import Link from "next/link";
 import { Icon } from '@iconify/react';
+import { useRouter } from 'next/navigation';
 
 export default function ProfileCard({ currentUser, friends }) {
+
+    const router = useRouter();
+
+    const handleProfileImageClick = () => {
+        router.push('/0/timeline/' + currentUser.profileId);
+    }
 
     return (
 
@@ -18,6 +25,7 @@ export default function ProfileCard({ currentUser, friends }) {
                         className={styles.profilePhoto}
                         alt="user"
                         src={(currentUser.image) !== '' ? (currentUser.image) : process.env.BASE_URL + '/images/no_user.webp'}
+                        onClick={handleProfileImageClick}
                     />
                     <h5
                     >

@@ -215,6 +215,9 @@ async function addFriendRequest(requestedUser, requestJSON) {
         // Save the new friendship to the database
         await newFriendship.save();
 
+        // Populate the friend field with details from the 'User' model
+        await Friendship.populate(newFriendship, { path: 'friend', select: 'firstName lastName email image coverImage profileId' });
+
         // Respond with a success message
         return Response.json({ message: 'Friend request sent successfully!', newFriendship });
 
@@ -272,7 +275,7 @@ async function acceptFriendRequest(requestedUser, requestJSON) {
             status: 'friend'
         });
 
-        console.log("New Friendship? ==> ", newFriendshipAccept);
+        // console.log("New Friendship? ==> ", newFriendshipAccept);
 
         // Save the new friendship to the database
         await newFriendshipAccept.save();
@@ -282,6 +285,9 @@ async function acceptFriendRequest(requestedUser, requestJSON) {
             { user: requestSentUser._id, friend: requestedUser._id },
             { $set: { status: 'friend' } }
         );
+
+        // Populate the friend field with details from the 'User' model
+        await Friendship.populate(newFriendshipAccept, { path: 'friend', select: 'firstName lastName email image coverImage profileId' });
 
         // Respond with a success message
         return Response.json({ message: 'Friend request accepted successfully!', newFriendshipAccept });
@@ -495,7 +501,7 @@ async function getAllReceivedFriendRequests(requestedUser) {
         }
 
         // Populate the friend field with details from the 'User' model
-        await Friendship.populate(receivedFriendRequests, { path: 'user', select: 'firstName lastName email image coverImage' });
+        await Friendship.populate(receivedFriendRequests, { path: 'user', select: 'firstName lastName email image coverImage profileId' });
 
         return Response.json({ receivedFriendRequests });
 
@@ -524,7 +530,7 @@ async function getAllSentFriendRequests(requestedUser) {
         }
 
         // Populate the friend field with details from the 'User' model
-        await Friendship.populate(sentFriendRequests, { path: 'friend', select: 'firstName lastName email image coverImage' });
+        await Friendship.populate(sentFriendRequests, { path: 'friend', select: 'firstName lastName email image coverImage profileId' });
 
         return Response.json({ sentFriendRequests });
 

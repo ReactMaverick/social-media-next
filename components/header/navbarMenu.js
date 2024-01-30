@@ -91,7 +91,7 @@ export default function NavbarMenu({ currentUser }) {
                     className="dropdown-toggle"
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
-                    href="#"
+                    href=""
                     type="button"
                     style={{
                         boxSizing: "border-box",
@@ -342,7 +342,7 @@ export default function NavbarMenu({ currentUser }) {
                     className="dropdown-toggle"
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
-                    href="#"
+                    href=""
                     type="button"
                     style={{
                         boxSizing: "border-box",
@@ -412,7 +412,7 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/timeline"
+                            href={`/0/timeline/${currentUser?.profileId}`}
                             style={{
                                 boxSizing: "border-box",
                                 backgroundColor: "transparent",
@@ -441,7 +441,7 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/timelineAbout"
+                            href={`/0/timeline/${currentUser?.profileId}/about`}
                             style={{
                                 boxSizing: "border-box",
                                 backgroundColor: "transparent",
@@ -470,7 +470,7 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/timelineAlbum"
+                            href={`/0/timeline/${currentUser?.profileId}/album`}
                             style={{
                                 boxSizing: "border-box",
                                 backgroundColor: "transparent",
@@ -499,7 +499,7 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/timelineFriends"
+                            href={`/0/timeline/${currentUser?.profileId}/friends`}
                             style={{
                                 boxSizing: "border-box",
                                 backgroundColor: "transparent",
@@ -528,7 +528,7 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/editBasicInfo"
+                            href={`/0/timeline/${currentUser?.profileId}/edit`}
                             style={{
                                 boxSizing: "border-box",
                                 backgroundColor: "transparent",
@@ -544,123 +544,7 @@ export default function NavbarMenu({ currentUser }) {
                                 lineHeight: "16px",
                             }}
                         >
-                            Edit: Basic Info
-                        </Link>
-                    </li>
-                    <li
-                        style={{
-                            boxSizing: "border-box",
-                            listStyle: "none",
-                            padding: "5px 0px",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-                            listStyleImage: "initial",
-                        }}
-                    >
-                        <Link
-                            href="/0/editWork"
-                            style={{
-                                boxSizing: "border-box",
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                                outline: "none",
-                                padding: "3px 20px",
-                                whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
-                                fontWeight: 600,
-                                color: "rgb(255, 255, 255)",
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                            }}
-                        >
-                            Edit: Work
-                        </Link>
-                    </li>
-                    <li
-                        style={{
-                            boxSizing: "border-box",
-                            listStyle: "none",
-                            padding: "5px 0px",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-                            listStyleImage: "initial",
-                        }}
-                    >
-                        <Link
-                            href="/0/editInterests"
-                            style={{
-                                boxSizing: "border-box",
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                                outline: "none",
-                                padding: "3px 20px",
-                                whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
-                                fontWeight: 600,
-                                color: "rgb(255, 255, 255)",
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                            }}
-                        >
-                            Edit: Interests
-                        </Link>
-                    </li>
-                    <li
-                        style={{
-                            boxSizing: "border-box",
-                            listStyle: "none",
-                            padding: "5px 0px",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-                            listStyleImage: "initial",
-                        }}
-                    >
-                        <Link
-                            href="/0/editProfileSettings"
-                            style={{
-                                boxSizing: "border-box",
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                                outline: "none",
-                                padding: "3px 20px",
-                                whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
-                                fontWeight: 600,
-                                color: "rgb(255, 255, 255)",
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                            }}
-                        >
-                            Account Settings
-                        </Link>
-                    </li>
-                    <li
-                        style={{
-                            boxSizing: "border-box",
-                            listStyle: "none",
-                            padding: "5px 0px",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-                            listStyleImage: "initial",
-                        }}
-                    >
-                        <Link
-                            href="/0/editProfilePassword"
-                            style={{
-                                boxSizing: "border-box",
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                                outline: "none",
-                                padding: "3px 20px",
-                                whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
-                                fontWeight: 600,
-                                color: "rgb(255, 255, 255)",
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                            }}
-                        >
-                            Change Password
+                            Edit
                         </Link>
                     </li>
                 </ul>

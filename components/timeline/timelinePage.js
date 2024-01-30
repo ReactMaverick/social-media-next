@@ -8,16 +8,11 @@ import TimelineNavRowMobile from './timelineNavRowMobile';
 import { useEffect } from 'react';
 
 
-export default function TimelinePage({ timelineUserId, timelineUser, friendshipStatus }) {
+export default function TimelinePage({ timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus }) {
 
     useEffect(() => {
         // console.log("Timeline User ===> ", timelineUser, friendshipStatus);
-    }, [timelineUser, friendshipStatus])
-
-    const handleTimelineNavClick = (e) => {
-        console.log("Clicked");
-        e.stopPropagation();
-    }
+    }, [timelineUser, friendshipStatus, setFriendshipStatus])
 
     return (
         <>
@@ -36,6 +31,7 @@ export default function TimelinePage({ timelineUserId, timelineUser, friendshipS
                                 timelineUserId={timelineUserId}
                                 timelineUser={timelineUser}
                                 friendshipStatus={friendshipStatus}
+                                setFriendshipStatus={setFriendshipStatus}
                             />
                         </TimelineNav>
                         {/* For Large Screens */}
@@ -46,6 +42,7 @@ export default function TimelinePage({ timelineUserId, timelineUser, friendshipS
                                 timelineUserId={timelineUserId}
                                 timelineUser={timelineUser}
                                 friendshipStatus={friendshipStatus}
+                                setFriendshipStatus={setFriendshipStatus}
                             />
                         </TimelineNavMobile>
                         {/* For Small Screens */}

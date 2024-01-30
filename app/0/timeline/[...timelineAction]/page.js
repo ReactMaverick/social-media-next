@@ -59,13 +59,39 @@ export default function Timeline({ params }) {
         }
 
         for (const friend of friends) {
+            // console.log(friend);
             if (friend?.friend?.profileId === profileId) {
                 // Existing friend
                 setFriendshipStatus('friend')
             }
         }
 
-        // console.log(friendshipStatus);
+        for (const friendRequest of sentFriendRequests) {
+            // console.log(friend);
+            if (friendRequest?.friend?.profileId === profileId) {
+                // Existing friend request sent
+                setFriendshipStatus('sentFriendRequest')
+            }
+        }
+
+        for (const friendRequest of receivedFriendRequests) {
+            // console.log(friend);
+            if (friendRequest?.user?.profileId === profileId) {
+                // Existing friend request sent
+                setFriendshipStatus('receivedFriendRequest')
+            }
+        }
+
+        const isFriend = friends.some(friend => friend?.friend?.profileId === profileId);
+
+        const isFriendRequestSent = sentFriendRequests.some(friendRequest => friendRequest?.friend?.profileId === profileId);
+
+        const isFriendRequestReceived = receivedFriendRequests.some(friendRequest => friendRequest?.user?.profileId === profileId);
+
+        // console.log(friendshipStatus, isFriend, isFriendRequestSent, isFriendRequestReceived);
+
+        if (!isFriend && !isFriendRequestSent && !isFriendRequestReceived && !friendshipStatus)
+            setFriendshipStatus('notFriend')
 
     }, [currentUser, users, timelineUser, friends, friendshipStatus])
 
@@ -74,7 +100,7 @@ export default function Timeline({ params }) {
 
     // console.log("Users ===> ", users);
 
-    // console.log("All Friends ===> ", friends);
+    console.log("All Friends ===> ", friends);
 
     // console.log("Sent Friend Requests ===> ", sentFriendRequests);
 
@@ -112,6 +138,7 @@ export default function Timeline({ params }) {
                         timelineUserId={profileId}
                         timelineUser={timelineUser}
                         friendshipStatus={friendshipStatus}
+                        setFriendshipStatus={setFriendshipStatus}
                     />
                 )
 
@@ -136,6 +163,7 @@ export default function Timeline({ params }) {
                         timelineUserId={profileId}
                         timelineUser={timelineUser}
                         friendshipStatus={friendshipStatus}
+                        setFriendshipStatus={setFriendshipStatus}
                     />
                 )
         }
