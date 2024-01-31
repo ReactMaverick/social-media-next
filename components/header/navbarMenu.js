@@ -39,6 +39,7 @@ export default function NavbarMenu({ currentUser }) {
                 marginRight: "-15px",
                 float: "right",
                 flexDirection: "row",
+                
             }}
         >
             <li

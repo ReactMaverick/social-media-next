@@ -1,0 +1,70 @@
+.heading {
+    color: #6d6e71;
+    margin: 0 auto 20px;
+    font-size: 18px;
+  }
+  
+  .heading svg {
+    margin-right: 15px;
+    color: #27aae1;
+  }
+  
+  .line {
+    background: #f1f2f2;
+    height: 1px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .organization {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.imgOrg {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.para{
+    margin: 0;
+}
+.proHeading{
+    color: #27aae1;
+    font-size: 14px;
+    font-weight: 600;
+}
+.organizationUl{
+    display: grid;
+    gap: 15px;
+}
+.mapSection{
+    height: 300px;
+    width: 100%;
+}
+.map{
+    border: none;
+    height: 100%;
+    width: 100%;
+}
+.interests{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.intIcons{
+font-size: 25px;
+    color: #8dc63f;
+    cursor: pointer;
+}
+.languageList{
+    list-style-image: url(https://themified.com/friend-finder/images/bullet.png);
+}
+.editProfile {
+    display: grid;
+    gap: 30px;
+    margin-bottom: 30px;
+  }

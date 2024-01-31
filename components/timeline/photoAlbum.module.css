@@ -1,0 +1,58 @@
+.heading {
+    color: #6d6e71;
+    margin: 0 auto 20px;
+    font-size: 18px;
+  }
+  
+  .heading svg {
+    margin-right: 15px;
+    color: #27aae1;
+  }
+  
+  .line {
+    background: #f1f2f2;
+    height: 1px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .imagesGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+  .images{
+    height: auto;
+    width: auto;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.5s all ease-in-out;
+  }
+  .images:hover{
+    border-radius: 100%; 
+  } 
+
+  .images:hover .hoverBtn{
+    transform: translate(-50%, -50%) scale(1);
+    border-radius: 100%;
+  }
+
+.hoverBtn{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    background: rgb(0 0 0 / 42%);
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 1;
+    color: #fff;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s all ease-in-out;
+}
+
+ 

@@ -323,3 +323,8 @@ body::-webkit-scrollbar-thumb:vertical:hover {
 .contact-list {
   width: 100%;
 }
+.gridimage img{
+  max-width: 100%;
+  width: 100%;
+
+}
