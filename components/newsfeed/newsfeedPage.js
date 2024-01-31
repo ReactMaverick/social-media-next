@@ -66,56 +66,67 @@ export default function NewsfeedPage({ currentUser }) {
                             <NewsfeedMiddleColumn>
                                 <CreatePost currentUser={currentUser} />
 
-                                {posts.map((post) =>
-                                    <PostContent
-                                        key={post._id}
-                                        postId={post._id}
-                                        postImgSrc={post.image}
-                                        postVideSrc={post.video}
-                                        postUserImgSrc={(post.user.image) !== '' ? (post.user.image) : '../../images/no_user.webp'}
-                                        postUserTimelineLink={`/0/timeline/${post.user.profileId}`}
-                                        postedUserName={`${post.user.firstName} ${post.user.lastName}`}
-                                        updateStatusText={getTimeElapsed(post.createdAt)}
-                                        likes={post.likes.length}
-                                        dislikes={post.dislikes.length}
-                                        postCaption={post.caption}
-                                        currentUserImgSrc={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
-                                        currentUser={currentUser}
-                                        postedUserId={post.user._id}
-                                    >
-                                        {(post?.comments?.length > 0) && post.comments.map((comment) =>
-                                            <PostComment
-                                                key={comment._id}
-                                                profileImgSrc={(comment.user.image) !== '' ? (comment.user.image) : '../../images/no_user.webp'}
-                                                profileLink={`/0/timeline/${comment.user.profileId}`}
-                                                userName={`${comment.user.firstName} ${comment.user.lastName}`}
-                                                comment={comment.content}
-                                                commentUserId={comment.user._id}
-                                                currentUser={currentUser}
-                                                commentId={comment._id}
+                                {(posts && friends) && posts.map((post) => {
+                                    const isFriendPosted = friends.some(friend => friend.friend._id === post.user._id);
+
+                                    const isCurrentUserPosted = currentUser._id === post.user._id;
+
+                                    // console.log(isFriendPosted, isCurrentUserPosted);
+
+                                    if (isCurrentUserPosted || isFriendPosted) {
+                                        return (
+                                            <PostContent
+                                                key={post._id}
                                                 postId={post._id}
+                                                postImgSrc={post.image}
+                                                postVideSrc={post.video}
+                                                postUserImgSrc={(post.user.image) !== '' ? (post.user.image) : '../../images/no_user.webp'}
+                                                postUserTimelineLink={`/0/timeline/${post.user.profileId}`}
+                                                postedUserName={`${post.user.firstName} ${post.user.lastName}`}
+                                                updateStatusText={getTimeElapsed(post.createdAt)}
+                                                likes={post.likes.length}
+                                                dislikes={post.dislikes.length}
+                                                postCaption={post.caption}
                                                 currentUserImgSrc={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
+                                                currentUser={currentUser}
+                                                postedUserId={post.user._id}
                                             >
-                                                {(comment?.replyComment?.length > 0) && comment.replyComment.map((reply) =>
-
-                                                    <PostCommentReply
-                                                        key={reply._id}
-                                                        profileImgSrc={(reply.user.image) !== '' ? (reply.user.image) : '../../images/no_user.webp'}
-                                                        profileLink={`/0/timeline/${reply.user.profileId}`}
-                                                        userName={`${reply.user.firstName} ${reply.user.lastName}`}
-                                                        commentReply={reply.replyContent}
-                                                        commentReplyUserId={reply.user._id}
+                                                {(post?.comments?.length > 0) && post.comments.map((comment) =>
+                                                    <PostComment
+                                                        key={comment._id}
+                                                        profileImgSrc={(comment.user.image) !== '' ? (comment.user.image) : '../../images/no_user.webp'}
+                                                        profileLink={`/0/timeline/${comment.user.profileId}`}
+                                                        userName={`${comment.user.firstName} ${comment.user.lastName}`}
+                                                        comment={comment.content}
+                                                        commentUserId={comment.user._id}
                                                         currentUser={currentUser}
-                                                        postId={post._id}
                                                         commentId={comment._id}
-                                                        replyCommentId={reply._id}
-                                                    />
+                                                        postId={post._id}
+                                                        currentUserImgSrc={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
+                                                    >
+                                                        {(comment?.replyComment?.length > 0) && comment.replyComment.map((reply) =>
 
+                                                            <PostCommentReply
+                                                                key={reply._id}
+                                                                profileImgSrc={(reply.user.image) !== '' ? (reply.user.image) : '../../images/no_user.webp'}
+                                                                profileLink={`/0/timeline/${reply.user.profileId}`}
+                                                                userName={`${reply.user.firstName} ${reply.user.lastName}`}
+                                                                commentReply={reply.replyContent}
+                                                                commentReplyUserId={reply.user._id}
+                                                                currentUser={currentUser}
+                                                                postId={post._id}
+                                                                commentId={comment._id}
+                                                                replyCommentId={reply._id}
+                                                            />
+
+                                                        )}
+
+                                                    </PostComment>
                                                 )}
-
-                                            </PostComment>
-                                        )}
-                                    </PostContent>
+                                            </PostContent>
+                                        )
+                                    }
+                                }
                                 )}
 
                             </NewsfeedMiddleColumn>

@@ -32,6 +32,8 @@ const userSchema = new mongoose.Schema({
     profileId: { type: String, unique: true, minLength: 18, maxLength: 21, required: true }, // For random profile id
     latitude: { type: String },
     longitude: { type: String },
+    city: { type: String },
+    country: { type: String },
     about_me: { type: String },
     university_name: { type: String },
     passout_year: { type: String },

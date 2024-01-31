@@ -273,6 +273,8 @@ export default function SignUpForm() {
     phone: '',
     dob: '',
     gender: 'Male', // Set a default value
+    city: '',
+    country: '',
     latitude: '',
     longitude: '',
     about_me: '',
