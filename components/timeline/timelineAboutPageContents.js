@@ -32,7 +32,7 @@ export default function TimelineAboutPageContents() {
         </TimelineMiddleColumn>
 
         <TimelineRightColumn>
-          <RightSideBar />
+          {/* <RightSideBar /> */}
         </TimelineRightColumn>
 
       </div>

@@ -21,14 +21,6 @@ const userSchema = new mongoose.Schema({
     },
     dob: { type: Date, required: true },
     gender: { type: String, enum: ["Male", "Female"] },
-    googleId: {
-        type: String,
-        default: null,
-    },
-    facebookId: {
-        type: String,
-        default: null,
-    },
     profileId: { type: String, unique: true, minLength: 18, maxLength: 21, required: true }, // For random profile id
     latitude: { type: String },
     longitude: { type: String },

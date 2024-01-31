@@ -103,7 +103,7 @@ export async function POST(req, res) {
 
         const hashedPassword = await hashPassword(password);
 
-        console.log(capitalizedFirstName, capitalizedLastName);
+        // console.log(capitalizedFirstName, capitalizedLastName);
 
         // Create a new user using the User model
         const newUser = new User({
@@ -135,7 +135,7 @@ export async function POST(req, res) {
             profileId
         });
 
-        // console.log("New User? ==> ", newUser, name, image, hobbies);
+        // console.log("New User? ==> ", newUser, image, hobbies);
 
         // Save the new user to the database
         await newUser.save();

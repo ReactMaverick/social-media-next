@@ -32,7 +32,7 @@ export default function TimelineAlbumPageContents() {
         </TimelineMiddleColumn>
 
         <TimelineRightColumn>
-          <RightSideBar />
+          {/* <RightSideBar /> */}
         </TimelineRightColumn>
 
       </div>

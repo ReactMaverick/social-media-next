@@ -5,7 +5,6 @@ import TimelineAboutPage from '@/components/timeline/timelineAboutPage';
 import TimelineAlbumPage from '@/components/timeline/timelineAlbumPage';
 import TimelineFriendsPage from '@/components/timeline/timelineFriendsPage';
 import { useSession } from "next-auth/react";
-import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
 import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
@@ -96,14 +95,14 @@ export default function Timeline({ params }) {
         if (!isFriend && !isFriendRequestSent && !isFriendRequestReceived && !friendshipStatus)
             setFriendshipStatus('notFriend')
 
-    }, [currentUser, users, timelineUser, friends, friendshipStatus])
+    }, [timelineUser, friends, friendshipStatus])
 
 
     // console.log("Posts ===> ", posts);
 
     // console.log("Users ===> ", users);
 
-    console.log("All Friends ===> ", friends);
+    // console.log("All Friends ===> ", friends);
 
     // console.log("Sent Friend Requests ===> ", sentFriendRequests);
 
@@ -142,6 +141,7 @@ export default function Timeline({ params }) {
                         timelineUser={timelineUser}
                         friendshipStatus={friendshipStatus}
                         setFriendshipStatus={setFriendshipStatus}
+                        currentUser={currentUser}
                     />
                 )
 

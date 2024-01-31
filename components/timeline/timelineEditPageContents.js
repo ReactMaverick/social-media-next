@@ -31,7 +31,7 @@ export default function TimelineEditPageContents() {
         </TimelineMiddleColumn>
 
         <TimelineRightColumn>
-          <RightSideBar />
+          {/* <RightSideBar /> */}
         </TimelineRightColumn>
 
       </div>

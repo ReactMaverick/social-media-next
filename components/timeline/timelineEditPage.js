@@ -8,7 +8,7 @@ import TimelineNavRowMobile from './timelineNavRowMobile';
 import TimelineEditPageContents from './timelineEditPageContents';
 
 
-export default function TimelineEditPage({ timelineUserId, timelineUser, friendshipStatus }) {
+export default function TimelineEditPage({ timelineUserId, timelineUser, friendshipStatus, currentUser }) {
     return (
         <>
             <TimelineContainer>
@@ -41,7 +41,8 @@ export default function TimelineEditPage({ timelineUserId, timelineUser, friends
                     </TimelineCover>
                 </Timeline>
                 {/* Page Contents */}
-                <TimelineEditPageContents />
+                <TimelineEditPageContents
+                />
                 {/* Page Contents */}
             </TimelineContainer>
         </>
