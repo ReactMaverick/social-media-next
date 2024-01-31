@@ -319,11 +319,15 @@ async function deleteFriendRequest(requestedUser, requestJSON) {
             return errorResponse;
         }
 
+        // console.log("Requested User ==> ", requestedUser, "Request Received User ==> ", requestReceivedUser);
+
         // Check if a friendship or friend request already exists
         const existingFriendship = await Friendship.findOne({
-            user: requestedUser._id,
-            friend: requestReceivedUser._id
+            user: requestReceivedUser._id,
+            friend: requestedUser._id
         });
+
+        // console.log(existingFriendship);
 
         if (!existingFriendship) {
             // If the friendship or friend request already exists, return an appropriate response
@@ -336,8 +340,8 @@ async function deleteFriendRequest(requestedUser, requestJSON) {
 
         // Find and delete the friendship document
         await Friendship.findOneAndDelete({
-            user: requestedUser._id,
-            friend: requestReceivedUser._id,
+            user: requestReceivedUser._id,
+            friend: requestedUser._id,
             status: 'request_sent'
         });
 
@@ -411,6 +415,8 @@ async function removeFriend(requestedUser, requestJSON) {
 
         const removeFriendUser = await User.findOne({ profileId: removeFriendUserId });
 
+        console.log("Remove Friend User ===> ", removeFriendUser, "Requested User ===> ", requestedUser);
+
         if (!removeFriendUser) {
             const errorResponse = new Response(
                 JSON.stringify({ error: 'User not found in Database!' }),
@@ -427,6 +433,8 @@ async function removeFriend(requestedUser, requestJSON) {
             ],
             status: 'friend'
         });
+
+        console.log("Existing Friendship ===> ", existingFriendship);
 
         if (!existingFriendship) {
             // If the friendship or friend request already exists, return an appropriate response

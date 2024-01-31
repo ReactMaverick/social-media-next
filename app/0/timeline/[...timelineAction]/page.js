@@ -1,6 +1,9 @@
 'use client'
 import TimelinePage from "@/components/timeline/timelinePage";
 import TimelineEditPage from "@/components/timeline//timelineEditPage";
+import TimelineAboutPage from '@/components/timeline/timelineAboutPage';
+import TimelineAlbumPage from '@/components/timeline/timelineAlbumPage';
+import TimelineFriendsPage from '@/components/timeline/timelineFriendsPage';
 import { useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { useDispatch, useSelector } from 'react-redux';
@@ -144,17 +147,32 @@ export default function Timeline({ params }) {
 
             case 'about':
                 return (
-                    <div>About Page</div>
+                    <TimelineAboutPage
+                        timelineUserId={profileId}
+                        timelineUser={timelineUser}
+                        friendshipStatus={friendshipStatus}
+                        setFriendshipStatus={setFriendshipStatus}
+                    />
                 )
 
             case 'album':
                 return (
-                    <div>Album Page</div>
+                    <TimelineAlbumPage
+                        timelineUserId={profileId}
+                        timelineUser={timelineUser}
+                        friendshipStatus={friendshipStatus}
+                        setFriendshipStatus={setFriendshipStatus}
+                    />
                 )
 
             case 'friends':
                 return (
-                    <div>Friends Page</div>
+                    <TimelineFriendsPage
+                        timelineUserId={profileId}
+                        timelineUser={timelineUser}
+                        friendshipStatus={friendshipStatus}
+                        setFriendshipStatus={setFriendshipStatus}
+                    />
                 )
 
             default:

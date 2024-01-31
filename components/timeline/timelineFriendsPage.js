@@ -5,16 +5,9 @@ import TimelineNav from './timelineNav';
 import TimelineNavMobile from './timelineNavMobile';
 import TimelineNavRow from './timelineNavRow';
 import TimelineNavRowMobile from './timelineNavRowMobile';
-import TimelinePageContents from './timelinePageContents';
-import { useEffect } from 'react';
+import TimelineFriendsPageContents from './timelineFriendsPageContents';
 
-
-export default function TimelinePage({ timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus }) {
-
-    useEffect(() => {
-        // console.log("Timeline User ===> ", timelineUser, friendshipStatus);
-    }, [timelineUser, friendshipStatus, setFriendshipStatus])
-
+export default function TimelineAboutPage({ timelineUserId, timelineUser, friendshipStatus }) {
     return (
         <>
             <TimelineContainer>
@@ -25,32 +18,29 @@ export default function TimelinePage({ timelineUserId, timelineUser, friendshipS
                         friendshipStatus={friendshipStatus}
                     >
                         {/* For Large Screens */}
-                        <TimelineNav
-                        >
+                        <TimelineNav>
                             <TimelineNavRow
-                                whichPage='timeline'
+                                whichPage='timelineFriends'
                                 timelineUserId={timelineUserId}
                                 timelineUser={timelineUser}
                                 friendshipStatus={friendshipStatus}
-                                setFriendshipStatus={setFriendshipStatus}
                             />
                         </TimelineNav>
                         {/* For Large Screens */}
                         {/* For Small Screens */}
                         <TimelineNavMobile>
                             <TimelineNavRowMobile
-                                whichPage='timeline'
+                                whichPage='timelineFriends'
                                 timelineUserId={timelineUserId}
                                 timelineUser={timelineUser}
                                 friendshipStatus={friendshipStatus}
-                                setFriendshipStatus={setFriendshipStatus}
                             />
                         </TimelineNavMobile>
                         {/* For Small Screens */}
                     </TimelineCover>
                 </Timeline>
                 {/* Page Contents */}
-                <TimelinePageContents />
+                <TimelineFriendsPageContents />
                 {/* Page Contents */}
             </TimelineContainer>
         </>

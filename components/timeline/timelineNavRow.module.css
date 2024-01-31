@@ -64,6 +64,7 @@
     padding: 0;
     margin: 0;
     margin-right: 20px;
+    flex-direction: column;
 }
 
 .profileMenu,
@@ -109,4 +110,20 @@
 
 .hiddenFileInput {
     display: none;
+}
+
+.hiddenMenu {
+    position: absolute;
+    top: 45px;
+    background-color: rgb(90, 90, 90);
+    border-radius: 5px;
+    padding: 0 !important;
+}
+
+.hiddenMenu:hover {
+    background-color: rgb(70, 70, 70);
+}
+
+.hiddenMenu div {
+    padding: 6px 15px;
 }

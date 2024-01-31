@@ -15,6 +15,9 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
     const [selectedProfileImage, setSelectedProfileImage] = useState(process.env.BASE_URL + timelineUser.image);
     const [isFriendRequestAccepted, setIsFriendRequestAccepted] = useState(false);
     const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
+    const [isFriend, setIsFriend] = useState(true);
+    const [isFriendButtonHovered, setIsFriendButtonHovered] = useState(false);
+    const [isRemoveFriendHovered, setIsRemoveFriendHovered] = useState(false);
 
     useEffect(() => {
 
@@ -119,6 +122,8 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                 console.log(data);
 
                 setIsFriendRequestSent(true);
+                setIsFriendRequestAccepted(false);
+                setIsFriend(false);
             }
         } catch (e) {
             console.log("error", e)
@@ -153,6 +158,8 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                 dispatch(addFriend(data?.newFriendshipAccept));
 
                 setIsFriendRequestAccepted(true);
+                setIsFriendRequestSent(false);
+                setIsFriend(true);
             }
         } catch (e) {
             console.log("error", e)
@@ -160,6 +167,128 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         }
 
     };
+
+    const handleCancelRequestClick = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            requestSentUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/cancelRequest', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to cancel friend request. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+
+                setIsFriendRequestAccepted(false);
+                setIsFriendRequestSent(false);
+                setIsFriend(false);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleDeleteRequestClick = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            requestReceivedUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/deleteRequest', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to delete friend request. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+
+                setIsFriendRequestAccepted(false);
+                setIsFriendRequestSent(false);
+                setIsFriend(false);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleDeleteFriendClick = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            removeFriendUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/removeFriend', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to delete friend. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+
+                setIsFriendRequestAccepted(false);
+                setIsFriendRequestSent(false);
+                setIsFriend(false);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleFriendButtonMouseEnter = () => {
+        setIsFriendButtonHovered(true);
+    }
+
+    const handleFriendButtonMouseLeave = () => {
+        setIsFriendButtonHovered(false);
+    }
+
+    const handleRemoveFriendButtonEnter = () => {
+        setIsRemoveFriendHovered(true)
+    }
+
+    const handleRemoveFriendButtonLeave = () => {
+        setIsRemoveFriendHovered(false)
+    }
+
+    const handleRemoveFriendClick = () => {
+        handleDeleteFriendClick();
+    }
 
     // console.log(friendshipStatus);
 
@@ -205,7 +334,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineEdit' ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/about"}>
+                        <Link className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/about"}>
                             About
                         </Link>
                     </li>
@@ -222,10 +351,12 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                 </ul>
                 <ul className={`${styles.followMe} ${styles.listInline}`}>
                     <li>
-                        {friendshipStatus == 'friend' || isFriendRequestAccepted ?
+                        {(friendshipStatus == 'friend' && isFriend) || isFriendRequestAccepted ?
                             // Button For Existing Friend
                             <button
                                 className={`${styles.btnPrimary}`}
+                                onMouseEnter={handleFriendButtonMouseEnter}
+                                onMouseLeave={handleFriendButtonMouseLeave}
                             >
                                 Friend
                             </button>
@@ -239,15 +370,16 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                                     Edit Profile
                                 </button>
                                 // Button For Current User
-                                : (friendshipStatus == 'sentFriendRequest' || isFriendRequestSent) ?
+                                : ((friendshipStatus == 'sentFriendRequest' && isFriend) || isFriendRequestSent) ?
                                     // Buttons For Friend Request Sent User
                                     <button
                                         className={`${styles.btnPrimary}`}
+                                        onClick={handleCancelRequestClick}
                                     >
                                         Cancel Request
                                     </button>
                                     // Buttons For Friend Request Sent User
-                                    : (friendshipStatus == 'receivedFriendRequest' && !isFriendRequestAccepted) ?
+                                    : (friendshipStatus == 'receivedFriendRequest' && !isFriendRequestAccepted && isFriend) ?
                                         // Buttons For Friend Request Received User
                                         <>
                                             <button
@@ -260,6 +392,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                                             <button
                                                 className={`${styles.btnPrimary}`}
                                                 style={{ margin: '5px' }}
+                                                onClick={handleDeleteRequestClick}
                                             >
                                                 Delete Request
                                             </button>
@@ -277,6 +410,21 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                             // Button For Not Friend User
                         }
                     </li>
+                    {(isFriendButtonHovered || isRemoveFriendHovered) &&
+                        <li
+                            className={styles.hiddenMenu}
+                            onMouseEnter={handleRemoveFriendButtonEnter}
+                            onMouseLeave={handleRemoveFriendButtonLeave}
+                            onClick={handleRemoveFriendClick}
+                        >
+                            <div
+                                id='#removeFriend'
+                            >
+                                Remove Friend
+                            </div>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </div>

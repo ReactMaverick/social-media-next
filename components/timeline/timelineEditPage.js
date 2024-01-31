@@ -21,7 +21,7 @@ export default function TimelineEditPage({ timelineUserId, timelineUser, friends
                         {/* For Large Screens */}
                         <TimelineNav>
                             <TimelineNavRow
-                                whichPage='timeline'
+                                whichPage='timelineEdit'
                                 timelineUserId={timelineUserId}
                                 timelineUser={timelineUser}
                                 friendshipStatus={friendshipStatus}
@@ -31,7 +31,7 @@ export default function TimelineEditPage({ timelineUserId, timelineUser, friends
                         {/* For Small Screens */}
                         <TimelineNavMobile>
                             <TimelineNavRowMobile
-                                whichPage='timeline'
+                                whichPage='timelineEdit'
                                 timelineUserId={timelineUserId}
                                 timelineUser={timelineUser}
                                 friendshipStatus={friendshipStatus}

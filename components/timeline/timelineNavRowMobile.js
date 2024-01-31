@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { updateProfilePictureUser } from '@/utils/features/userSlice';
 import { useRouter } from 'next/navigation';
+import { addFriend } from '@/utils/features/friendsSlice';
 
 export default function TimelineNavRowMobile({ whichPage, timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus }) {
 
@@ -12,6 +13,10 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
     const router = useRouter();
 
     const [selectedImage, setSelectedImage] = useState(process.env.BASE_URL + timelineUser.image);
+    const [isFriendRequestAccepted, setIsFriendRequestAccepted] = useState(false);
+    const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
+    const [isFriend, setIsFriend] = useState(true);
+    const [isFriendButtonClicked, setIsFriendButtonClicked] = useState(false);
 
 
     useEffect(() => {
@@ -80,7 +85,198 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
     }
 
     const handleConfirmRequestClick = () => {
-        // setFriendshipStatus('friend')
+        handleAcceptFriendRequest();
+    }
+
+    const handleAddRequestClick = () => {
+        handleAddFriendRequest();
+    }
+
+    const handleAddFriendRequest = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            requestReceivedUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/addRequest', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to sent friend request. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+
+                console.log(data);
+
+                setIsFriendRequestSent(true);
+                setIsFriendRequestAccepted(false);
+                setIsFriend(false);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleAcceptFriendRequest = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            requestSentUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/acceptRequest', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to accept friend request. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+
+                dispatch(addFriend(data?.newFriendshipAccept));
+
+                setIsFriendRequestAccepted(true);
+                setIsFriendRequestSent(false);
+                setIsFriend(true);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleCancelRequestClick = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            requestSentUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/cancelRequest', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to cancel friend request. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+
+                setIsFriendRequestAccepted(false);
+                setIsFriendRequestSent(false);
+                setIsFriend(false);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleDeleteRequestClick = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            requestReceivedUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/deleteRequest', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to delete friend request. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+
+                setIsFriendRequestAccepted(false);
+                setIsFriendRequestSent(false);
+                setIsFriend(false);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleDeleteFriendClick = async () => {
+
+        // console.log(userProfileId);
+
+        const data = {
+            removeFriendUserId: timelineUserId
+        }
+
+        try {
+            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/removeFriend', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to delete friend. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+
+                setIsFriendRequestAccepted(false);
+                setIsFriendRequestSent(false);
+                setIsFriend(false);
+            }
+        } catch (e) {
+            console.log("error", e)
+
+        }
+
+    };
+
+    const handleFriendButtonClick = () => {
+        if (isFriendButtonClicked) {
+            setIsFriendButtonClicked(false);
+        } else {
+            setIsFriendButtonClicked(true);
+        }
+    }
+
+    const handleRemoveFriendClick = () => {
+        handleDeleteFriendClick();
+
+        setIsFriendButtonClicked(false);
     }
 
     // console.log("Timeline User ===> ", timelineUser);
@@ -125,7 +321,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
             }
 
             <div
-                className="mobile-menu"
+                className={`mobile-menu ${styles.mobileMenu}`}
                 onClick={handleMobileMenuClick}
             >
                 <ul
@@ -144,7 +340,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
                     >
                         <Link
-                            className={whichPage == 'timelineEdit' ? styles.active : ''}
+                            className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''}
                             href={"/0/timeline/" + timelineUserId + "/about"}
 
                         >
@@ -172,10 +368,11 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                         </Link>
                     </li>
                 </ul>
-                {friendshipStatus == 'friend' ?
+                {(friendshipStatus == 'friend' && isFriend) || isFriendRequestAccepted ?
                     // Button For Existing Friend
                     <button
                         className={`${styles.btnPrimary}`}
+                        onClick={handleFriendButtonClick}
                     >
                         Friend
                     </button>
@@ -189,16 +386,17 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                             Edit Profile
                         </button>
                         // Button For Current User
-                        : (friendshipStatus == 'sentFriendRequest') ?
-                            // Button For Friend Request Sent User
+                        : ((friendshipStatus == 'sentFriendRequest' && isFriend) || isFriendRequestSent) ?
+                            // Buttons For Friend Request Sent User
                             <button
                                 className={`${styles.btnPrimary}`}
+                                onClick={handleCancelRequestClick}
                             >
                                 Cancel Request
                             </button>
-                            // Button For Friend Request Sent User
-                            : (friendshipStatus == 'receivedFriendRequest') ?
-                                // Button For Friend Request Received User
+                            // Buttons For Friend Request Sent User
+                            : (friendshipStatus == 'receivedFriendRequest' && !isFriendRequestAccepted && isFriend) ?
+                                // Buttons For Friend Request Received User
                                 <>
                                     <button
                                         className={`${styles.btnPrimary}`}
@@ -210,19 +408,34 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                                     <button
                                         className={`${styles.btnPrimary}`}
                                         style={{ margin: '5px' }}
+                                        onClick={handleDeleteRequestClick}
                                     >
                                         Delete Request
                                     </button>
                                 </>
-                                // Button For Friend Request Received User
+
+                                // Buttons For Friend Request Received User
                                 :
                                 // Button For Not Friend User
                                 <button
                                     className={`${styles.btnPrimary}`}
+                                    onClick={handleAddRequestClick}
                                 >
                                     Add Friend
                                 </button>
                     // Button For Not Friend User
+                }
+                {(isFriendButtonClicked) &&
+                    <li
+                        className={styles.hiddenMenu}
+                        onClick={handleRemoveFriendClick}
+                    >
+                        <div
+                            id='#removeFriend'
+                        >
+                            Remove Friend
+                        </div>
+                    </li>
                 }
             </div>
         </>

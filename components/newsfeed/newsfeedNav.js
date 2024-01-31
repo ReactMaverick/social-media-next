@@ -20,7 +20,7 @@ export default function NewsfeedNav({ currentUser }) {
                     </Link>
                 </div>
             </li>
-            <li
+            {/* <li
                 key={`peopleNearby_${currentUser._id}`}
             >
                 <Icon icon="mdi:people-group" color='#662d91' />
@@ -32,7 +32,7 @@ export default function NewsfeedNav({ currentUser }) {
                         People Nearby
                     </Link>
                 </div>
-            </li>
+            </li> */}
             <li
                 key={`newsfeedFriends_${currentUser._id}`}
             >
