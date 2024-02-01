@@ -29,7 +29,7 @@ export async function GET(req, { params }) {
                 // Fetch the user from the database using the User model and the provided ID
                 const user = await User.findOne({ profileId: id }) // Fetch by profileId
 
-                console.log("User ===> ", user);
+                // console.log("User ===> ", user);
 
                 // Check if the user was found
                 if (!user) {
@@ -103,12 +103,15 @@ export async function PUT(req, { params, body }) {
 
         // Update user properties based on the request body
         const {
-            username,
+            firstName,
+            lastName,
             email,
             password,
             phone,
             dob,
             gender,
+            city,
+            country,
             latitude,
             longitude,
             about_me,
@@ -128,12 +131,15 @@ export async function PUT(req, { params, body }) {
         } = requestJSON;
 
         // Update only if the fields are provided in the request body
-        if (username) user.username = username;
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
         if (email) user.email = email;
         if (password) user.password = password;
         if (phone) user.phone = phone;
         if (dob) user.dob = dob;
         if (gender) user.gender = gender;
+        if (city) user.city = city;
+        if (country) user.country = country;
         if (latitude) user.latitude = latitude;
         if (longitude) user.longitude = longitude;
         if (about_me) user.about_me = about_me;

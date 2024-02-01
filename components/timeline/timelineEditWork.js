@@ -1,7 +1,95 @@
 import styles from "./editProfile.module.css";
-import { Icon } from "@iconify/react"
+import { Icon } from "@iconify/react";
+import { useState, useEffect } from "react";
+import { updateCurrentUser } from '@/utils/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 
-export default function TimelineEditWork() {
+export default function TimelineEditWork({ currentUser }) {
+
+    const dispatch = useAppDispatch();
+
+    const [educationFormData, setEducationFormData] = useState({
+        university_name: currentUser.university_name,
+        passout_year: currentUser.passout_year,
+        education_details: currentUser.education_details,
+    });
+
+    const [workFormData, setWorkFormData] = useState({
+        company_name: currentUser.company_name,
+        designation: currentUser.designation,
+        company_city: currentUser.company_city,
+        work_details: currentUser.work_details
+    });
+
+    const handleEducationChange = (e) => {
+        const { name, value } = e.target;
+
+        setEducationFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleWorkChange = (e) => {
+        const { name, value } = e.target;
+
+        setWorkFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    useEffect(() => {
+        // console.log("Current User in Edit Info ==> ", currentUser);
+
+    }, [currentUser])
+
+    const handleEducationSaveClick = () => {
+        console.log("Education Form Data ==> ", educationFormData);
+
+        dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: educationFormData }))
+            .then((action) => {
+                // console.log(action)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Education Details Updated!',
+                    text: 'Your education details updated successfully.',
+                }).then((result) => {
+                    // This code will be executed after the user clicks "OK"
+                    // if (result.isConfirmed) {
+                    //     interface
+                    // }
+                });
+            })
+            .catch((error) => {
+                console.error('Error Updating user:', error);
+            });
+    }
+
+    const handleWorkSaveClick = () => {
+        console.log("Work Form Data ==> ", workFormData);
+
+        dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: workFormData }))
+            .then((action) => {
+                // console.log(action)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Work Details Updated!',
+                    text: 'Your work details updated successfully.',
+                }).then((result) => {
+                    // This code will be executed after the user clicks "OK"
+                    // if (result.isConfirmed) {
+                    //     interface
+                    // }
+                });
+            })
+            .catch((error) => {
+                console.error('Error Updating user:', error);
+            });
+    }
+
     return (
         <div className={`${styles.editProfile}`}>
             <div>
@@ -22,73 +110,55 @@ export default function TimelineEditWork() {
                     >
                         <div className={`${styles.row} row`}>
                             <div className={`${styles.formGroup} form-group col-lg-12`}>
-                                <label htmlFor="school">My university</label>
+                                <label htmlFor="school">My University</label>
                                 <input
                                     id="school"
                                     className={`${styles.formControl} form-control input-group-lg`}
                                     type="text"
-                                    name="school"
-                                    title="Enter School"
-                                    placeholder="My School"
-                                    value="Harvard Unversity"
+                                    name="university_name"
+                                    title="Enter University"
+                                    placeholder="Enter university name"
+                                    value={educationFormData.university_name}
+                                    onChange={handleEducationChange}
                                 />
                             </div>
                         </div>
                         <div className={`${styles.row} row`}>
                             <div className={`${styles.formGroup} form-group col-lg-6`}>
-                                <label htmlFor="date-from">From</label>
+                                <label htmlFor="date-from">Passout Year</label>
                                 <input
                                     id="date-from"
                                     className={`${styles.formControl} form-control input-group-lg`}
                                     type="text"
-                                    name="date"
+                                    name="passout_year"
                                     title="Enter a Date"
-                                    placeholder="from"
-                                    value="2012"
+                                    placeholder="Enter year of passout"
+                                    value={educationFormData.passout_year}
+                                    onChange={handleEducationChange}
                                 />
                             </div>
-                            <div className={`${styles.formGroup} form-group col-lg-6`}>
-                                <label htmlFor="date-to">To</label>
-                                <input
-                                    id="date-to"
-                                    className={`${styles.formControl} form-control input-group-lg`}
-                                    type="text"
-                                    name="date"
-                                    title="Enter a Date"
-                                    placeholder="to"
-                                    value="2016"
-                                />
-                            </div>
-                        </div>
-                        <div className={`${styles.row} row`}>
-                            <div className="className={`${styles.formGroup} form-group col-lg-12`}">
-                                <label htmlFor="edu-description">Description</label>
-                                <textarea
-                                    id="edu-description"
-                                    name="description"
-                                    className={`${styles.formControltextarea} form-control`}
-                                    placeholder="Some texts about my education "
-                                    rows={4}
-                                    cols={400}
-                                />
-                            </div>
+
                         </div>
                         <div className={`${styles.row} row`}>
                             <div className={`${styles.formGroup} form-group col-lg-12`}>
-                                <label htmlFor="graduate">Graduated?:-</label>{" "}
-                                <input
-                                    id="graduate"
-                                    type="checkbox"
-                                    name="graduate"
-                                    value="graduate"
-                                    checked
-                                />{" "}
-                                Yes!!
+                                <label htmlFor="edu-description">Education Details</label>
+                                <textarea
+                                    id="edu-description"
+                                    name="education_details"
+                                    className={`${styles.formControltextarea} form-control`}
+                                    placeholder="Details about my education "
+                                    rows={4}
+                                    cols={400}
+                                    value={educationFormData.education_details}
+                                    onChange={handleEducationChange}
+                                />
                             </div>
                         </div>
+
                         <button
                             type="button"
                             className={`${styles.btn} ${styles.btnFull} ${styles.btnPrimary} btn btn-primary`}
+                            onClick={handleEducationSaveClick}
                         >
                             Save Changes
                         </button>
@@ -113,15 +183,16 @@ export default function TimelineEditWork() {
                     >
                         <div className={`${styles.row} row`}>
                             <div className={`${styles.formGroup} form-group col-lg-12`}>
-                                <label htmlFor="school">Company</label>
+                                <label htmlFor="school">Company Name</label>
                                 <input
                                     id="Company"
                                     className={`${styles.formControl} form-control input-group-lg`}
                                     type="text"
-                                    name="Company"
+                                    name="company_name"
                                     title="Enter Company"
-                                    placeholder="My Company"
-                                    value="Envato Inc"
+                                    placeholder="Enter company name"
+                                    value={workFormData.company_name}
+                                    onChange={handleWorkChange}
                                 />
                             </div>
                         </div>
@@ -132,62 +203,40 @@ export default function TimelineEditWork() {
                                     id="Designation"
                                     className={`${styles.formControl} form-control input-group-lg`}
                                     type="text"
-                                    name="Designation"
+                                    name="designation"
                                     title="Enter Designation"
-                                    placeholder="My Designation"
-                                    value="Exclusive Author"
+                                    placeholder="Enter designation"
+                                    value={workFormData.designation}
+                                    onChange={handleWorkChange}
                                 />
                             </div>
                         </div>
-                        <div className={`${styles.row} row`}>
-                            <div className={`${styles.formGroup} form-group col-lg-6`}>
-                                <label htmlFor="date-from">From</label>
-                                <input
-                                    id="date-from"
-                                    className={`${styles.formControl} form-control input-group-lg`}
-                                    type="text"
-                                    name="date"
-                                    title="Enter a Date"
-                                    placeholder="from"
-                                    value="2016"
-                                />
-                            </div>
-                            <div className={`${styles.formGroup} form-group col-lg-6`}>
-                                <label htmlFor="date-to">To</label>
-                                <input
-                                    id="date-to"
-                                    className={`${styles.formControl} form-control input-group-lg`}
-                                    type="text"
-                                    name="date"
-                                    title="Enter a Date"
-                                    placeholder="to"
-                                    value="Present"
-                                />
-                            </div>
-                        </div>
+
                         <div className={`${styles.row} row`}>
                             <div className={`${styles.formGroup} form-group col-lg-12`}>
-                                <label htmlFor="school">City/Town</label>
+                                <label htmlFor="school">Company City/Town</label>
                                 <input
                                     id="City-town"
                                     className={`${styles.formControl} form-control input-group-lg`}
                                     type="text"
-                                    name="City"
+                                    name="company_city"
                                     title="Enter City"
-                                    placeholder="My City"
-                                    value="Melbourne"
+                                    placeholder="Enter company city name"
+                                    value={workFormData.company_city}
+                                    onChange={handleWorkChange}
                                 />
                             </div>
                         </div>
                         <div className={`${styles.row} row`}>
                             <div className={`${styles.formGroup} form-group col-lg-12`}>
-                                <label htmlFor="edu-description">Description</label>
+                                <label htmlFor="edu-description">Work Details</label>
                                 <textarea
                                     id="edu-description"
-                                    name="description"
+                                    name="work_details"
                                     className={`${styles.formControltextarea}`}
-                                    placeholder="Some texts about my education "
-                                    value="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate"
+                                    placeholder="Details about my work"
+                                    value={workFormData.work_details}
+                                    onChange={handleWorkChange}
                                     rows={5}
                                     cols={500}
                                 />
@@ -197,6 +246,7 @@ export default function TimelineEditWork() {
                         <button
                             type="button"
                             className={`${styles.btn} ${styles.btnFull} ${styles.btnPrimary} btn btn-primary`}
+                            onClick={handleWorkSaveClick}
                         >
                             Save Changes
                         </button>

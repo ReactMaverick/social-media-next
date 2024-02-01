@@ -5,8 +5,12 @@ import DayOptions from "./dayOptions";
 import MonthOptions from "./monthOptions";
 import YearOptions from "./yearOptions";
 import CountryOptions from "./countryOptions";
+import { updateCurrentUser } from '@/utils/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 
 export default function TimelineEditInfo({ currentUser }) {
+
+    const dispatch = useAppDispatch();
 
     const [formData, setFormData] = useState({
         firstName: currentUser?.firstName,
@@ -15,7 +19,7 @@ export default function TimelineEditInfo({ currentUser }) {
         day: new Date(currentUser.dob).getDate(),
         month: new Date(currentUser.dob).getMonth(),
         year: new Date(currentUser.dob).getFullYear(),
-        gender: currentUser?.gender?.toLowerCase(),
+        gender: currentUser?.gender,
         city: currentUser?.city,
         country: currentUser?.country,
         aboutMe: currentUser?.about_me,
@@ -35,9 +39,54 @@ export default function TimelineEditInfo({ currentUser }) {
     };
 
     useEffect(() => {
-        console.log("Current User in Edit Info ==> ", currentUser);
+        // console.log("Current User in Edit Info ==> ", currentUser);
 
     }, [currentUser])
+
+    const handleSaveChangesClick = () => {
+        console.log("FormData ==> ", formData);
+
+        // Extract day, month, and year from formData
+        const { firstName, lastName, email, day, month, year, gender, city, country, aboutMe } = formData;
+
+        // Construct a Date object
+        const dobDate = new Date(year, month, day);
+
+        // Format the date string to ISO 8601 format
+        const dobISOString = dobDate.toISOString();
+
+        const updatedFormdata = {
+            firstName,
+            lastName,
+            email,
+            dob: dobISOString,
+            gender,
+            city,
+            country,
+            about_me: aboutMe
+        }
+
+        console.log("Updated form data ==> ", updatedFormdata);
+
+        dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: updatedFormdata }))
+            .then((action) => {
+                // console.log(action)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Profile Info Updated!',
+                    text: 'Your profile details updated successfully.',
+                }).then((result) => {
+                    // This code will be executed after the user clicks "OK"
+                    // if (result.isConfirmed) {
+                    //     interface
+                    // }
+                });
+            })
+            .catch((error) => {
+                console.error('Error Updating user:', error);
+            });
+    }
 
 
     return (
@@ -157,8 +206,8 @@ export default function TimelineEditInfo({ currentUser }) {
                                 <input
                                     type="radio"
                                     name="gender"
-                                    value="male"
-                                    checked={formData.gender === "male"}
+                                    value="Male"
+                                    checked={formData.gender === "Male"}
                                     onChange={handleChange}
                                 />
                                 Male
@@ -167,8 +216,8 @@ export default function TimelineEditInfo({ currentUser }) {
                                 <input
                                     type="radio"
                                     name="gender"
-                                    value="female"
-                                    checked={formData.gender === "female"}
+                                    value="Female"
+                                    checked={formData.gender === "Female"}
                                     onChange={handleChange}
                                 />
                                 Female
@@ -220,6 +269,7 @@ export default function TimelineEditInfo({ currentUser }) {
                         <button
                             type="button"
                             className={`${styles.btn} ${styles.btnFull} ${styles.btnPrimary} btn btn-primary`}
+                            onClick={handleSaveChangesClick}
                         >
                             Save Changes
                         </button>
