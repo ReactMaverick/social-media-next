@@ -71,6 +71,30 @@ export const updateCoverPictureUser = createAsyncThunk('user/updateCoverPictureU
     }
 });
 
+export const updateCurrentUser = createAsyncThunk('user/updateUser', async ({ userProfileId, userData }) => {
+    try {
+        // Perform the API call to update the user with userData
+        const response = await fetch(`/api/1.0/users/${userProfileId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update user');
+        }
+
+        const data = await response.json();
+
+        // console.log("Data ===> ", data);
+        return data.user;
+    } catch (error) {
+        throw new Error(`Error updating user: ${error.message}`);
+    }
+});
+
 const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -163,6 +187,19 @@ const userSlice = createSlice({
 
             })
             .addCase(updateCoverPictureUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
+
+        builder
+            .addCase(updateCurrentUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateCurrentUser.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.currentUser = action.payload; // Update the currentUser with the updated user data
+            })
+            .addCase(updateCurrentUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

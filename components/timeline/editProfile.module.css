@@ -127,10 +127,15 @@
     gap: 10px;
     flex-wrap: wrap;
 }
+
+.interests li {
+position: relative;
+}
+
 .lnkBtn {
     background: #8dc63f;
     color: #fff;
-    padding: 5px 15px;
+    padding: 5px 26px 5px 15px;
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 40px;
@@ -191,4 +196,11 @@ input:checked + .slider:before {
 }
 .forgot_password{
     color: #27aae1;
+}
+
+.removeHobby {
+  position: absolute;
+    top: 25%;
+    right: 5px;
+    cursor: pointer;
 }

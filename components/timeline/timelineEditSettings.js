@@ -1,7 +1,50 @@
 import styles from "./editProfile.module.css";
 import { Icon } from "@iconify/react";
+import { useState, useEffect } from "react";
+import { updateCurrentUser } from '@/utils/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 
-export default function TimelineEditSettings() {
+export default function TimelineEditSettings({ currentUser }) {
+    const dispatch = useAppDispatch();
+
+    const [isTogglePressed, setIsTogglePressed] = useState(false);
+
+    const [formData, setFormData] = useState({
+        follow_me: currentUser.follow_me,
+        send_notification: currentUser.send_notification,
+        enable_tagging: currentUser.enable_tagging,
+    });
+
+    const handleChange = (e) => {
+        const { name, value, checked } = e.target;
+
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: checked,
+        }));
+
+        setIsTogglePressed(true);
+
+    };
+
+    useEffect(() => {
+        if (isTogglePressed) {
+            // console.log(formData);
+
+            dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: formData }))
+                .then((action) => {
+                    // console.log(action)
+
+                })
+                .catch((error) => {
+                    console.error('Error Updating user:', error);
+                });
+
+        }
+    }, [formData])
+
+
+
     return (
         <div className={`${styles.editProfile}`}>
             <div>
@@ -30,8 +73,10 @@ export default function TimelineEditSettings() {
                                     <label className={`${styles.switch}`}>
                                         <input
                                             className={`${styles.inputSwitch}`}
-                                            checked
+                                            checked={formData.follow_me}
+                                            name="follow_me"
                                             type="checkbox"
+                                            onChange={handleChange}
                                         />
                                         <span
                                             className={`${styles.slider} ${styles.round}`}
@@ -60,7 +105,9 @@ export default function TimelineEditSettings() {
                                     <label className={`${styles.switch}`}>
                                         <input
                                             className={`${styles.inputSwitch}`}
-                                            checked
+                                            name="send_notification"
+                                            checked={formData.send_notification}
+                                            onChange={handleChange}
                                             type="checkbox"
                                         />
                                         <span
@@ -72,32 +119,7 @@ export default function TimelineEditSettings() {
                         </div>
                     </div>
                     <div className={`${styles.line}`}></div>
-                    <div className={`${styles.settingsBlock}`}>
-                        <div className={`${styles.row} row`}>
-                            <div className={`col-sm-9`}>
-                                <div className={`${styles.switchDescription}`}>
-                                    <div>
-                                        <strong>Text messages</strong>
-                                    </div>
-                                    <p>Send me messages to my cell phone</p>
-                                </div>
-                            </div>
-                            <div className={`col-sm-3`}>
-                                <div className={`${styles.toggleSwitch}`}>
-                                    <label className={`${styles.switch}`}>
-                                        <input
-                                            className={`${styles.inputSwitch}`}
-                                            checked
-                                            type="checkbox"
-                                        />
-                                        <span
-                                            className={`${styles.slider} ${styles.round}`}
-                                        ></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div className={`${styles.line}`}></div>
                     <div className={`${styles.settingsBlock}`}>
                         <div className={`${styles.row} row`}>
@@ -114,6 +136,9 @@ export default function TimelineEditSettings() {
                                     <label className={`${styles.switch}`}>
                                         <input
                                             className={`${styles.inputSwitch}`}
+                                            name="enable_tagging"
+                                            checked={formData.enable_tagging}
+                                            onChange={handleChange}
                                             type="checkbox"
                                         />
                                         <span
@@ -125,34 +150,7 @@ export default function TimelineEditSettings() {
                         </div>
                     </div>
                     <div className={`${styles.line}`}></div>
-                    <div className={`${styles.settingsBlock}`}>
-                        <div className={`${styles.row} row`}>
-                            <div className={`col-sm-9`}>
-                                <div className={`${styles.switchDescription}`}>
-                                    <div>
-                                        <strong>Enable sound</strong>
-                                    </div>
-                                    <p>
-                                        You'll hear notification sound when someone sends you a
-                                        private message
-                                    </p>
-                                </div>
-                            </div>
-                            <div className={`col-sm-3`}>
-                                <div className={`${styles.toggleSwitch}`}>
-                                    <label className={`${styles.switch}`}>
-                                        <input
-                                            className={`${styles.inputSwitch}`}
-                                            type="checkbox"
-                                        />
-                                        <span
-                                            className={`${styles.slider} ${styles.round}`}
-                                        ></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

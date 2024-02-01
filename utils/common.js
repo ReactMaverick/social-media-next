@@ -24,3 +24,24 @@ export const getTimeElapsed = (createdAt) => {
     const options = { month: 'short', day: 'numeric', year: 'numeric' };
     return createdDate.toLocaleDateString(undefined, options);
 };
+
+export const hobbyIcons = {
+    photography: "ion:bicycle",
+    shopping: "solar:camera-broken",
+    traveling: "guidance:plane",
+    eating: "ion:restaurant-outline",
+    painting: "mdi:paint-outline",
+    drawing: "mdi:paint-outline",
+    writing: "emojione-monotone:writing-hand",
+    cricket: "mdi:cricket",
+    football: "solar:football-bold",
+    soccer: "solar:football-bold",
+    volleyball: "mdi:volleyball",
+    basketball: "mdi:basketball",
+    reading: "streamline:book-reading",
+    cooking: "ph:cooking-pot",
+    gardening: "game-icons:gardening-shears",
+    dancing: "mdi:dance-ballroom",
+    fishing: "icon-park-outline:fishing",
+    other: "material-symbols:interests"
+};
