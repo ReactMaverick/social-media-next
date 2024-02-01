@@ -1,0 +1,90 @@
+.myRow {
+}
+.imagePostBox {
+  background: #f8f8f8;
+  border: 1px solid #f1f2f2;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.imageBox {
+  position: relative;
+  display: block;
+  transition: all 0.5s ease-in-out;
+}
+.imageBox::after {
+    content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  /* background: rgb(0 0 0 / 42%); */
+  transition: all 1s ease 0s;
+}
+.imageBox:hover::after{
+    background-color: rgba(0,0,0, 0.4);
+}
+.BoxItems {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f2f2;
+}
+.likeBox {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5px;
+  color: #8dc63f;
+}
+.likeBox:hover {
+  color: #39b54a;
+}
+
+.userAvtar {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.userAvtarImg {
+  object-fit: cover;
+}
+.userBox {
+  padding: 10px 0 15px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 15px;
+}
+.userCont {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 15px;
+}
+.friend {
+  line-height: 1;
+  color: #8dc63f;
+}
+.userName {
+  line-height: 1;
+  color: #27aae1;
+}
+.disLikeBox {
+  color: #ef4136;
+}
+.disLikeBox:hover {
+  color: #d6100b;
+}
+
+.likeNum {
+  line-height: 1;
+}
+.MainBox {
+  padding: 0px 10px;
+}

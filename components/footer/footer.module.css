@@ -1,0 +1,104 @@
+.footerSec{
+
+    display: "block";
+    background: "rgb(255, 255, 255)";
+    position: "relative";
+}
+.ftrContainer{
+    padding-right: "10px";
+    padding-left: "10px";
+    margin-right: "auto";
+    margin-left: "auto";
+    width: "970px";
+    max-Width: "1050px";
+}
+.footerWrapper{
+    padding: "50px 0px";
+    float: "left";
+    width: "100%";
+}
+.footerLogoWrapper{
+    background-color: "transparent";
+    text-decoration: "none";
+    color: "rgb(39, 170, 225)";
+    outline: "none";
+}
+.footerLogo{
+    border: "0px";
+    vertical-align: "middle";
+    margin-bottom: "20px";
+}
+.socialIcons{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .socialIcon{
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #f1f2f2;
+    border-radius: 4px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #6d6e71;
+    font-size: 16px;
+    transition: all 0.5s ease;
+    
+  }
+  .socialIcon:hover{
+    color: #27aae1;
+    border-color: #27aae1;
+    transform: translateY(-5px);
+  }    
+  .footerHeading{
+    font-weight: 500;
+    line-height: 1.1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: rgb(39, 170, 225);
+  }
+  .footerLinks{
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-left: 15px;
+  }
+  .footerList{
+    list-style-image:
+      url("https://themified.com/friend-finder/images/bullet.png");
+    line-height: 25px;
+  }
+  .footerListItem{
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    color: rgb(109, 110, 113);
+  }
+  .contactListIcon{
+    font-size: 18px;
+    color: rgb(39, 170, 225);
+  }
+  .contactList{
+    list-style: none;
+    padding: 15px 0px;
+    border-bottom: 1px solid rgb(241, 242, 242);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .copyright{
+          background: rgb(35, 31, 32);
+          padding: 12px 0px 4px;
+          text-align: center;
+          color: rgb(255, 255, 255);
+  }
+  .copyrightText{
+    margin: 0px 0px 10px;
+  }
