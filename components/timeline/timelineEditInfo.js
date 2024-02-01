@@ -12,9 +12,9 @@ export default function TimelineEditInfo({ currentUser }) {
         firstName: currentUser?.firstName,
         lastName: currentUser?.lastName,
         email: currentUser?.email,
-        day: "",
-        month: "",
-        year: "",
+        day: new Date(currentUser.dob).getDate(),
+        month: new Date(currentUser.dob).getMonth(),
+        year: new Date(currentUser.dob).getFullYear(),
         gender: currentUser?.gender?.toLowerCase(),
         city: currentUser?.city,
         country: currentUser?.country,
@@ -111,6 +111,7 @@ export default function TimelineEditInfo({ currentUser }) {
                                     className={`${styles.formControl} form-control`}
                                     id="day"
                                     onChange={handleChange}
+                                    name='day'
                                     value={formData.day}
                                 >
                                     <option value="Day">Day</option>
@@ -123,6 +124,7 @@ export default function TimelineEditInfo({ currentUser }) {
                                 <select
                                     className={`${styles.formControl} form-control`}
                                     id="month"
+                                    name='month'
                                     onChange={handleChange}
                                     value={formData.month}
                                 >
@@ -136,6 +138,7 @@ export default function TimelineEditInfo({ currentUser }) {
                                 <select
                                     className={`${styles.formControl} form-control`}
                                     id="year"
+                                    name='year'
                                     value={formData.year}
                                     onChange={handleChange}
                                 >
@@ -190,6 +193,7 @@ export default function TimelineEditInfo({ currentUser }) {
                                 <select
                                     className={`${styles.formControl} form-control`}
                                     id="country"
+                                    name='country'
                                     value={formData.country}
                                     onChange={handleChange}
                                 >
