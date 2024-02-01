@@ -64,9 +64,9 @@ export default function NewsfeedPage({ currentUser }) {
                             </NewsfeedLeftColumn>
 
                             <NewsfeedMiddleColumn>
-                                <CreatePost currentUser={currentUser} />
+                                <CreatePost currentUser={currentUser} friends={friends} />
 
-                                {(posts && friends) && posts.map((post) => {
+                                {(posts && friends) && posts.slice().reverse().map((post) => { // Use slice() to create a copy of the array before reversing
                                     const isFriendPosted = friends.some(friend => friend.friend._id === post.user._id);
 
                                     const isCurrentUserPosted = currentUser._id === post.user._id;

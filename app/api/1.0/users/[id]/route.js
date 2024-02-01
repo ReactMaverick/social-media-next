@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth";
 import User from '@/models/userModel';
 import mongoose from 'mongoose';
+import { hashPassword } from '@/utils/auth';
 
 // Connect to MongoDB
 connectDB();
@@ -134,7 +135,10 @@ export async function PUT(req, { params, body }) {
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
         if (email) user.email = email;
-        if (password) user.password = password;
+        if (password) {
+            const hashedPassword = await hashPassword(password);
+            user.password = hashedPassword;
+        }
         if (phone) user.phone = phone;
         if (dob) user.dob = dob;
         if (gender) user.gender = gender;

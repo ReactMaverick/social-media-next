@@ -2,18 +2,93 @@
 import styles from './createPost.module.css';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { addPost, removePost, clearPosts } from '@/utils/features/postContentsSlice';
 
-export default function CreatePost({ currentUser }) {
+// Import io conditionally to avoid importing it on the server
+let io;
+if (typeof window !== "undefined") {
+    io = require("socket.io-client");
+}
+
+let socket;
+
+export default function CreatePost({ currentUser, friends }) {
     const [caption, setCaption] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedVideo, setSelectedVideo] = useState(null);
+    const [isSocketInitilized, setIsSocketInitialized] = useState(false);
 
     const createPostTextareaRef = useRef(null);
 
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        // Initialize socket only on the client
+        if (io) {
+
+            socketInitializer();
+
+            return () => {
+                if (socket) {
+                    socket.disconnect();
+                }
+            };
+        }
+
+    }, [friends]);
+
+    if (!isSocketInitilized) {
+        const fetchCall = async () => {
+            await fetch('/api/socket');
+        };
+
+        fetchCall();
+
+        setIsSocketInitialized(true);
+    };
+
+    async function socketInitializer() {
+        // Fetch data only on the client
+        if (typeof window !== "undefined") {
+
+            console.log("Initializing socket");
+
+            // console.log(activeTab);
+
+            // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
+
+            socket = io();
+
+            socket.on("connect", () => {
+                const currentUserId = currentUser._id;
+
+
+                // console.log(userId, roomId);
+
+                // Emit join-room event when the component mounts
+                socket.emit("join-newsfeed-room", { userRoomId: currentUserId, friends });
+
+
+            });
+
+            socket.on("new-post", ({ post, postedUserId }) => {
+                // console.log("Received Post Data ==> ", post, postedUserId);
+
+                if (postedUserId !== currentUser._id) {
+                    // Dispatch The current post
+                    console.log("Received Post Data ==> ", post, postedUserId);
+                    dispatch(addPost(post));
+                }
+
+
+            });
+
+
+
+        }
+    }
 
 
     const handleCaptionChange = (e) => {
@@ -118,6 +193,17 @@ export default function CreatePost({ currentUser }) {
 
             // Dispatch The current post
             dispatch(addPost(postData.post));
+
+            if (socket) {
+                const postedUserId = currentUser._id;
+
+                // Emit send-message event with user details and room ID
+                socket.emit("publish-post", {
+                    postedUserId: postedUserId,
+                    post: postData.post,
+                    friends: friends
+                });
+            }
 
             // Additional cleanup or actions after creating the post
             setCaption('');

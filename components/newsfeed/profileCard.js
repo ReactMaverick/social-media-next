@@ -31,10 +31,10 @@ export default function ProfileCard({ currentUser, friends }) {
                     >
                         <Link
                             className={styles.textWhite}
-                            href="/0/timeline"
+                            href={'/0/timeline/' + currentUser.profileId}
 
                         >
-                            {currentUser.name}
+                            {currentUser.firstName + ' ' + currentUser.lastName}
                         </Link>
                     </h5>
                     <Link

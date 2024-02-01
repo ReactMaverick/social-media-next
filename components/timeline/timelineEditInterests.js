@@ -97,7 +97,6 @@ export default function TimelineEditInterests({ currentUser }) {
             .then((action) => {
                 // console.log(action)
 
-
             })
             .catch((error) => {
                 console.error('Error Updating user:', error);

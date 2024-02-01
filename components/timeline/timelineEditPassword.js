@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { updateCurrentUser } from '@/utils/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import bcrypt from 'bcryptjs';
+import Link from "next/link";
 
 export default function TimelineEditPassword({ currentUser }) {
 
@@ -65,31 +66,49 @@ export default function TimelineEditPassword({ currentUser }) {
                 return;
             }
 
-            // dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: educationFormData }))
-            //     .then((action) => {
-            //         // console.log(action)
+            // Use bcrypt to compare oldPassword with the existing hashed password
+            const isNewPasswordSame = await bcrypt.compare(newPassword, currentUser.password);
 
-            //         Swal.fire({
-            //             icon: 'success',
-            //             title: 'Education Details Updated!',
-            //             text: 'Your education details updated successfully.',
-            //         }).then((result) => {
-            //             // This code will be executed after the user clicks "OK"
-            //             // if (result.isConfirmed) {
-            //             //     interface
-            //             // }
-            //         });
-            //     })
-            //     .catch((error) => {
-            //         console.error('Error Updating user:', error);
-            //     });
+            if (isNewPasswordSame) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Same Password Error!',
+                    text: 'The new password cannot be the same as the old password',
+                });
+                return;
+            }
 
-            // Reset form data
-            setFormData({
-                oldPassword: '',
-                newPassword: '',
-                confirmNewPassword: '',
-            });
+            const updatedFormData = {
+                password: newPassword
+            }
+
+            dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: updatedFormData }))
+                .then((action) => {
+                    // console.log(action)
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Password Successfully Updated!',
+                        text: 'Your password has been updated successfully.',
+                    }).then((result) => {
+                        // This code will be executed after the user clicks "OK"
+                        // if (result.isConfirmed) {
+                        //     interface
+                        // }
+
+                        // Reset form data
+                        setFormData({
+                            oldPassword: '',
+                            newPassword: '',
+                            confirmNewPassword: '',
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error Updating user:', error);
+                });
+
+
 
 
         } catch (error) {
@@ -187,9 +206,6 @@ export default function TimelineEditPassword({ currentUser }) {
                                 />
                             </div>
                         </div>
-                        <p>
-                            <a className={`${styles.forgot_password}`} href="#">Forgot Password?</a>
-                        </p>
                         <button
                             type="button"
                             className={`${styles.btn} ${styles.btnFull} ${styles.btnPrimary} btn btn-primary`}
