@@ -8,7 +8,7 @@ import LeftSideBar from './leftSideBar';
 import RightSideBar from './rightSideBar';
 import PhotoAlbum from './photoAlbum';
 
-export default function TimelineAlbumPageContents() {
+export default function TimelineAlbumPageContents({ timelineUser, posts, setImageSource, setIsImageClicked }) {
   const [sidebarOption, setSidebarOption] = useState('info');
 
   useEffect(() => {
@@ -27,7 +27,12 @@ export default function TimelineAlbumPageContents() {
 
         <TimelineMiddleColumn>
           {/* Edit This Section */}
-          <PhotoAlbum />
+          <PhotoAlbum
+            timelineUser={timelineUser}
+            posts={posts}
+            setIsImageClicked={setIsImageClicked}
+            setImageSource={setImageSource}
+          />
           {/* Edit This Section */}
         </TimelineMiddleColumn>
 

@@ -66,7 +66,11 @@ export default function NewsfeedImagesPage({ currentUser }) {
 
                                 {/* Images Section */}
                                 <MediaContainer>
-                                    <NewsfeedImagePost />
+                                    <NewsfeedImagePost
+                                        posts={posts}
+                                        friends={friends}
+                                        currentUser={currentUser}
+                                    />
                                 </MediaContainer>
                                 {/* Images Section */}
 

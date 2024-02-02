@@ -9,6 +9,7 @@ import TimelineEditPageContents from './timelineEditPageContents';
 
 
 export default function TimelineEditPage({ timelineUserId, timelineUser, friendshipStatus, currentUser }) {
+
     return (
         <>
             <TimelineContainer>
@@ -42,6 +43,8 @@ export default function TimelineEditPage({ timelineUserId, timelineUser, friends
                 </Timeline>
                 {/* Page Contents */}
                 <TimelineEditPageContents
+                    timelineUserId={timelineUserId}
+                    timelineUser={timelineUser}
                 />
                 {/* Page Contents */}
             </TimelineContainer>

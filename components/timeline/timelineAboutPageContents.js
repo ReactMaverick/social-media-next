@@ -8,7 +8,7 @@ import LeftSideBar from './leftSideBar';
 import RightSideBar from './rightSideBar';
 import AboutProfile from './aboutProfile';
 
-export default function TimelineAboutPageContents() {
+export default function TimelineAboutPageContents({ timelineUserId, timelineUser }) {
   const [sidebarOption, setSidebarOption] = useState('info');
 
   useEffect(() => {
@@ -27,7 +27,10 @@ export default function TimelineAboutPageContents() {
 
         <TimelineMiddleColumn>
           {/* Edit This Section */}
-          <AboutProfile />
+          <AboutProfile
+            timelineUserId={timelineUserId}
+            timelineUser={timelineUser}
+          />
           {/* Edit This Section */}
         </TimelineMiddleColumn>
 

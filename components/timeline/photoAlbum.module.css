@@ -21,12 +21,12 @@
     gap: 15px;
   }
   .images{
-    height: auto;
-    width: auto;
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     transition: 0.5s all ease-in-out;
+    width: 200px;
+    height: 200px;
   }
   .images:hover{
     border-radius: 100%; 

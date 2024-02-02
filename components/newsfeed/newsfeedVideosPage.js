@@ -18,7 +18,7 @@ import { fetchAllFriends, addFriend, removeFriend, selectFriends, selectSentFrie
 import MediaContainer from './mediaContainer';
 import NewsfeedVideoPost from './newsfeedVideoPost';
 
-export default function NewsfeedImagesPage({ currentUser }) {
+export default function NewsfeedVideosPage({ currentUser }) {
     const dispatch = useDispatch();
     const posts = useSelector(selectPosts);
 
@@ -66,7 +66,11 @@ export default function NewsfeedImagesPage({ currentUser }) {
 
                                 {/* Images Section */}
                                 <MediaContainer>
-                                    <NewsfeedVideoPost />
+                                    <NewsfeedVideoPost
+                                        posts={posts}
+                                        friends={friends}
+                                        currentUser={currentUser}
+                                    />
                                 </MediaContainer>
                                 {/* Images Section */}
 
@@ -76,9 +80,9 @@ export default function NewsfeedImagesPage({ currentUser }) {
                                 <SuggestionsSidebar>
                                     {(users && friends) && (
                                         users.map(user => {
-                                            const isUserFriend = friends.some((friend) => friend.friend._id === user._id);
-                                            const isFriendRequestSent = sentFriendRequests.some((friend) => friend.status === "request_sent" && friend.friend._id === user._id);
-                                            const isFriendRequestReceived = receivedFriendRequests.some((friend) => friend.status === "request_sent" && friend.user._id === user._id);
+                                            const isUserFriend = friends?.some((friend) => friend.friend._id === user._id);
+                                            const isFriendRequestSent = sentFriendRequests?.some((friend) => friend.status === "request_sent" && friend.friend._id === user._id);
+                                            const isFriendRequestReceived = receivedFriendRequests?.some((friend) => friend.status === "request_sent" && friend.user._id === user._id);
 
                                             // console.log(isFriendRequestSent, user.firstName);
 

@@ -26,7 +26,7 @@ export const getTimeElapsed = (createdAt) => {
 };
 
 export const hobbyIcons = {
-    photography: "ion:bicycle",
+    photography: "wpf:camera",
     shopping: "solar:camera-broken",
     traveling: "guidance:plane",
     eating: "ion:restaurant-outline",

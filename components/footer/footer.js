@@ -21,31 +21,9 @@ export default function Footer() {
                 />
               </a>
               <ul className={`${styles.socialIcons} list-inline`}>
-                <li>
-                  <a className={`${styles.socialIcon}`} href="#">
-                    <Icon icon="gg:facebook" />
-                  </a>
-                </li>
-                <li>
-                  <a className={`${styles.socialIcon}`} href="#">
-                    <Icon icon="flowbite:twitter-solid" />
-                  </a>
-                </li>
-                <li>
-                  <a className={`${styles.socialIcon}`} href="#">
-                    <Icon icon="f7:logo-googleplus" />
-                  </a>
-                </li>
-                <li>
-                  <a className={`${styles.socialIcon}`} href="#">
-                    <Icon icon="formkit:pinterest" />
-                  </a>
-                </li>
-                <li>
-                  <a className={`${styles.socialIcon}`} href="#">
-                    <Icon icon="jam:linkedin" />
-                  </a>
-                </li>
+                <li><Link className={`${styles.socialIcon}`} href="https://www.facebook.com/websadroit"><Icon icon="gg:facebook" target="_blank" /></Link></li>
+                <li><Link className={`${styles.socialIcon}`} href="https://in.linkedin.com/company/websadroit"><Icon icon="jam:linkedin" target="_blank" /></Link></li>
+                <li><Link className={`${styles.socialIcon}`} href="https://www.instagram.com/websadroit/"><Icon icon="mdi:instagram" target="_blank" /></Link></li>
               </ul>
             </div>
             <div className={`col-md-2 col-sm-2`}>
@@ -101,59 +79,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className={`col-md-2 col-sm-2`}>
-              <h5 className={`${styles.footerHeading}`}>For businesses</h5>
-              <ul className={`${styles.footerLinks}`}>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    Business signup
-                  </a>
-                </li>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    Business login
-                  </a>
-                </li>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    Benefits
-                  </a>
-                </li>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    Resources
-                  </a>
-                </li>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    Advertise
-                  </a>
-                </li>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    Setup
-                  </a>
-                </li>
-              </ul>
-            </div>
+
             <div className={`col-md-2 col-sm-2`}>
               <h5 className={`${styles.footerHeading}`}>About</h5>
               <ul className={`${styles.footerLinks}`}>

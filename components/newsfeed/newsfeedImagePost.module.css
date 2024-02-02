@@ -13,6 +13,7 @@
   position: relative;
   display: block;
   transition: all 0.5s ease-in-out;
+  height: 200px;
 }
 .imageBox::after {
     content: "";
@@ -27,6 +28,13 @@
 .imageBox:hover::after{
     background-color: rgba(0,0,0, 0.4);
 }
+
+.imageBox img {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+}
+
 .BoxItems {
   display: flex;
   justify-content: start;
@@ -87,4 +95,18 @@
 }
 .MainBox {
   padding: 0px 10px;
+}
+
+.profilePhotoMd {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
 }

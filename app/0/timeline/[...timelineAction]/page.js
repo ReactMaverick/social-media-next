@@ -162,6 +162,7 @@ export default function Timeline({ params }) {
                         timelineUser={timelineUser}
                         friendshipStatus={friendshipStatus}
                         setFriendshipStatus={setFriendshipStatus}
+                        posts={posts}
                     />
                 )
 

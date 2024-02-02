@@ -2,9 +2,14 @@
 import React from "react";
 import styles from "./aboutProfile.module.css";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
+import { countryNames } from './countryOptions';
+import { hobbyIcons } from "@/utils/common";
+import { capitalize } from "lodash";
 
-export default function AboutProfile() {
+export default function AboutProfile({ timelineUserId, timelineUser }) {
+
+  // console.log("Timeline User Id and User ===> ", timelineUserId, timelineUser);
+
   return (
     <div className={`${styles.editProfile}`}>
       <div className={`block-title`}>
@@ -12,75 +17,85 @@ export default function AboutProfile() {
           <Icon icon="carbon:information" />
           Personal Information
         </h4>
-        <div className={`${styles.line}`}></div>
-        <p className={`para`}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur
-        </p>
-        <div className={`${styles.line}`}></div>
+        {timelineUser?.about_me &&
+          <>
+            <div className={`${styles.line}`}></div>
+            <p className={`para`}>
+              {timelineUser?.about_me ? timelineUser?.about_me : ''}
+            </p>
+            <div className={`${styles.line}`}></div>
+          </>
+        }
+
+      </div>
+      <div className={`block-title`}>
+        <h4 className={`${styles.heading}`}>
+          <Icon icon="basil:location-outline" />
+          Origin
+        </h4>
+        <ul>
+          {timelineUser?.city &&
+            <li className={`${styles.languageList}`}>
+              <p className={`${styles.para}`}>
+                {timelineUser?.city ? timelineUser?.city : ''}{', '}{timelineUser?.country ? countryNames[timelineUser?.country] : ''}
+              </p>
+            </li>
+          }
+
+        </ul>
+      </div>
+      <div className={`block-title`}>
+        <h4 className={`${styles.heading}`}>
+          <Icon icon="ph:heart" />
+          Interests
+        </h4>
+        <ul className={`${styles.interests} ${styles.listInline}`}>
+          {timelineUser?.hobbies?.map(hobby =>
+            <li key={hobby}>
+              <span className={`${styles.intIcons}`} title={capitalize(hobby)}>
+                {hobbyIcons[hobby] ? <Icon icon={hobbyIcons[hobby]} />
+                  : <Icon icon={hobbyIcons['other']} />
+                }
+              </span>
+            </li>
+          )}
+        </ul>
+        {timelineUser?.hobbies?.length ?
+          <div className={`${styles.line}`}></div> : ''
+        }
+
       </div>
       <div className={`block-title`}>
         <h4 className={`${styles.heading}`}>
           <Icon icon="ph:briefcase-light" />
-          Work Experiences
+          Work Details
         </h4>
         <ul className={`${styles.organizationUl}`}>
           <div className={`${styles.organization}`}>
-            <img
-              src="https://themified.com/friend-finder/images/envato.png"
-              alt=""
-              className={`${styles.pullLeft} ${styles.imgOrg}`}
-            />
+            {timelineUser?.company_name &&
+              <img
+                src={process.env.BASE_URL + '/images/work_icon.png'}
+                alt=""
+                className={`${styles.pullLeft} ${styles.imgOrg}`}
+              />
+            }
             <div className={`${styles.workInfo}`}>
-              <h5 className={`${styles.proHeading}`}>Envato</h5>
+              <h5 className={`${styles.proHeading}`}>{timelineUser?.company_name ? timelineUser?.company_name : ''}</h5>
               <p className={`${styles.para}`}>
-                Seller -{" "}
-                <span className={`${styles.textGrey}`}>
+                {timelineUser.designation ? timelineUser.designation : ''}
+                {/* <span className={`${styles.textGrey}`}>
                   1 February 2013 to present
-                </span>
-              </p>
-            </div>
-          </div>
-          <div className={`${styles.organization}`}>
-            <img
-              src="https://themified.com/friend-finder/images/envato.png"
-              alt=""
-              className={`${styles.pullLeft} ${styles.imgOrg}`}
-            />
-            <div className={`${styles.workInfo}`}>
-              <h5 className={`${styles.proHeading}`}>Envato</h5>
-              <p className={`${styles.para}`}>
-                Seller -{" "}
-                <span className={`${styles.textGrey}`}>
-                  1 February 2013 to present
-                </span>
-              </p>
-            </div>
-          </div>
-          <div className={`${styles.organization}`}>
-            <img
-              src="https://themified.com/friend-finder/images/envato.png"
-              alt=""
-              className={`${styles.pullLeft} ${styles.imgOrg}`}
-            />
-            <div className={`${styles.workInfo}`}>
-              <h5 className={`${styles.proHeading}`}>Envato</h5>
-              <p className={`${styles.para}`}>
-                Seller -{" "}
-                <span className={`${styles.textGrey}`}>
-                  1 February 2013 to present
-                </span>
+                </span> */}
               </p>
             </div>
           </div>
         </ul>
-        <div className={`${styles.line}`}></div>
+        {timelineUser?.hobbies?.length ?
+          <div className={`${styles.line}`}></div> : ''
+        }
+
       </div>
-      <div className={`block-title`}>
+      {/* <div className={`block-title`}>
         <h4 className={`${styles.heading}`}>
           <Icon icon="basil:location-outline" />
           Location
@@ -96,56 +111,9 @@ export default function AboutProfile() {
           ></iframe>
         </div>
         <div className={`${styles.line}`}></div>
-      </div>
-      <div className={`block-title`}>
-        <h4 className={`${styles.heading}`}>
-          <Icon icon="ph:heart" />
-          Interests
-        </h4>
-        <p className={`para`}>228 Park Eve, New York</p>
-        <ul className={`${styles.interests} ${styles.listInline}`}>
-          <li>
-            <span className={`${styles.intIcons}`} title="Bycycle riding">
-              <Icon icon="ion:bicycle-sharp" />
-            </span>
-          </li>
-          <li>
-            <span className={`${styles.intIcons}`} title="Photography">
-              <Icon icon="solar:camera-broken" />
-            </span>
-          </li>
-          <li>
-            <span className={`${styles.intIcons}`} title="Shopping">
-              <Icon icon="mdi:cart-outline" />
-            </span>
-          </li>
-          <li>
-            <span className={`${styles.intIcons}`} title="Traveling">
-              <Icon icon="guidance:plane" />
-            </span>
-          </li>
-          <li>
-            <span className={`${styles.intIcons}`} title="Eating">
-              <Icon icon="ion:restaurant-outline" />
-            </span>
-          </li>
-        </ul>
-        <div className={`${styles.line}`}></div>
-      </div>
-      <div className={`block-title`}>
-        <h4 className={`${styles.heading}`}>
-          <Icon icon="basil:location-outline" />
-          Language
-        </h4>
-        <ul>
-          <li className={`${styles.languageList}`}>
-              <a href="">Russian</a>
-          </li>
-          <li className={`${styles.languageList}`}>
-            <a href="">English</a>
-          </li>
-        </ul>
-      </div>
+      </div> */}
+
+
     </div>
   );
 }

@@ -3,83 +3,111 @@ import { useEffect } from "react";
 import styles from "./newsfeedVideoPost.module.css";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-export default function NewsfeedVideoPost() {
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { likePost, dislikePost } from '@/utils/features/postContentsSlice';
+
+export default function NewsfeedVideoPost({ posts, friends, currentUser }) {
+
+    const dispatch = useAppDispatch();
+
+    const handleLike = async (postId, e) => {
+        e.preventDefault();
+
+        // console.log(postId);
+
+        try {
+            // Dispatch the likePost action to update the Redux store
+            dispatch(likePost(postId))
+                .then((action) => {
+                    // Handle success if needed
+                    console.log('Post liked/unliked successfully:', action);
+                })
+                .catch((error) => {
+                    // Handle error if needed
+                    console.error('Error liking post:', error);
+                });
+        } catch (error) {
+            console.error('Error liking post:', error);
+        }
+    };
+
+    const handleDislike = async (postId, e) => {
+        e.preventDefault();
+
+        try {
+            // Dispatch the likePost action to update the Redux store
+            dispatch(dislikePost(postId))
+                .then((action) => {
+                    // Handle success if needed
+                    console.log('Post disliked/undisliked successfully:', action);
+                })
+                .catch((error) => {
+                    // Handle error if needed
+                    console.error('Error liking post:', error);
+                });
+        } catch (error) {
+            console.error('Error liking post:', error);
+        }
+    };
+
     return (
         <div className={`${styles.myRow} row`}>
-            <div className={`col-md-6 col-sm-6`}>
-                <div className={`${styles.imagePostBox}`}>
-                    <Link href='' className={`${styles.videoBox}`}>
-                        <video className={`${styles.videoPost}`} controls>
-                            <source src="https://themified.com/friend-finder/videos/3.mp4" type="video/mp4" />
-                        </video>
-                    </Link>
-                    <div className={`${styles.MainBox}`}>
-                        <div className={`${styles.BoxItems}`}>
-                            <Link href="" className={`${styles.likeBox} mybtn`}>
-                                <Icon icon="fontisto:like" />
-                                <span className={`${styles.likeNum}`}>3</span>
-                            </Link>
-                            <Link
-                                href=""
-                                className={`${styles.likeBox} ${styles.disLikeBox} mybtn`}
-                            >
-                                <Icon icon="fontisto:dislike" />
-                                <span className={`${styles.likeNum}`}>3</span>
-                            </Link>
-                        </div>
-                        <div className={`${styles.userBox}`}>
-                            <div className={`${styles.userAvtar}`}>
-                                <img src="https://themified.com/friend-finder/images/users/user-14.jpg" />
-                            </div>
-                            <div className={`${styles.userCont}`}>
-                                <Link href="" className={`${styles.userName}`}>
-                                    Suraj Banerjee
+            {posts.slice().reverse().map((post) => {
+                const isFriendPosted = friends.some(friend => friend.friend._id === post.user._id);
+
+                const isCurrentUserPosted = currentUser._id === post.user._id;
+
+                const isVideoPost = post?.video;
+
+                if (isVideoPost && (isFriendPosted || isCurrentUserPosted)) {
+                    return (
+                        <div className={`col-md-6 col-sm-6`} key={post._id}>
+                            <div className={`${styles.imagePostBox}`}>
+                                <Link href='' className={`${styles.videoBox}`} onClick={(e) => e.preventDefault()}>
+                                    <video className={`${styles.videoPost}`} controls>
+                                        <source src={post.video} type="video/mp4" />
+                                    </video>
                                 </Link>
-                                <Link href="" className={`${styles.friend}`}>
-                                    Friend
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className={`col-md-6 col-sm-6`}>
-                <div className={`${styles.imagePostBox}`}>
-                <Link href='' className={`${styles.videoBox}`}>
-                        <video className={`${styles.videoPost}`} controls>
-                            <source src="https://themified.com/friend-finder/videos/3.mp4" type="video/mp4" />
-                        </video>
-                    </Link>
-                    <div className={`${styles.MainBox}`}>
-                        <div className={`${styles.BoxItems}`}>
-                            <Link href="" className={`${styles.likeBox} mybtn`}>
-                                <Icon icon="fontisto:like" />
-                                <span className={`${styles.likeNum}`}>3</span>
-                            </Link>
-                            <Link
-                                href=""
-                                className={`${styles.likeBox} ${styles.disLikeBox} mybtn`}
-                            >
-                                <Icon icon="fontisto:dislike" />
-                                <span className={`${styles.likeNum}`}>3</span>
-                            </Link>
-                        </div>
-                        <div className={`${styles.userBox}`}>
-                            <div className={`${styles.userAvtar}`}>
-                                <img src="https://themified.com/friend-finder/images/users/user-14.jpg" />
-                            </div>
-                            <div className={`${styles.userCont}`}>
-                                <Link href="" className={`${styles.userName}`}>
-                                    Suraj Banerjee
-                                </Link>
-                                <Link href="" className={`${styles.friend}`}>
-                                    Friend
-                                </Link>
+                                <div className={`${styles.MainBox}`}>
+                                    <div className={`${styles.BoxItems}`}>
+                                        <Link
+                                            href=""
+                                            className={`${styles.likeBox} mybtn`}
+                                            onClick={(e) => handleLike(post._id, e)}
+                                        >
+                                            <Icon icon="fontisto:like" />
+                                            <span className={`${styles.likeNum}`}>{post?.likes?.length}</span>
+                                        </Link>
+                                        <Link
+                                            href=""
+                                            className={`${styles.likeBox} ${styles.disLikeBox} mybtn`}
+                                            onClick={(e) => handleDislike(post._id, e)}
+                                        >
+                                            <Icon icon="fontisto:dislike" />
+                                            <span className={`${styles.likeNum}`}>{post?.dislikes?.length}</span>
+                                        </Link>
+                                    </div>
+                                    <div className={`${styles.userBox}`}>
+                                        <div className={`${styles.userAvtar}`}>
+                                            <img src={process.env.BASE_URL + post?.user?.image} className={styles.profilePhotoSm} />
+                                        </div>
+                                        <div className={`${styles.userCont}`}>
+                                            <Link href="" className={`${styles.userName}`}>
+                                                {post.user?.firstName + ' ' + post.user?.lastName}
+                                            </Link>
+                                            <Link href="" className={`${styles.friend}`}>
+                                                Friend
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    )
+                }
+            })}
+
+
         </div>
     )
 }

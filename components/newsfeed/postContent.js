@@ -173,7 +173,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                     >
                         <Link
                             className={`${styles.btn} ${styles.textGreen}`}
-                            href="#"
+                            href=""
                             onClick={handleLike}
                         >
                             <Icon icon="f7:hand-thumbsup-fill" />{" "}
@@ -181,7 +181,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                         </Link>
                         <Link
                             className={`${styles.btn} ${styles.textRed}`}
-                            href="#"
+                            href=""
                             onClick={handleDislike}
                         >
                             <Icon icon="f7:hand-thumbsdown-fill" />{" "}

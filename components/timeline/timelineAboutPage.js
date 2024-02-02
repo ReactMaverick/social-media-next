@@ -8,6 +8,7 @@ import TimelineNavRowMobile from './timelineNavRowMobile';
 import TimelineAboutPageContents from './timelineAboutPageContents';
 
 export default function TimelineAboutPage({ timelineUserId, timelineUser, friendshipStatus }) {
+
     return (
         <>
             <TimelineContainer>
@@ -40,7 +41,10 @@ export default function TimelineAboutPage({ timelineUserId, timelineUser, friend
                     </TimelineCover>
                 </Timeline>
                 {/* Page Contents */}
-                <TimelineAboutPageContents />
+                <TimelineAboutPageContents
+                    timelineUserId={timelineUserId}
+                    timelineUser={timelineUser}
+                />
                 {/* Page Contents */}
             </TimelineContainer>
         </>

@@ -9,7 +9,7 @@ import RightSideBar from './rightSideBar';
 import EditProfile from './editProfile';
 
 
-export default function TimelineEditPageContents() {
+export default function TimelineEditPageContents({ timelineUserId, timelineUser }) {
   const [sidebarOption, setSidebarOption] = useState('info');
 
   useEffect(() => {
@@ -27,7 +27,11 @@ export default function TimelineEditPageContents() {
         </TimelineLeftColumn>
 
         <TimelineMiddleColumn>
-          <EditProfile option={sidebarOption} />
+          <EditProfile
+            option={sidebarOption}
+            timelineUserId={timelineUserId}
+            timelineUser={timelineUser}
+          />
         </TimelineMiddleColumn>
 
         <TimelineRightColumn>

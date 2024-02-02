@@ -79,3 +79,10 @@
     height: 100%;
     width: 100%;
 }
+
+.profilePhotoSm {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}

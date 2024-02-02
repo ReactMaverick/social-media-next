@@ -169,10 +169,10 @@ export default function TimelineEditWork({ currentUser }) {
                 <div className={`block-title`}>
                     <h4 className={`${styles.heading}`}>
                         <Icon icon="ph:briefcase-light" />
-                        Work Experiences
+                        Work Details
                     </h4>
                     <div className={`${styles.line}`}></div>
-                    <p className={`para`}>Edit your education details here.</p>
+                    <p className={`para`}>Edit your work details here.</p>
                     <div className={`${styles.line}`}></div>
                 </div>
                 <div className={`${styles.editBlock}`}>
