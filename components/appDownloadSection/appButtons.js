@@ -13,7 +13,7 @@ export default function AppButtons() {
                 >
                     <img
                         alt="App Store"
-                        src={process.env.BASE_URL + "images/app_store_logo.png"}
+                        src={process.env.BASE_URL + "/images/app_store_logo.png"}
                     />
                 </button>
             </li>
@@ -24,7 +24,7 @@ export default function AppButtons() {
                 >
                     <img
                         alt="Google Play"
-                        src={process.env.BASE_URL + "images/google_play_logo.png"}
+                        src={process.env.BASE_URL + "/images/google_play_logo.png"}
                     />
                 </button>
             </li>

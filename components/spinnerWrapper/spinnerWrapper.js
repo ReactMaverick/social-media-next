@@ -9,7 +9,7 @@ export default function SpinnerWrapper() {
     const hidePreloader = () => {
         setTimeout(() => {
             setHideSpinner(true);
-        }, 500);
+        }, 1000);
     };
 
     useEffect(() => {

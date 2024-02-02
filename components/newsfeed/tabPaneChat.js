@@ -30,7 +30,7 @@ export default function TabPaneChat({ currentUser, tabId, conversations, isUserT
             setActiveTab(tabId);
         }
     }, [isActiveTab, activeTab, tabId]);
-    console.log(userImg);
+    // console.log(userImg);
     return (
 
         <div

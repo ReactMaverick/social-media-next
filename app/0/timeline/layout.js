@@ -11,6 +11,7 @@ import NavbarMenu from '@/components/header/navbarMenu';
 import { useEffect } from "react";
 import Link from "next/link";
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
+import NavbarButton from '@/components/header/navbarButton';
 
 
 export default function TimelineLayout({ children }) {
@@ -60,6 +61,7 @@ export default function TimelineLayout({ children }) {
                 <HeaderAll>
                     <HeaderContainer>
                         <NavbarHeader />
+                        <NavbarButton />
                         <Navbar>
                             <NavbarForm />
                             <NavbarMenu currentUser={currentUser} />

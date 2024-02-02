@@ -1,11 +1,19 @@
 'use client'
+import { useState } from 'react';
 import styles from './navbarForm.module.css';
 import { Icon } from '@iconify/react';
 
 export default function NavbarForm() {
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleChange = (e) => {
+        setSearchTerm(e.target.value);
+    }
+
     return (
         <form
-            className="navbar-form navbar-right d-none d-md-block"
+            className="d-flex justify-content-center"
         >
             <div
                 className={`${styles.formGroup} form-group`}
@@ -14,7 +22,10 @@ export default function NavbarForm() {
                 <input
                     className={`${styles.formControl}`}
                     type="text"
-                    placeholder="Search friends, photos, videos"
+                    placeholder="Search friends, users"
+                    name='searchTerm'
+                    value={searchTerm}
+                    onChange={handleChange}
                 />
             </div>
         </form>

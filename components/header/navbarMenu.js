@@ -14,7 +14,7 @@ export default function NavbarMenu({ currentUser }) {
         const result = await signOut({ redirect: false });
 
         // Check the result object if needed
-        console.log('Sign-out result:', result);
+        // console.log('Sign-out result:', result);
 
         if (result?.url) {
 
@@ -28,44 +28,23 @@ export default function NavbarMenu({ currentUser }) {
 
     return (
         <ul
-            className="nav navbar-nav navbar-right main-menu"
-            style={{
-                boxSizing: "border-box",
-                listStyle: "none",
-                paddingLeft: "0px",
-                margin: "0px",
-                marginTop: "0px",
-                marginBottom: "0px",
-                marginRight: "-15px",
-                float: "right",
-                flexDirection: "row",
-                
-            }}
+            className="navbar-nav mb-2 mb-lg-0"
         >
             <li
-                className="dropdown"
-                style={{
-                    boxSizing: "border-box",
-                    listStyleImage:
-                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
-                    position: "relative",
-                    display: "block",
-                    float: "left",
-                }}
+                className="nav-item"
             >
                 <Link
-                    className=""
-                    href="/"
-                    type="button"
+                    className="nav-link"
+                    href={process.env.BASE_URL}
+                    role="button"
                     style={{
-                        boxSizing: "border-box",
+
                         backgroundColor: "transparent",
                         textDecoration: "none",
                         outline: "none",
                         cursor: "pointer",
                         padding: "10px 15px",
-                        position: "relative",
-                        display: "block",
+
                         paddingTop: "15px",
                         paddingBottom: "15px",
                         lineHeight: "26px",
@@ -78,31 +57,23 @@ export default function NavbarMenu({ currentUser }) {
                 </Link>
             </li>
             <li
-                className="dropdown"
-                style={{
-                    boxSizing: "border-box",
-                    listStyleImage:
-                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
-                    position: "relative",
-                    display: "block",
-                    float: "left",
-                }}
+                className="nav-item dropdown"
+
             >
                 <Link
-                    className="dropdown-toggle"
+                    className="nav-link dropdown-toggle"
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
                     href=""
-                    type="button"
+                    role="button"
                     style={{
-                        boxSizing: "border-box",
+
                         backgroundColor: "transparent",
                         textDecoration: "none",
                         outline: "none",
                         cursor: "pointer",
                         padding: "10px 15px",
-                        position: "relative",
-                        display: "block",
+
                         paddingTop: "15px",
                         paddingBottom: "15px",
                         lineHeight: "26px",
@@ -112,11 +83,11 @@ export default function NavbarMenu({ currentUser }) {
                     }}
                 >
                     Newsfeed{" "}
-                    <span style={{ boxSizing: "border-box" }}>
+                    <span >
                         <img
                             src={process.env.BASE_URL + "/images/down_arrow.png"}
                             style={{
-                                boxSizing: "border-box",
+
                                 border: "0px",
                                 verticalAlign: "middle",
                             }}
@@ -124,37 +95,16 @@ export default function NavbarMenu({ currentUser }) {
                     </span>
                 </Link>
                 <ul
-                    className="dropdown-menu newsfeed-home"
+                    className="dropdown-menu"
                     style={{
-                        boxSizing: "border-box",
-                        margin: "2px 0px 0px",
                         listStyle: "none",
                         borderRadius: "4px",
-                        position: "absolute",
-                        top: "100%",
-                        zIndex: 1000,
-                        float: "left",
-                        minWidth: "160px",
-                        marginBottom: "0px",
-                        fontSize: "14px",
-                        textAlign: "left",
-                        right: "0px",
-                        left: "auto",
-                        marginTop: "0px",
-                        borderTopLeftRadius: "0px",
-                        borderTopRightRadius: "0px",
-                        background: "rgb(35, 31, 32)",
-                        border: "0px",
-                        padding: "0px",
-                        backgroundClip: "initial",
                         backgroundColor: "rgb(35, 31, 32)",
-                        boxShadow: "none",
-                        paddingLeft: "0px",
                     }}
                 >
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -162,16 +112,17 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/newsfeed"
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + '/0/newsfeed'}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
@@ -181,9 +132,10 @@ export default function NavbarMenu({ currentUser }) {
                             Newsfeed
                         </Link>
                     </li>
+
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -191,45 +143,17 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/newsfeedPeopleNearby"
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + '/0/newsfeed/friends'}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
-                                fontWeight: 600,
-                                color: "rgb(255, 255, 255)",
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                            }}
-                        >
-                            Poeple Nearly
-                        </Link>
-                    </li>
-                    <li
-                        style={{
-                            boxSizing: "border-box",
-                            listStyle: "none",
-                            padding: "5px 0px",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-                            listStyleImage: "initial",
-                        }}
-                    >
-                        <Link
-                            href="/0/newsfeedFriends"
-                            style={{
-                                boxSizing: "border-box",
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                                outline: "none",
-                                padding: "3px 20px",
-                                whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
@@ -241,7 +165,7 @@ export default function NavbarMenu({ currentUser }) {
                     </li>
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -249,28 +173,29 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/newsfeedMessages"
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + '/0/newsfeed/messages'}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
                                 lineHeight: "16px",
                             }}
                         >
-                            Chatroom
+                            Messages
                         </Link>
                     </li>
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -278,16 +203,17 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/newsfeedImages"
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + '/0/newsfeed/images'}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
@@ -299,7 +225,7 @@ export default function NavbarMenu({ currentUser }) {
                     </li>
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -307,16 +233,17 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href="/0/newsfeedVideos"
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + '/0/newsfeed/videos'}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
@@ -329,31 +256,23 @@ export default function NavbarMenu({ currentUser }) {
                 </ul>
             </li>
             <li
-                className="dropdown"
-                style={{
-                    boxSizing: "border-box",
-                    listStyleImage:
-                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
-                    position: "relative",
-                    display: "block",
-                    float: "left",
-                }}
+                className="nav-item dropdown"
+
             >
                 <Link
-                    className="dropdown-toggle"
+                    className="nav-link dropdown-toggle"
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
                     href=""
-                    type="button"
+                    role="button"
                     style={{
-                        boxSizing: "border-box",
+
                         backgroundColor: "transparent",
                         textDecoration: "none",
                         outline: "none",
                         cursor: "pointer",
                         padding: "10px 15px",
-                        position: "relative",
-                        display: "block",
+
                         paddingTop: "15px",
                         paddingBottom: "15px",
                         lineHeight: "26px",
@@ -363,11 +282,11 @@ export default function NavbarMenu({ currentUser }) {
                     }}
                 >
                     Timeline{" "}
-                    <span style={{ boxSizing: "border-box" }}>
+                    <span >
                         <img
                             src={process.env.BASE_URL + "/images/down_arrow.png"}
                             style={{
-                                boxSizing: "border-box",
+
                                 border: "0px",
                                 verticalAlign: "middle",
                             }}
@@ -377,35 +296,14 @@ export default function NavbarMenu({ currentUser }) {
                 <ul
                     className="dropdown-menu login"
                     style={{
-                        boxSizing: "border-box",
-                        margin: "2px 0px 0px",
                         listStyle: "none",
                         borderRadius: "4px",
-                        position: "absolute",
-                        top: "100%",
-                        zIndex: 1000,
-                        float: "left",
-                        minWidth: "160px",
-                        marginBottom: "0px",
-                        fontSize: "14px",
-                        textAlign: "left",
-                        right: "0px",
-                        left: "auto",
-                        marginTop: "0px",
-                        borderTopLeftRadius: "0px",
-                        borderTopRightRadius: "0px",
-                        background: "rgb(35, 31, 32)",
-                        border: "0px",
-                        padding: "0px",
-                        backgroundClip: "initial",
                         backgroundColor: "rgb(35, 31, 32)",
-                        boxShadow: "none",
-                        paddingLeft: "0px",
                     }}
                 >
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -413,16 +311,17 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href={`/0/timeline/${currentUser?.profileId}`}
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}`}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
@@ -434,7 +333,7 @@ export default function NavbarMenu({ currentUser }) {
                     </li>
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -442,28 +341,29 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href={`/0/timeline/${currentUser?.profileId}/about`}
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/about`}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
                                 lineHeight: "16px",
                             }}
                         >
-                            Timeline About
+                            About
                         </Link>
                     </li>
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -471,28 +371,29 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href={`/0/timeline/${currentUser?.profileId}/album`}
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/album`}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
                                 lineHeight: "16px",
                             }}
                         >
-                            Timeline Album
+                            Album
                         </Link>
                     </li>
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -500,28 +401,29 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href={`/0/timeline/${currentUser?.profileId}/friends`}
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/friends`}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
                                 lineHeight: "16px",
                             }}
                         >
-                            Timeline Friends
+                            Friends
                         </Link>
                     </li>
                     <li
                         style={{
-                            boxSizing: "border-box",
+
                             listStyle: "none",
                             padding: "5px 0px",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
@@ -529,16 +431,17 @@ export default function NavbarMenu({ currentUser }) {
                         }}
                     >
                         <Link
-                            href={`/0/timeline/${currentUser?.profileId}/edit`}
+                            className="dropdown-item"
+                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/edit`}
                             style={{
-                                boxSizing: "border-box",
+
                                 backgroundColor: "transparent",
                                 textDecoration: "none",
                                 outline: "none",
                                 padding: "3px 20px",
                                 whiteSpace: "nowrap",
-                                display: "block",
-                                clear: "both",
+
+
                                 fontWeight: 600,
                                 color: "rgb(255, 255, 255)",
                                 fontSize: "13px",
@@ -552,26 +455,19 @@ export default function NavbarMenu({ currentUser }) {
             </li>
 
             <li
-                className="dropdown"
-                style={{
-                    boxSizing: "border-box",
-                    listStyleImage:
-                        `url("${process.env.BASE_URL}/images/list_bullet.png")`,
-                    position: "relative",
-                    display: "block",
-                    float: "left",
-                }}
+                className="nav-item"
+
             >
                 <Link
-                    href="/0/contact"
+                    className="nav-link"
+                    href={process.env.BASE_URL + `/0/contact`}
                     style={{
-                        boxSizing: "border-box",
+
                         backgroundColor: "transparent",
                         textDecoration: "none",
                         outline: "none",
                         padding: "10px 15px",
-                        position: "relative",
-                        display: "block",
+
                         paddingTop: "15px",
                         paddingBottom: "15px",
                         lineHeight: "26px",
@@ -586,27 +482,20 @@ export default function NavbarMenu({ currentUser }) {
 
             {currentUser && (
                 <li
-                    className="dropdown"
-                    style={{
-                        boxSizing: "border-box",
-                        listStyleImage:
-                            `url("${process.env.BASE_URL}/images/list_bullet.png")`,
-                        position: "relative",
-                        display: "block",
-                        float: "left",
-                    }}
+                    className="nav-item"
+
                     key={`${currentUser._id}_logout`}
                 >
                     <button
                         onClick={handleLogout}
                         style={{
-                            boxSizing: "border-box",
+
                             backgroundColor: "transparent",
                             textDecoration: "none",
                             outline: "none",
                             padding: "10px 15px",
                             position: "relative",
-                            display: "block",
+
                             paddingTop: "15px",
                             paddingBottom: "15px",
                             lineHeight: "26px",

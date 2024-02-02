@@ -4,10 +4,9 @@ import styles from './navbarHeader.module.css';
 export default function NavbarHeader() {
     return (
         <div
-            className={styles.navbarHeader}
+            className={`navbar-brand`}
         >
             <Link
-                className={styles.navbarBrand}
                 href="/"
             >
                 <img

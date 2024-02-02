@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./contactPage.module.css";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import Footer from '../footer/footer'
+
 export default function ContactPage() {
 
     const [formData, setFormData] = useState({
@@ -153,7 +153,6 @@ export default function ContactPage() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
 
     )

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
 import NewsfeedPage from '@/components/newsfeed/newsfeedPage';
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
+import SpinnerWrapper from "@/components/spinnerWrapper/spinnerWrapper";
 
 export default function Newsfeed() {
 
@@ -58,11 +59,9 @@ export default function Newsfeed() {
         )
     } else if (status === "loading") {
         // Fetching Authentication
-        return (
-            <main>
-                <p>Please wait....</p>
-            </main>
-        )
+
+        return <SpinnerWrapper />
+
 
     } else {
         // User not logged in

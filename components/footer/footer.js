@@ -1,4 +1,3 @@
-//NOT DONE
 "use client";
 import { useEffect } from "react";
 import styles from "./footer.module.css";
@@ -11,15 +10,15 @@ export default function Footer() {
         <div className={`row`}>
           <div className={`${styles.footerWrapper} row`}>
             <div className={`col-md-3 col-sm-3`}>
-              <a
+              <Link
                 className={`${styles.footerLogoWrapper}`}
-                href="https://themified.com/friend-finder/edit-profile-basic.html"
+                href={process.env.BASE_URL}
               >
                 <img
                   className={`${styles.footerLogo}`}
-                  src="https://themified.com/friend-finder/images/logo-black.png"
+                  src={process.env.BASE_URL + '/images/logo_black.png'}
                 />
-              </a>
+              </Link>
               <ul className={`${styles.socialIcons} list-inline`}>
                 <li><Link className={`${styles.socialIcon}`} href="https://www.facebook.com/websadroit"><Icon icon="gg:facebook" target="_blank" /></Link></li>
                 <li><Link className={`${styles.socialIcon}`} href="https://in.linkedin.com/company/websadroit"><Icon icon="jam:linkedin" target="_blank" /></Link></li>
@@ -30,52 +29,53 @@ export default function Footer() {
               <h5 className={`${styles.footerHeading}`}>For individuals</h5>
               <ul className={`${styles.footerLinks}`}>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL}
                   >
-                    Signup
-                  </a>
+                    Signup/Login
+                  </Link>
+                </li>
+
+                <li className={`${styles.footerList}`}>
+                  <Link
+                    className={`${styles.footerListItem}`}
+                    href={process.env.BASE_URL + '/0/newsfeed'}
+                  >
+                    Newsfeed
+                  </Link>
                 </li>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/timeline'}
                   >
-                    login
-                  </a>
+                    Timeline
+                  </Link>
                 </li>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/newsfeed/messages'}
                   >
-                    Explore
-                  </a>
+                    Messages
+                  </Link>
                 </li>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/newsfeed/images'}
                   >
-                    Finder app
-                  </a>
+                    Images
+                  </Link>
                 </li>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/newsfeed/videos'}
                   >
-                    Features
-                  </a>
-                </li>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    Language settings
-                  </a>
+                    Videos
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -84,44 +84,36 @@ export default function Footer() {
               <h5 className={`${styles.footerHeading}`}>About</h5>
               <ul className={`${styles.footerLinks}`}>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
-                  >
-                    About us
-                  </a>
-                </li>
-                <li className={`${styles.footerList}`}>
-                  <a
-                    className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/contact'}
                   >
                     Contact us
-                  </a>
+                  </Link>
                 </li>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/privacy'}
                   >
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/terms'}
                   >
                     Terms
-                  </a>
+                  </Link>
                 </li>
                 <li className={`${styles.footerList}`}>
-                  <a
+                  <Link
                     className={`${styles.footerListItem}`}
-                    href="https://themified.com/friend-finder/edit-profile-basic.html"
+                    href={process.env.BASE_URL + '/0/help'}
                   >
                     Help
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

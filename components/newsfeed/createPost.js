@@ -145,8 +145,8 @@ export default function CreatePost({ currentUser, friends }) {
                 }
 
             } catch (error) {
-                const errorResponse = await response.json();
-                console.error('Failed to upload image/video:', errorResponse);
+
+                console.error('Failed to upload image/video:', error);
             }
         } else {
             // Continue with creating the post using the postContents API route

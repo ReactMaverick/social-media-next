@@ -19,8 +19,12 @@ import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 import { fetchAllFriends, addFriend, removeFriend, selectFriends, selectSentFriendRequests, selectReceivedFriendRequests, fetchSentFriendRequests, fetchReceivedFriendRequests } from '@/utils/features/friendsSlice';
 import { getTimeElapsed } from '@/utils/common';
 import PostCommentReply from "./postCommentReply";
+import { useState } from "react";
+import SpinnerWrapper from "../spinnerWrapper/spinnerWrapper";
 
 export default function NewsfeedPage({ currentUser }) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const dispatch = useDispatch();
     const posts = useSelector(selectPosts);
 
@@ -33,11 +37,22 @@ export default function NewsfeedPage({ currentUser }) {
     const receivedFriendRequests = useSelector(selectReceivedFriendRequests);
 
     useEffect(() => {
-        dispatch(fetchAllPosts());
-        dispatch(fetchAllUsers());
-        dispatch(fetchAllFriends());
-        dispatch(fetchSentFriendRequests());
-        dispatch(fetchReceivedFriendRequests());
+        setIsLoading(true);
+        // Dispatch Redux actions
+        Promise.all([
+            dispatch(fetchAllPosts()),
+            dispatch(fetchAllUsers()),
+            dispatch(fetchAllFriends()),
+            dispatch(fetchSentFriendRequests()),
+            dispatch(fetchReceivedFriendRequests())
+        ]).then(() => {
+            // After data fetching is done, set loading state to false
+            setIsLoading(false);
+        }).catch(error => {
+            // Handle errors if any
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+        });
     }, [dispatch]);
 
     // console.log("Posts ===> ", posts);
@@ -50,10 +65,14 @@ export default function NewsfeedPage({ currentUser }) {
 
     // console.log("Received Friend Requests ===> ", receivedFriendRequests);
 
+    // console.log(isLoading);
+
     return (
 
         <NewsFeedPageContents>
-            {currentUser &&
+            {isLoading ?
+                <SpinnerWrapper /> :
+                currentUser &&
                 (
                     <NewsFeedContainer>
                         <NewsfeedRow>
@@ -176,7 +195,9 @@ export default function NewsfeedPage({ currentUser }) {
                         </NewsfeedRow>
                     </NewsFeedContainer>
                 )
+
             }
+
 
         </NewsFeedPageContents>
     );

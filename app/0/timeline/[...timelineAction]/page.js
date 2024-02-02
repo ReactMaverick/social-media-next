@@ -12,9 +12,12 @@ import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 import { fetchAllFriends, addFriend, removeFriend, selectFriends, selectSentFriendRequests, selectReceivedFriendRequests, fetchSentFriendRequests, fetchReceivedFriendRequests } from '@/utils/features/friendsSlice';
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import SpinnerWrapper from "@/components/spinnerWrapper/spinnerWrapper";
 
 export default function Timeline({ params }) {
     // console.log(params);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [profileId, page] = params.timelineAction;
 
@@ -39,11 +42,23 @@ export default function Timeline({ params }) {
     const receivedFriendRequests = useSelector(selectReceivedFriendRequests);
 
     useEffect(() => {
-        dispatch(fetchAllPosts());
-        dispatch(fetchAllUsers());
-        dispatch(fetchAllFriends());
-        dispatch(fetchSentFriendRequests());
-        dispatch(fetchReceivedFriendRequests());
+        setIsLoading(true);
+
+        Promise.all([
+            dispatch(fetchAllPosts()),
+            dispatch(fetchAllUsers()),
+            dispatch(fetchAllFriends()),
+            dispatch(fetchSentFriendRequests()),
+            dispatch(fetchReceivedFriendRequests())
+        ]).then(() => {
+            // After data fetching is done, set loading state to false
+            setIsLoading(false);
+        }).catch(error => {
+            // Handle errors if any
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+        });
+
     }, [dispatch]);
 
     useEffect(() => {
@@ -130,70 +145,71 @@ export default function Timeline({ params }) {
         // router.push('/profile');
     }, [dispatch, session, users]);
 
-    if (status === "authenticated" && timelineUser && friendshipStatus) {
+    if (status === "authenticated") {
         // Authenticated User
         // console.log(timelineUser);
-        switch (page) {
-            case 'edit':
-                return (
-                    <TimelineEditPage
-                        timelineUserId={profileId}
-                        timelineUser={timelineUser}
-                        friendshipStatus={friendshipStatus}
-                        setFriendshipStatus={setFriendshipStatus}
-                        currentUser={currentUser}
-                    />
-                )
+        if (isLoading) {
+            return <SpinnerWrapper />
+        } else if (timelineUser && friendshipStatus) {
+            switch (page) {
+                case 'edit':
+                    return (
+                        <TimelineEditPage
+                            timelineUserId={profileId}
+                            timelineUser={timelineUser}
+                            friendshipStatus={friendshipStatus}
+                            setFriendshipStatus={setFriendshipStatus}
+                            currentUser={currentUser}
+                        />
+                    )
 
-            case 'about':
-                return (
-                    <TimelineAboutPage
-                        timelineUserId={profileId}
-                        timelineUser={timelineUser}
-                        friendshipStatus={friendshipStatus}
-                        setFriendshipStatus={setFriendshipStatus}
-                    />
-                )
+                case 'about':
+                    return (
+                        <TimelineAboutPage
+                            timelineUserId={profileId}
+                            timelineUser={timelineUser}
+                            friendshipStatus={friendshipStatus}
+                            setFriendshipStatus={setFriendshipStatus}
+                        />
+                    )
 
-            case 'album':
-                return (
-                    <TimelineAlbumPage
-                        timelineUserId={profileId}
-                        timelineUser={timelineUser}
-                        friendshipStatus={friendshipStatus}
-                        setFriendshipStatus={setFriendshipStatus}
-                        posts={posts}
-                    />
-                )
+                case 'album':
+                    return (
+                        <TimelineAlbumPage
+                            timelineUserId={profileId}
+                            timelineUser={timelineUser}
+                            friendshipStatus={friendshipStatus}
+                            setFriendshipStatus={setFriendshipStatus}
+                            posts={posts}
+                        />
+                    )
 
-            case 'friends':
-                return (
-                    <TimelineFriendsPage
-                        timelineUserId={profileId}
-                        timelineUser={timelineUser}
-                        friendshipStatus={friendshipStatus}
-                        setFriendshipStatus={setFriendshipStatus}
-                    />
-                )
+                case 'friends':
+                    return (
+                        <TimelineFriendsPage
+                            timelineUserId={profileId}
+                            timelineUser={timelineUser}
+                            friendshipStatus={friendshipStatus}
+                            setFriendshipStatus={setFriendshipStatus}
+                        />
+                    )
 
-            default:
-                return (
-                    <TimelinePage
-                        timelineUserId={profileId}
-                        timelineUser={timelineUser}
-                        friendshipStatus={friendshipStatus}
-                        setFriendshipStatus={setFriendshipStatus}
-                        currentUser={currentUser}
-                    />
-                )
+                default:
+                    return (
+                        <TimelinePage
+                            timelineUserId={profileId}
+                            timelineUser={timelineUser}
+                            friendshipStatus={friendshipStatus}
+                            setFriendshipStatus={setFriendshipStatus}
+                            currentUser={currentUser}
+                        />
+                    )
+            }
         }
+
     } else if (status === "loading") {
         // Fetching Authentication
-        return (
-            <main>
-                <p>Please wait....</p>
-            </main>
-        )
+        return <SpinnerWrapper />
 
     } else {
         // User not logged in

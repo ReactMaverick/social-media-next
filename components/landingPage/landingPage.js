@@ -21,6 +21,7 @@ import NavbarHeader from '@/components/header/navbarHeader';
 import Navbar from '@/components/header/navBar';
 import NavbarForm from '@/components/header/navbarForm';
 import NavbarMenu from '@/components/header/navbarMenu';
+import NavbarButton from '@/components/header/navbarButton';
 
 export default function LandingPage() {
     return (
@@ -29,6 +30,7 @@ export default function LandingPage() {
             <HeaderLazyLoad>
                 <HeaderContainer>
                     <NavbarHeader />
+                    <NavbarButton />
                     <Navbar>
                         <NavbarForm />
                         <NavbarMenu />

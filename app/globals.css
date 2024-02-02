@@ -323,11 +323,12 @@ body::-webkit-scrollbar-thumb:vertical:hover {
 .contact-list {
   width: 100%;
 }
-.gridimage img{
+
+.gridimage img {
   max-width: 100%;
   width: 100%;
-height: 100%;
-object-fit: cover;
+  height: 100%;
+  object-fit: cover;
 }
 
 .mybtn {
@@ -351,6 +352,7 @@ object-fit: cover;
   border: 1px solid transparent;
   border-radius: 4px;
 }
-.contactPage_reach__I99DM p{
+
+.contactPage_reach__I99DM p {
   margin: 0;
 }
