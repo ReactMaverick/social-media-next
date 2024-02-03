@@ -17,7 +17,7 @@ export async function POST(req) {
             console.log("image ==> ", image);
 
             try {
-                const response = await fetch('/api/1.0/upload', {
+                const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
                     method: 'POST',
                     body: fileData,
                 });
@@ -43,7 +43,7 @@ export async function POST(req) {
                 }
             } catch (e) {
                 // console.log("error", e)
-
+                return Response.json({ error: e })
             }
         } else {
             const errorResponse = new Response(
