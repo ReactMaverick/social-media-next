@@ -18,7 +18,7 @@ import IphoneImage from '@/components/appDownloadSection/iphoneImage';
 import ImageDividerSection from '@/components/imageDeviderSection/imageDividerSection';
 import HeaderContainer from '@/components/header/headerContainer';
 import NavbarHeader from '@/components/header/navbarHeader';
-import Navbar from '@/components/header/navBar';
+import Navbar from '@/components/header/navbar';
 import NavbarForm from '@/components/header/navbarForm';
 import NavbarMenu from '@/components/header/navbarMenu';
 import NavbarButton from '@/components/header/navbarButton';

@@ -5,7 +5,7 @@ import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/fea
 import HeaderAll from "@/components/header/headerAll";
 import HeaderContainer from '@/components/header/headerContainer';
 import NavbarHeader from '@/components/header/navbarHeader';
-import Navbar from '@/components/header/navBar';
+import Navbar from '@/components/header/navbar';
 import NavbarForm from '@/components/header/navbarForm';
 import NavbarMenu from '@/components/header/navbarMenu';
 import { useEffect } from "react";

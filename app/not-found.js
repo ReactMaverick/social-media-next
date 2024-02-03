@@ -6,7 +6,7 @@ import Link from 'next/link'
 import HeaderAll from '@/components/header/headerAll';
 import HeaderContainer from '@/components/header/headerContainer';
 import NavbarHeader from '@/components/header/navbarHeader';
-import Navbar from '@/components/header/navBar';
+import Navbar from '@/components/header/navbar';
 import NavbarForm from '@/components/header/navbarForm';
 import NavbarMenu from '@/components/header/navbarMenu';
 import AuthProvider from "@/utils/authProvider";
