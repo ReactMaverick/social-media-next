@@ -5,14 +5,14 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 
 export default function TimelineCover({ children, timelineUserId, timelineUser, friendshipStatus }) {
 
-    const [selectedCoverImage, setSelectedCoverImage] = useState(process.env.BASE_URL + timelineUser.coverImage);
+    const [selectedCoverImage, setSelectedCoverImage] = useState(timelineUser.coverImage);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         // console.log("Timeline user cover image in timeline cover ===> ", timelineUser.coverImage);
 
-        setSelectedCoverImage(process.env.BASE_URL + timelineUser.coverImage);
+        setSelectedCoverImage(timelineUser.coverImage);
     }, [timelineUser]);
 
     useEffect(() => {

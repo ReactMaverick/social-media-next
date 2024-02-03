@@ -89,7 +89,7 @@ export default function NewsfeedVideoPost({ posts, friends, currentUser }) {
                                     </div>
                                     <div className={`${styles.userBox}`}>
                                         <div className={`${styles.userAvtar}`}>
-                                            <img src={process.env.BASE_URL + post?.user?.image} className={styles.profilePhotoSm} />
+                                            <img src={post?.user?.image} className={styles.profilePhotoSm} />
                                         </div>
                                         <div className={`${styles.userCont}`}>
                                             <Link href="" className={`${styles.userName}`}>

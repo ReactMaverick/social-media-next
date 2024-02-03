@@ -35,7 +35,7 @@ export default function NavbarMenu({ currentUser }) {
             >
                 <Link
                     className="nav-link"
-                    href={process.env.BASE_URL}
+                    href='/'
                     role="button"
                     style={{
 
@@ -85,7 +85,7 @@ export default function NavbarMenu({ currentUser }) {
                     Newsfeed{" "}
                     <span >
                         <img
-                            src={process.env.BASE_URL + "/images/down_arrow.png"}
+                            src={"/images/down_arrow.png"}
                             style={{
 
                                 border: "0px",
@@ -113,7 +113,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + '/0/newsfeed'}
+                            href={'/0/newsfeed'}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -144,7 +144,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + '/0/newsfeed/friends'}
+                            href={'/0/newsfeed/friends'}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -174,7 +174,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + '/0/newsfeed/messages'}
+                            href={'/0/newsfeed/messages'}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -204,7 +204,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + '/0/newsfeed/images'}
+                            href={'/0/newsfeed/images'}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -234,7 +234,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + '/0/newsfeed/videos'}
+                            href={'/0/newsfeed/videos'}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -284,7 +284,7 @@ export default function NavbarMenu({ currentUser }) {
                     Timeline{" "}
                     <span >
                         <img
-                            src={process.env.BASE_URL + "/images/down_arrow.png"}
+                            src={"/images/down_arrow.png"}
                             style={{
 
                                 border: "0px",
@@ -312,7 +312,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}`}
+                            href={`/0/timeline/${currentUser?.profileId}`}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -342,7 +342,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/about`}
+                            href={`/0/timeline/${currentUser?.profileId}/about`}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -372,7 +372,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/album`}
+                            href={`/0/timeline/${currentUser?.profileId}/album`}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -402,7 +402,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/friends`}
+                            href={`/0/timeline/${currentUser?.profileId}/friends`}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -432,7 +432,7 @@ export default function NavbarMenu({ currentUser }) {
                     >
                         <Link
                             className="dropdown-item"
-                            href={process.env.BASE_URL + `/0/timeline/${currentUser?.profileId}/edit`}
+                            href={`/0/timeline/${currentUser?.profileId}/edit`}
                             style={{
 
                                 backgroundColor: "transparent",
@@ -460,7 +460,7 @@ export default function NavbarMenu({ currentUser }) {
             >
                 <Link
                     className="nav-link"
-                    href={process.env.BASE_URL + `/0/contact`}
+                    href={`/0/contact`}
                     style={{
 
                         backgroundColor: "transparent",

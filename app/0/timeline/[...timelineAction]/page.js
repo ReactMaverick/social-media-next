@@ -339,7 +339,7 @@ export default function Timeline({ params }) {
         return (
             <main>
                 <p>Please create an account or sign in to see this page or check the url.</p>
-                <Link href={process.env.BASE_URL}>Create an account or sign in</Link>
+                <Link href='/'>Create an account or sign in</Link>
             </main>
         )
     }

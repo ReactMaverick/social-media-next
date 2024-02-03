@@ -9,8 +9,7 @@ const nextConfigDevelopment = {
         password: 'HdNJ1R1HBNSxXBQV',
         dbName: 'socialMediaNextDev',
         PORT: '5000',
-    },
-    distDir: 'build',
+    }
 }
 
 const nextConfigProduction = {

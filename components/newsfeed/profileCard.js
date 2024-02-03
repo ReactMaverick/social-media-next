@@ -24,14 +24,14 @@ export default function ProfileCard({ currentUser, friends }) {
                     <img
                         className={styles.profilePhoto}
                         alt="user"
-                        src={(currentUser.image) !== '' ? (currentUser.image) : process.env.BASE_URL + '/images/no_user.webp'}
+                        src={(currentUser.image) !== '' ? (currentUser.image) : '/images/no_user.webp'}
                         onClick={handleProfileImageClick}
                     />
                     <h5
                     >
                         <Link
                             className={styles.textWhite}
-                            href={process.env.BASE_URL + '/0/timeline/' + currentUser.profileId}
+                            href={'/0/timeline/' + currentUser.profileId}
 
                         >
                             {currentUser.firstName + ' ' + currentUser.lastName}

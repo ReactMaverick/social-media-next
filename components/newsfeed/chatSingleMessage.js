@@ -11,7 +11,7 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
         >
             <img
                 className={`${styles.profilePhotoSm} ${leftOrRight == "left" ? styles.pullLeft + " pull-left" : styles.pullRight + " pull-right"} profile-photo-sm`}
-                src={process.env.BASE_URL + userImg}
+                src={userImg}
 
             />
             <div
@@ -53,7 +53,7 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
 
 
                 {image ?
-                    <img src={process.env.BASE_URL + image} className={styles.chatImage} /> :
+                    <img src={image} className={styles.chatImage} /> :
                     <></>}
 
             </div>

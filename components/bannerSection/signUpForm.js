@@ -387,7 +387,7 @@ export default function SignUpForm() {
 
   return (
     <SignUpFormContainer className={styles.signUpForm}>
-      <LogoLink href={process.env.BASE_URL}>
+      <LogoLink href='/'>
         {(signInInterface) ? (
           <LogoImageSignin alt="Friend Finder" src="images/logo.png" />
         ) : (

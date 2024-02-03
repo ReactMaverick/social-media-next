@@ -7,11 +7,11 @@ export default function NavbarHeader() {
             className={`navbar-brand`}
         >
             <Link
-                href={process.env.BASE_URL}
+                href='/'
             >
                 <img
                     alt="logo"
-                    src={process.env.BASE_URL + "/images/logo.png"}
+                    src={"/images/logo.png"}
                 />
             </Link>
         </div>

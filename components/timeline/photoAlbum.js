@@ -40,7 +40,7 @@ export default function photoAlbum({ timelineUser, posts, setImageSource, setIsI
                     <Icon icon="bi:zoom-in" />
                   </div>
                   <img
-                    src={process.env.BASE_URL + post.image}
+                    src={post.image}
                   />
                 </div>
               )

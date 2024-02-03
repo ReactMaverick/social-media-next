@@ -12,11 +12,11 @@ export default function Footer() {
             <div className={`col-md-3 col-sm-3`}>
               <Link
                 className={`${styles.footerLogoWrapper}`}
-                href={process.env.BASE_URL}
+                href='/'
               >
                 <img
                   className={`${styles.footerLogo}`}
-                  src={process.env.BASE_URL + '/images/logo_black.png'}
+                  src={'/images/logo_black.png'}
                 />
               </Link>
               <ul className={`${styles.socialIcons} list-inline`}>
@@ -31,7 +31,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL}
+                    href='/'
                   >
                     Signup/Login
                   </Link>
@@ -40,7 +40,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/newsfeed'}
+                    href={'/0/newsfeed'}
                   >
                     Newsfeed
                   </Link>
@@ -48,7 +48,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/timeline'}
+                    href={'/0/timeline'}
                   >
                     Timeline
                   </Link>
@@ -56,7 +56,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/newsfeed/messages'}
+                    href={'/0/newsfeed/messages'}
                   >
                     Messages
                   </Link>
@@ -64,7 +64,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/newsfeed/images'}
+                    href={'/0/newsfeed/images'}
                   >
                     Images
                   </Link>
@@ -72,7 +72,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/newsfeed/videos'}
+                    href={'/0/newsfeed/videos'}
                   >
                     Videos
                   </Link>
@@ -86,7 +86,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/contact'}
+                    href={'/0/contact'}
                   >
                     Contact us
                   </Link>
@@ -94,7 +94,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/privacy'}
+                    href={'/0/privacy'}
                   >
                     Privacy Policy
                   </Link>
@@ -102,7 +102,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/terms'}
+                    href={'/0/terms'}
                   >
                     Terms
                   </Link>
@@ -110,7 +110,7 @@ export default function Footer() {
                 <li className={`${styles.footerList}`}>
                   <Link
                     className={`${styles.footerListItem}`}
-                    href={process.env.BASE_URL + '/0/help'}
+                    href={'/0/help'}
                   >
                     Help
                   </Link>

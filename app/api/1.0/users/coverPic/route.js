@@ -14,7 +14,7 @@ export async function POST(req) {
             const fileData = new FormData();
             fileData.append('file', image)
             try {
-                const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
+                const response = await fetch('/api/1.0/upload', {
                     method: 'POST',
                     body: fileData,
                 });

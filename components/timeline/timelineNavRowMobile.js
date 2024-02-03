@@ -12,7 +12,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
     const router = useRouter();
 
-    const [selectedImage, setSelectedImage] = useState(process.env.BASE_URL + timelineUser.image);
+    const [selectedImage, setSelectedImage] = useState(timelineUser.image);
     const [isFriendRequestAccepted, setIsFriendRequestAccepted] = useState(false);
     const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
     const [isFriend, setIsFriend] = useState(true);
@@ -24,7 +24,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
         // console.log(friendshipStatus);
 
-        setSelectedImage(process.env.BASE_URL + timelineUser.image);
+        setSelectedImage(timelineUser.image);
     }, [timelineUser]);
 
     useEffect(() => {
@@ -101,7 +101,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/addRequest', {
+            const response = await fetch('/api/1.0/users/friends/addRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -136,7 +136,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/acceptRequest', {
+            const response = await fetch('/api/1.0/users/friends/acceptRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -172,7 +172,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/cancelRequest', {
+            const response = await fetch('/api/1.0/users/friends/cancelRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -206,7 +206,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/deleteRequest', {
+            const response = await fetch('/api/1.0/users/friends/deleteRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -240,7 +240,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/removeFriend', {
+            const response = await fetch('/api/1.0/users/friends/removeFriend', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -330,7 +330,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                     <li
                     >
                         <Link
-                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId}
+                            href={"/0/timeline/" + timelineUserId}
                             className={whichPage == 'timeline' ? styles.active : ''}
                         >
                             Timeline
@@ -341,7 +341,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                     >
                         <Link
                             className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''}
-                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/about"}
+                            href={"/0/timeline/" + timelineUserId + "/about"}
 
                         >
                             About
@@ -351,7 +351,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
                     >
                         <Link
-                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/album"}
+                            href={"/0/timeline/" + timelineUserId + "/album"}
                             className={whichPage == 'timelineAlbum' ? styles.active : ''}
                         >
                             Album
@@ -361,7 +361,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
                     >
                         <Link
-                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/friends"}
+                            href={"/0/timeline/" + timelineUserId + "/friends"}
                             className={whichPage == 'timelineFriends' ? styles.active : ''}
                         >
                             Friends

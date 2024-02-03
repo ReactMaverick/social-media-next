@@ -13,11 +13,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         {children}
-        <Script src={process.env.BASE_URL + "/jquery/jquery-3.7.0.min.js"} /> {/* Import jQuery */}
-        <Script src={process.env.BASE_URL + "/bootstrap.bundle.min.js"} /> {/* Import Bootstrap JS */}
-        <Script src={process.env.BASE_URL + "/sweetalertPopup/sweetalert2.all.min.js"} /> {/* Import SweetalertPopup JS */}
-        <Script src={process.env.BASE_URL + "/incrementalCounter/jquery.incremental-counter.js"} /> {/* Import Incremental Counter */}
-        <Script src={process.env.BASE_URL + "/js/mainScript.js"} /> {/* Import Custom Script */}
+        <Script src={"/jquery/jquery-3.7.0.min.js"} /> {/* Import jQuery */}
+        <Script src={"/bootstrap.bundle.min.js"} /> {/* Import Bootstrap JS */}
+        <Script src={"/sweetalertPopup/sweetalert2.all.min.js"} /> {/* Import SweetalertPopup JS */}
+        <Script src={"/incrementalCounter/jquery.incremental-counter.js"} /> {/* Import Incremental Counter */}
+        <Script src={"/js/mainScript.js"} /> {/* Import Custom Script */}
       </body>
     </html>
   )

@@ -65,7 +65,7 @@ export default function NewsfeedImagePost({ posts, friends, currentUser }) {
                 <Link href='' className={`${styles.imageBox}`} onClick={(e) => e.preventDefault()}>
                   <img
                     className={`${styles.userAvtarImg}`}
-                    src={process.env.BASE_URL + post.image}
+                    src={post.image}
                   />
                 </Link>
                 <div className={`${styles.MainBox}`}>
@@ -88,7 +88,7 @@ export default function NewsfeedImagePost({ posts, friends, currentUser }) {
                   </div>
                   <div className={`${styles.userBox}`}>
                     <div className={`${styles.userAvtar}`}>
-                      <img src={process.env.BASE_URL + post?.user?.image} className={styles.profilePhotoSm} />
+                      <img src={post?.user?.image} className={styles.profilePhotoSm} />
                     </div>
                     <div className={`${styles.userCont}`}>
                       <Link href="" className={`${styles.userName}`}>
