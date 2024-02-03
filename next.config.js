@@ -20,8 +20,7 @@ const nextConfigProduction = {
         password: 'HdNJ1R1HBNSxXBQV',
         dbName: 'socialMediaNextProduction',
         PORT: '5000',
-    },
-    distDir: 'build',
+    }
 }
 
 module.exports = (phase, { defaultConfig }) => {
