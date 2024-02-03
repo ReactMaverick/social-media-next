@@ -6,14 +6,14 @@ export default function SpinnerWrapper() {
 
     const [hideSpinner, setHideSpinner] = useState(false);
 
-    const hidePreloader = () => {
-        setTimeout(() => {
-            setHideSpinner(true);
-        }, 1000);
-    };
-
     useEffect(() => {
-        hidePreloader();
+        // Set a timeout to show the spinner for at least 1 second
+        const timeout = setTimeout(() => {
+            setHideSpinner(true);
+        }, 5000);
+
+        // Clear the timeout if the component unmounts or the dependency array changes
+        return () => clearTimeout(timeout);
     }, []);
 
     return (

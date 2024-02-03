@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import NewsFeedContainer from "./newsfeedContainer"
 import NewsFeedPageContents from "./newsfeedPageContents"
 import NewsfeedRow from './newsfeedRow';
@@ -16,8 +16,11 @@ import { fetchAllPosts, selectPosts } from '@/utils/features/postContentsSlice';
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 import ChatRoom from '@/components/newsfeed/chatRoom';
 import { fetchAllFriends, addFriend, removeFriend, selectFriends, fetchLastMessageForFriends, selectLastMessages, selectUnreadCount, selectLastMessagesTime, selectSentFriendRequests, selectReceivedFriendRequests, fetchSentFriendRequests, fetchReceivedFriendRequests } from '@/utils/features/friendsSlice';
+import SpinnerWrapper from "../spinnerWrapper/spinnerWrapper";
 
 export default function NewsfeedMessagesPage({ currentUser }) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const dispatch = useDispatch();
     const posts = useSelector(selectPosts);
 
@@ -36,11 +39,22 @@ export default function NewsfeedMessagesPage({ currentUser }) {
     const receivedFriendRequests = useSelector(selectReceivedFriendRequests);
 
     useEffect(() => {
-        dispatch(fetchAllPosts());
-        dispatch(fetchAllUsers());
-        dispatch(fetchAllFriends());
-        dispatch(fetchSentFriendRequests());
-        dispatch(fetchReceivedFriendRequests());
+        setIsLoading(true);
+        // Dispatch Redux actions
+        Promise.all([
+            dispatch(fetchAllPosts()),
+            dispatch(fetchAllUsers()),
+            dispatch(fetchAllFriends()),
+            dispatch(fetchSentFriendRequests()),
+            dispatch(fetchReceivedFriendRequests())
+        ]).then(() => {
+            // After data fetching is done, set loading state to false
+            setIsLoading(false);
+        }).catch(error => {
+            // Handle errors if any
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+        });
     }, [dispatch]);
 
     useEffect(() => {
@@ -61,7 +75,9 @@ export default function NewsfeedMessagesPage({ currentUser }) {
     return (
 
         <NewsFeedPageContents>
-            {currentUser &&
+            {isLoading ?
+                <SpinnerWrapper /> :
+                currentUser &&
                 (
                     <NewsFeedContainer>
                         <NewsfeedRow>
@@ -72,7 +88,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                             </NewsfeedLeftColumn>
 
                             <NewsfeedMiddleColumn>
-                                <CreatePost currentUser={currentUser} />
+                                <CreatePost currentUser={currentUser} friends={friends} />
 
                                 <ChatRoom currentUser={currentUser} users={users} friends={friends} lastMessages={lastMessages} unreadCount={unreadCount} lastMessageTimes={lastMessageTimes} />
 

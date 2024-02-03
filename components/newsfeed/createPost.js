@@ -24,6 +24,10 @@ export default function CreatePost({ currentUser, friends }) {
 
     const dispatch = useAppDispatch();
 
+    // console.log("CurrentUser in create post ==> ", currentUser);
+
+    // console.log("Friends in create post ==> ", friends);
+
     useEffect(() => {
         // Initialize socket only on the client
         if (io) {
@@ -64,7 +68,6 @@ export default function CreatePost({ currentUser, friends }) {
             socket.on("connect", () => {
                 const currentUserId = currentUser._id;
 
-
                 // console.log(userId, roomId);
 
                 // Emit join-room event when the component mounts
@@ -84,8 +87,6 @@ export default function CreatePost({ currentUser, friends }) {
 
 
             });
-
-
 
         }
     }

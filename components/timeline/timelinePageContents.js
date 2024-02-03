@@ -14,7 +14,7 @@ import PostComment from '../newsfeed/postComment';
 import PostCommentReply from "../newsfeed/postCommentReply";
 import { getTimeElapsed } from '@/utils/common';
 
-export default function TimelinePageContents({ currentUser, timelineUser }) {
+export default function TimelinePageContents({ currentUser, timelineUser, friends }) {
   const [sidebarOption, setSidebarOption] = useState('info');
 
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ export default function TimelinePageContents({ currentUser, timelineUser }) {
         <TimelineMiddleColumn>
           {/* Edit This Section */}
           {timelineUser._id === currentUser._id &&
-            <CreatePost currentUser={currentUser} />
+            <CreatePost currentUser={currentUser} friends={friends} />
           }
 
           {posts.map((post) =>

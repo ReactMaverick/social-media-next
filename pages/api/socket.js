@@ -33,7 +33,7 @@ export default async function SocketHandler(req, res) {
             // console.log("User Room Id ===> ", userRoomId);
             // console.log("Friends ===> ", friends);
 
-            const isUserFriend = friends.some((friend) => friend.friend._id === session.user.id);
+            const isUserFriend = friends?.some((friend) => friend.friend._id === session.user.id);
 
             // console.log("is user friend ==> ", isUserFriend);
 

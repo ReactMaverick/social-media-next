@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import NewsFeedContainer from "./newsfeedContainer"
 import NewsFeedPageContents from "./newsfeedPageContents"
 import NewsfeedRow from './newsfeedRow';
@@ -17,8 +17,11 @@ import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
 import { fetchAllFriends, addFriend, removeFriend, selectFriends, selectSentFriendRequests, selectReceivedFriendRequests, fetchSentFriendRequests, fetchReceivedFriendRequests } from '@/utils/features/friendsSlice';
 import MediaContainer from './mediaContainer';
 import NewsfeedVideoPost from './newsfeedVideoPost';
+import SpinnerWrapper from "../spinnerWrapper/spinnerWrapper";
 
 export default function NewsfeedVideosPage({ currentUser }) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const dispatch = useDispatch();
     const posts = useSelector(selectPosts);
 
@@ -31,11 +34,22 @@ export default function NewsfeedVideosPage({ currentUser }) {
     const receivedFriendRequests = useSelector(selectReceivedFriendRequests);
 
     useEffect(() => {
-        dispatch(fetchAllPosts());
-        dispatch(fetchAllUsers());
-        dispatch(fetchAllFriends());
-        dispatch(fetchSentFriendRequests());
-        dispatch(fetchReceivedFriendRequests());
+        setIsLoading(true);
+        // Dispatch Redux actions
+        Promise.all([
+            dispatch(fetchAllPosts()),
+            dispatch(fetchAllUsers()),
+            dispatch(fetchAllFriends()),
+            dispatch(fetchSentFriendRequests()),
+            dispatch(fetchReceivedFriendRequests())
+        ]).then(() => {
+            // After data fetching is done, set loading state to false
+            setIsLoading(false);
+        }).catch(error => {
+            // Handle errors if any
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+        });
     }, [dispatch]);
 
     // console.log("Posts ===> ", posts);
@@ -51,7 +65,9 @@ export default function NewsfeedVideosPage({ currentUser }) {
     return (
 
         <NewsFeedPageContents>
-            {currentUser &&
+            {isLoading ?
+                <SpinnerWrapper /> :
+                currentUser &&
                 (
                     <NewsFeedContainer>
                         <NewsfeedRow>
@@ -62,7 +78,7 @@ export default function NewsfeedVideosPage({ currentUser }) {
                             </NewsfeedLeftColumn>
 
                             <NewsfeedMiddleColumn>
-                                <CreatePost currentUser={currentUser} />
+                                <CreatePost currentUser={currentUser} friends={friends} />
 
                                 {/* Images Section */}
                                 <MediaContainer>
