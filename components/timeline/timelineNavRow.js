@@ -12,7 +12,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
     const router = useRouter();
 
-    const [selectedProfileImage, setSelectedProfileImage] = useState(process.env.BASE_URL + timelineUser.image);
+    const [selectedProfileImage, setSelectedProfileImage] = useState(timelineUser.image);
     const [isFriendRequestAccepted, setIsFriendRequestAccepted] = useState(false);
     const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
     const [isFriend, setIsFriend] = useState(true);
@@ -26,7 +26,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
     useEffect(() => {
         // console.log("Timeline user image in nav ===> ", timelineUser.image);
 
-        setSelectedProfileImage(process.env.BASE_URL + timelineUser.image);
+        setSelectedProfileImage(timelineUser.image);
     }, [timelineUser]);
 
     useEffect(() => {
@@ -106,7 +106,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/addRequest', {
+            const response = await fetch('/api/1.0/users/friends/addRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -141,7 +141,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/acceptRequest', {
+            const response = await fetch('/api/1.0/users/friends/acceptRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -177,7 +177,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/cancelRequest', {
+            const response = await fetch('/api/1.0/users/friends/cancelRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -211,7 +211,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/deleteRequest', {
+            const response = await fetch('/api/1.0/users/friends/deleteRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -245,7 +245,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         }
 
         try {
-            const response = await fetch(process.env.BASE_URL + '/api/1.0/users/friends/removeFriend', {
+            const response = await fetch('/api/1.0/users/friends/removeFriend', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -329,22 +329,22 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
             <div className={`col-md-9 ${styles.timelineCol}`} onClick={handleTimelineColClick}>
                 <ul className={`${styles.profileMenu} ${styles.listInline}`}>
                     <li>
-                        <Link className={whichPage == 'timeline' ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId}>
+                        <Link className={whichPage == 'timeline' ? styles.active : ''} href={"/0/timeline/" + timelineUserId}>
                             Timeline
                         </Link>
                     </li>
                     <li>
-                        <Link className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/about"}>
+                        <Link className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/about"}>
                             About
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineAlbum' ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/album"}>
+                        <Link className={whichPage == 'timelineAlbum' ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/album"}>
                             Album
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/friends"}>
+                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/friends"}>
                             Friends
                         </Link>
                     </li>

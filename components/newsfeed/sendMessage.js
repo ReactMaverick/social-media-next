@@ -11,6 +11,8 @@ import { updateLastMessageForFriends } from '@/utils/features/friendsSlice';
 let io;
 if (typeof window !== "undefined") {
     io = require("socket.io-client");
+
+    console.log("IO in sendmessage ==> ", io);
 }
 
 let socket;
@@ -41,6 +43,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
 
             return () => {
                 if (socket) {
+                    console.log("Socket in disconnect ==> ", socket);
                     socket.disconnect();
                 }
             };
@@ -62,9 +65,9 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
         // Fetch data only on the client
         if (typeof window !== "undefined") {
 
-            // console.log("Initializing socket");
+            console.log("Initializing socket");
 
-            // console.log(activeTab);
+            console.log("Active Tab ==> ", activeTab);
 
             // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
 
@@ -76,7 +79,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
                 const currentUserId = currentUser._id;
 
 
-                // console.log(userId, roomId);
+                console.log(userId, roomId);
 
                 // Emit join-room event when the component mounts
                 socket.emit("join-room", { roomId, currentUserId, receiverId });
@@ -242,6 +245,8 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
             console.error('Error sending message:', error);
         }
     };
+
+    console.log("Socket ==> ", socket);
 
     return (
         <div

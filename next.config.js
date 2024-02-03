@@ -1,11 +1,33 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
+
+const nextConfigDevelopment = {
     env: {
         BASE_URL: 'http://localhost:3000',
         userName: 'priyamwebsadroit',
-        password: 'U.-TJM_g5"J#g5N'
+        password: 'HdNJ1R1HBNSxXBQV',
+        dbName: 'socialMediaNextDev',
+        PORT: '5000',
     },
     distDir: 'build',
 }
 
-module.exports = nextConfig
+const nextConfigProduction = {
+    env: {
+        BASE_URL: 'http://localhost:3000',
+        userName: 'priyamwebsadroit',
+        password: 'HdNJ1R1HBNSxXBQV',
+        dbName: 'socialMediaNextProduction',
+        PORT: '5000',
+    },
+    distDir: 'build',
+}
+
+module.exports = (phase, { defaultConfig }) => {
+    if (phase === PHASE_DEVELOPMENT_SERVER) {
+        return nextConfigDevelopment
+    }
+
+    return nextConfigProduction
+}

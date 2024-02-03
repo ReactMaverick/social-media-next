@@ -225,44 +225,6 @@ const FlexContainer = styled.div`
 
 export default function SignUpForm() {
 
-  const router = useRouter();
-
-  const { data: session, status } = useSession()
-
-  // console.log(session, status);
-
-  const dispatch = useAppDispatch();
-
-  const currentUser = useAppSelector((state) => {
-    // console.log('Redux state:', state);
-    return selectCurrentUser(state);
-  });
-
-  const users = useAppSelector(selectAllUsers);
-
-  // console.log(session, status);
-
-  useEffect(() => {
-    dispatch(fetchAllUsers());
-  }, [dispatch]);
-
-  // console.log('Current User in Home (/0/) Page:', currentUser);
-
-  useEffect(() => {
-    if (session?.user) {
-      // Dispatch action to set current user in Redux store
-      // console.log(session.user);
-      users?.forEach((user) => {
-        if (user._id === session.user.id)
-          dispatch(setCurrentUser(user));
-      })
-
-    }
-
-    // Redirect to the desired page
-    // router.push('/profile');
-  }, [dispatch, session, users]);
-
   const [signInInterface, setSignInInterface] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -294,11 +256,51 @@ export default function SignUpForm() {
     profileId: '2024' + Math.floor(Math.random() * Math.pow(10, 17)).toString().padStart(17, '0'), // A 21 digit unique id
   });
 
-  function handleSignInClick() {
+  const router = useRouter();
+
+  const { data: session, status } = useSession()
+
+  // console.log(session, status);
+
+  const dispatch = useAppDispatch();
+
+  const currentUser = useAppSelector((state) => {
+    // console.log('Redux state:', state);
+    return selectCurrentUser(state);
+  });
+
+  const users = useAppSelector(selectAllUsers);
+
+  console.log(session, status);
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
+
+  console.log('Current User in Home (/0/) Page:', currentUser);
+
+  useEffect(() => {
+    if (session?.user) {
+      // Dispatch action to set current user in Redux store
+      // console.log(session.user);
+      users?.forEach((user) => {
+        if (user._id === session.user.id)
+          dispatch(setCurrentUser(user));
+      })
+
+    }
+
+    // Redirect to the desired page
+    // router.push('/profile');
+  }, [dispatch, session, users]);
+
+  function handleSignInClick(e) {
+    e.preventDefault();
     setSignInInterface(true);
   };
 
-  function handleSignUpClick() {
+  function handleSignUpClick(e) {
+    e.preventDefault();
     setSignInInterface(false);
   };
 
@@ -364,7 +366,7 @@ export default function SignUpForm() {
       password: formData.password,
     });
 
-    // console.log("Result ==> ", result);
+    console.log("Result ==> ", result);
 
     //*** If result exists and result.error exists */
     if (result?.error) {

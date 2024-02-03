@@ -13,11 +13,17 @@ export async function POST(req) {
             const image = requestFormData.get('image');
             const fileData = new FormData();
             fileData.append('file', image)
+
+            console.log("image ==> ", image);
+
             try {
                 const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
                     method: 'POST',
                     body: fileData,
                 });
+
+                console.log("response ==> ", response);
+
                 if (!response.ok) {
                     // If the response status is not OK, throw an error
                     throw new Error(`Failed to upload image/video. Status: ${response.status}`);
@@ -30,6 +36,9 @@ export async function POST(req) {
                         { $set: { image: data.filePath } },
                         { new: true }
                     )
+
+                    console.log("updatedUser ==> ", updatedUser);
+
                     return Response.json({ status: 200, message: 'File uploaded successfully', updatedUser: updatedUser });
                 }
             } catch (e) {

@@ -28,6 +28,8 @@ import { likePost, dislikePost, addComment, deleteComment } from '@/utils/featur
 let io;
 if (typeof window !== "undefined") {
     io = require("socket.io-client");
+
+    console.log("IO in newsfeedpage ==> ", io);
 }
 
 let socket;
@@ -68,19 +70,31 @@ export default function NewsfeedPage({ currentUser }) {
         });
     }, [dispatch]);
 
-    // console.log("Posts ===> ", posts);
 
-    // console.log("Users ===> ", users);
 
     useEffect(() => {
+        console.log(isLoading, friends);
         if (!isLoading) {
+
+            console.log("IO in newsfeedpage useeffect ==> ", io);
             // Initialize socket only on the client
             if (io) {
+
+                if (!isSocketInitilized) {
+                    const fetchCall = async () => {
+                        await fetch('/api/socket');
+                    };
+
+                    fetchCall();
+
+                    setIsSocketInitialized(true);
+                };
 
                 socketInitializer();
 
                 return () => {
                     if (socket) {
+                        console.log("Socket in disconnect ==> ", socket);
                         socket.disconnect();
                     }
                 };
@@ -90,32 +104,23 @@ export default function NewsfeedPage({ currentUser }) {
 
     }, [friends]);
 
-    if (!isSocketInitilized) {
-        const fetchCall = async () => {
-            await fetch('/api/socket');
-        };
 
-        fetchCall();
-
-        setIsSocketInitialized(true);
-    };
 
     async function socketInitializer() {
+        console.log("Type of window ==> ", typeof window);
         // Fetch data only on the client
         if (typeof window !== "undefined") {
 
-            // console.log("Initializing socket");
-
-            // console.log(activeTab);
-
-            // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
+            console.log("Initializing socket");
 
             socket = io();
+
+            console.log("Socket in socketinitializer ==> ", socket);
 
             socket.on("connect", () => {
                 const currentUserId = currentUser._id;
 
-                // console.log(userId, roomId);
+                console.log("Currentuserid, friends", currentUserId, friends);
 
                 // Emit join-room event when the component mounts
                 socket.emit("join-newsfeed-room", { userRoomId: currentUserId, friends });
@@ -180,17 +185,22 @@ export default function NewsfeedPage({ currentUser }) {
     }
 
     useEffect(() => {
-        // console.log("Updated Posts ==> ", posts);
+        console.log("Updated Posts ==> ", posts);
     }, [posts]);
 
+    console.log("Posts ===> ", posts);
 
-    // console.log("All Friends ===> ", friends);
+    console.log("Users ===> ", users);
 
-    // console.log("Sent Friend Requests ===> ", sentFriendRequests);
+    console.log("All Friends ===> ", friends);
 
-    // console.log("Received Friend Requests ===> ", receivedFriendRequests);
+    console.log("Sent Friend Requests ===> ", sentFriendRequests);
 
-    // console.log(isLoading);
+    console.log("Received Friend Requests ===> ", receivedFriendRequests);
+
+    console.log("Is Loading ==> ", isLoading);
+
+    console.log("Socket ==> ", socket);
 
     return (
 
