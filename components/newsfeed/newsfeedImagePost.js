@@ -19,7 +19,7 @@ export default function NewsfeedImagePost({ posts, friends, currentUser }) {
       dispatch(likePost(postId))
         .then((action) => {
           // Handle success if needed
-          console.log('Post liked/unliked successfully:', action);
+          // console.log('Post liked/unliked successfully:', action);
         })
         .catch((error) => {
           // Handle error if needed
@@ -38,7 +38,7 @@ export default function NewsfeedImagePost({ posts, friends, currentUser }) {
       dispatch(dislikePost(postId))
         .then((action) => {
           // Handle success if needed
-          console.log('Post disliked/undisliked successfully:', action);
+          // console.log('Post disliked/undisliked successfully:', action);
         })
         .catch((error) => {
           // Handle error if needed

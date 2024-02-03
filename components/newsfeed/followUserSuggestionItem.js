@@ -36,7 +36,7 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
                 setIsFriendRequestSent(true);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -64,13 +64,13 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 setIsFriendRequestAccepted(true);
 
                 // dispatch(addFriend(data))
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 

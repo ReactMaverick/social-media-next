@@ -114,14 +114,14 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
             if (response.ok) {
                 const data = await response.json();
 
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestSent(true);
                 setIsFriendRequestAccepted(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -148,7 +148,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 dispatch(addFriend(data?.newFriendshipAccept));
 
@@ -157,7 +157,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                 setIsFriend(true);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -184,14 +184,14 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestAccepted(false);
                 setIsFriendRequestSent(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -218,14 +218,14 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestAccepted(false);
                 setIsFriendRequestSent(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -252,14 +252,14 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestAccepted(false);
                 setIsFriendRequestSent(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -330,7 +330,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                     <li
                     >
                         <Link
-                            href={"/0/timeline/" + timelineUserId}
+                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId}
                             className={whichPage == 'timeline' ? styles.active : ''}
                         >
                             Timeline
@@ -341,7 +341,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                     >
                         <Link
                             className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''}
-                            href={"/0/timeline/" + timelineUserId + "/about"}
+                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/about"}
 
                         >
                             About
@@ -351,7 +351,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
                     >
                         <Link
-                            href={"/0/timeline/" + timelineUserId + "/album"}
+                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/album"}
                             className={whichPage == 'timelineAlbum' ? styles.active : ''}
                         >
                             Album
@@ -361,7 +361,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
 
                     >
                         <Link
-                            href={"/0/timeline/" + timelineUserId + "/friends"}
+                            href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/friends"}
                             className={whichPage == 'timelineFriends' ? styles.active : ''}
                         >
                             Friends

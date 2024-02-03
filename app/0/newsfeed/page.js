@@ -60,7 +60,9 @@ export default function Newsfeed() {
     } else if (status === "loading") {
         // Fetching Authentication
 
-        return <SpinnerWrapper />
+        <main>
+            <p>Please wait....</p>
+        </main>
 
 
     } else {
@@ -68,7 +70,7 @@ export default function Newsfeed() {
         return (
             <main>
                 <p>Please create an account or sign in to see this page or check the url.</p>
-                <Link href='/'>Create an account or sign in</Link>
+                <Link href={process.env.BASE_URL}>Create an account or sign in</Link>
             </main>
         )
     }

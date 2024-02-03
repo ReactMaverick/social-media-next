@@ -21,7 +21,7 @@ export const fetchAllUsers = createAsyncThunk('user/fetchAllUsers', async () => 
 export const updateProfilePictureUser = createAsyncThunk('user/updateProfilePictureUser', async ({ selectedProfileImage }) => {
     try {
 
-        console.log(selectedProfileImage);
+        // console.log(selectedProfileImage);
         const fileData = new FormData();
 
         fileData.append('image', selectedProfileImage);
@@ -48,7 +48,7 @@ export const updateProfilePictureUser = createAsyncThunk('user/updateProfilePict
 export const updateCoverPictureUser = createAsyncThunk('user/updateCoverPictureUser', async ({ selectedCoverImage }) => {
     try {
 
-        console.log(selectedCoverImage);
+        // console.log(selectedCoverImage);
         const fileData = new FormData();
 
         fileData.append('image', selectedCoverImage);

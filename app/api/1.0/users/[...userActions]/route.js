@@ -22,8 +22,8 @@ export async function POST(req, { params }) {
 
         const session = await getServerSession(authOptions);
 
-        console.log('Request sent user id:', session.user.profileId);
-        console.log('Action:', action);
+        // console.log('Request sent user id:', session.user.profileId);
+        // console.log('Action:', action);
 
         const requestedUser = await User.findOne({ profileId: session.user.profileId });
 
@@ -171,13 +171,13 @@ async function addFriendRequest(requestedUser, requestJSON) {
     try {
         const { requestReceivedUserId } = requestJSON;
 
-        console.log("Request Received User Id ===> ", requestReceivedUserId);
+        // console.log("Request Received User Id ===> ", requestReceivedUserId);
 
         // Your logic to send a friend request goes here...
 
         const requestReceivedUser = await User.findOne({ profileId: requestReceivedUserId });
 
-        console.log("User ===> ", requestReceivedUser);
+        // console.log("User ===> ", requestReceivedUser);
 
         if (!requestReceivedUser) {
             // If the user is not found, return a 404 response
@@ -210,7 +210,7 @@ async function addFriendRequest(requestedUser, requestJSON) {
             status: 'request_sent'
         });
 
-        console.log("New Friendship? ==> ", newFriendship);
+        // console.log("New Friendship? ==> ", newFriendship);
 
         // Save the new friendship to the database
         await newFriendship.save();
@@ -236,13 +236,13 @@ async function acceptFriendRequest(requestedUser, requestJSON) {
     try {
         const { requestSentUserId } = requestJSON;
 
-        console.log("Request Sent User Id ===> ", requestSentUserId);
+        // console.log("Request Sent User Id ===> ", requestSentUserId);
 
         // Your logic to send a friend request goes here...
 
         const requestSentUser = await User.findOne({ profileId: requestSentUserId });
 
-        console.log("Request Sent User ===> ", requestSentUser);
+        // console.log("Request Sent User ===> ", requestSentUser);
 
         if (!requestSentUser) {
             // If the user is not found, return a 404 response
@@ -415,7 +415,7 @@ async function removeFriend(requestedUser, requestJSON) {
 
         const removeFriendUser = await User.findOne({ profileId: removeFriendUserId });
 
-        console.log("Remove Friend User ===> ", removeFriendUser, "Requested User ===> ", requestedUser);
+        // console.log("Remove Friend User ===> ", removeFriendUser, "Requested User ===> ", requestedUser);
 
         if (!removeFriendUser) {
             const errorResponse = new Response(
@@ -434,7 +434,7 @@ async function removeFriend(requestedUser, requestJSON) {
             status: 'friend'
         });
 
-        console.log("Existing Friendship ===> ", existingFriendship);
+        // console.log("Existing Friendship ===> ", existingFriendship);
 
         if (!existingFriendship) {
             // If the friendship or friend request already exists, return an appropriate response

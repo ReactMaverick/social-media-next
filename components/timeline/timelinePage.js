@@ -9,7 +9,7 @@ import TimelinePageContents from './timelinePageContents';
 import { useEffect } from 'react';
 
 
-export default function TimelinePage({ timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus, currentUser, friends }) {
+export default function TimelinePage({ timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus, currentUser, friends, socket }) {
 
     useEffect(() => {
         // console.log("Timeline User ===> ", timelineUser, friendshipStatus);
@@ -54,6 +54,7 @@ export default function TimelinePage({ timelineUserId, timelineUser, friendshipS
                     timelineUser={timelineUser}
                     currentUser={currentUser}
                     friends={friends}
+                    socket={socket}
                 />
                 {/* Page Contents */}
             </TimelineContainer>

@@ -28,10 +28,10 @@ export async function POST(req, { params }) {
                     await Message.findByIdAndDelete(deleteMessageId);
                     return Response.json({ status: 200, success: true, message: 'Message deleted successfully!', deleteMessageId });
                 } else {
-                    console.log("Id not found in the array");
+                    // console.log("Id not found in the array");
                 }
             } else {
-                console.log("No conversation found");
+                // console.log("No conversation found");
                 return Response.json({ success: true, message: 'No Message found!' });
             }
 

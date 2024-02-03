@@ -10,7 +10,7 @@ export default function SpinnerWrapper() {
         // Set a timeout to show the spinner for at least 1 second
         const timeout = setTimeout(() => {
             setHideSpinner(true);
-        }, 5000);
+        }, 1000);
 
         // Clear the timeout if the component unmounts or the dependency array changes
         return () => clearTimeout(timeout);

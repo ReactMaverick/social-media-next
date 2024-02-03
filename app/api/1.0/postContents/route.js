@@ -21,7 +21,7 @@ export async function POST(req, res) {
         const image = requestFormData.get('image');
         const video = requestFormData.get('video');
 
-        console.log(user, caption, image, video);
+        // console.log(user, caption, image, video);
 
         const requestJSON = {
             user: user,

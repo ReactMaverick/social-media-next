@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { likePost, dislikePost, addComment, deleteComment, addCommentReply } from '@/utils/features/postContentsSlice';
 import { useEffect, useRef, useState } from 'react';
 
-export default function PostComment({ profileImgSrc, profileLink, userName, comment, commentUserId, currentUser, commentId, postId, currentUserImgSrc, children }) {
+export default function PostComment({ profileImgSrc, profileLink, userName, comment, commentUserId, currentUser, commentId, postId, currentUserImgSrc, children, socket }) {
 
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [commentReplyText, setCommentReplyText] = useState('');
@@ -32,7 +32,7 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
             dispatch(deleteComment({ postId, commentId }))
                 .then((action) => {
                     // Handle success if needed
-                    console.log('Comment deleted successfully!', action);
+                    // console.log('Comment deleted successfully!', action);
                 })
                 .catch((error) => {
                     // Handle error if needed
@@ -76,7 +76,8 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
             dispatch(addCommentReply({ postId, commentId, reply: commentReplyText }))
                 .then((action) => {
                     // Handle success if needed
-                    console.log('Reply added successfully!', action);
+                    // console.log('Reply added successfully!', action);
+
                 })
                 .catch((error) => {
                     // Handle error if needed

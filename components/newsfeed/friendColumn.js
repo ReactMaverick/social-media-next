@@ -31,7 +31,7 @@ export default function FriendColumn({ friendName, friendImg, friendCoverImg, fr
                         >
                             <Link
                                 className={`profile-link ${styles.profileLink} ${styles.link}`}
-                                href={`/0/timeline/${friendProfileId}`}
+                                href={process.env.BASE_URL + `/0/timeline/${friendProfileId}`}
                             >
                                 {friendName}
                             </Link>

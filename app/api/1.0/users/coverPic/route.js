@@ -33,7 +33,7 @@ export async function POST(req) {
                     return Response.json({ status: 200, message: 'File uploaded successfully', updatedUser: updatedUser });
                 }
             } catch (e) {
-                console.log("error", e)
+                // console.log("error", e)
 
             }
         } else {

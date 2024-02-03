@@ -377,7 +377,7 @@ async function handleDeleteReplyComment(requestedUser, requestedPost, requestJSO
     }
 }
 // Delete Comment
-export async function handleDeleteComment(requestedUser, requestedPost, commentId) {
+async function handleDeleteComment(requestedUser, requestedPost, commentId) {
     try {
 
         // Find the index of the comment to be deleted

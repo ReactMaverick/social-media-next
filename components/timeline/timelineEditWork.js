@@ -45,7 +45,7 @@ export default function TimelineEditWork({ currentUser }) {
     }, [currentUser])
 
     const handleEducationSaveClick = () => {
-        console.log("Education Form Data ==> ", educationFormData);
+        // console.log("Education Form Data ==> ", educationFormData);
 
         dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: educationFormData }))
             .then((action) => {
@@ -68,7 +68,7 @@ export default function TimelineEditWork({ currentUser }) {
     }
 
     const handleWorkSaveClick = () => {
-        console.log("Work Form Data ==> ", workFormData);
+        // console.log("Work Form Data ==> ", workFormData);
 
         dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: workFormData }))
             .then((action) => {

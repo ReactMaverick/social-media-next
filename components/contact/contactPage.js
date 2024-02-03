@@ -23,7 +23,7 @@ export default function ContactPage() {
     }
 
     const handleSendMessageClick = () => {
-        console.log("FormData ==> ", formData);
+        // console.log("FormData ==> ", formData);
 
         if (formData.name == '' || formData.email == '' || formData.message == '' || formData.phone == '') {
             Swal.fire({

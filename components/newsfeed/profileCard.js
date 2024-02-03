@@ -31,7 +31,7 @@ export default function ProfileCard({ currentUser, friends }) {
                     >
                         <Link
                             className={styles.textWhite}
-                            href={'/0/timeline/' + currentUser.profileId}
+                            href={process.env.BASE_URL + '/0/timeline/' + currentUser.profileId}
 
                         >
                             {currentUser.firstName + ' ' + currentUser.lastName}
@@ -39,8 +39,8 @@ export default function ProfileCard({ currentUser, friends }) {
                     </h5>
                     <Link
                         className={styles.textWhite}
-                        href="#"
-
+                        href=""
+                        onClick={(e) => e.preventDefault()}
                     >
                         <Icon className="icon" icon="ion:person-add" />{" "}
                         {friends && friends.length} friends

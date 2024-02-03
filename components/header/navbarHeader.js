@@ -7,7 +7,7 @@ export default function NavbarHeader() {
             className={`navbar-brand`}
         >
             <Link
-                href="/"
+                href={process.env.BASE_URL}
             >
                 <img
                     alt="logo"

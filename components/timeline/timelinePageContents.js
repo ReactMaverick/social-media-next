@@ -14,7 +14,7 @@ import PostComment from '../newsfeed/postComment';
 import PostCommentReply from "../newsfeed/postCommentReply";
 import { getTimeElapsed } from '@/utils/common';
 
-export default function TimelinePageContents({ currentUser, timelineUser, friends }) {
+export default function TimelinePageContents({ currentUser, timelineUser, socket, friends }) {
   const [sidebarOption, setSidebarOption] = useState('info');
 
   const dispatch = useDispatch();
@@ -41,12 +41,12 @@ export default function TimelinePageContents({ currentUser, timelineUser, friend
 
         <TimelineMiddleColumn>
           {/* Edit This Section */}
-          {timelineUser._id === currentUser._id &&
-            <CreatePost currentUser={currentUser} friends={friends} />
+          {((timelineUser._id === currentUser._id) && socket) &&
+            <CreatePost currentUser={currentUser} socket={socket} friends={friends} />
           }
 
-          {posts.map((post) =>
-            (post.user._id === timelineUser._id) &&
+          {posts.slice().reverse().map((post) =>
+            (post.user._id === timelineUser._id) && socket &&
             <PostContent
               key={post._id}
               postId={post._id}
@@ -62,6 +62,8 @@ export default function TimelinePageContents({ currentUser, timelineUser, friend
               currentUserImgSrc={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
               currentUser={currentUser}
               postedUserId={post.user._id}
+              socket={socket}
+              friends={friends}
             >
               {(post?.comments?.length > 0) && post.comments.map((comment) =>
                 <PostComment
@@ -75,6 +77,8 @@ export default function TimelinePageContents({ currentUser, timelineUser, friend
                   commentId={comment._id}
                   postId={post._id}
                   currentUserImgSrc={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
+                  socket={socket}
+                  friends={friends}
                 >
                   {(comment?.replyComment?.length > 0) && comment.replyComment.map((reply) =>
 
@@ -89,6 +93,8 @@ export default function TimelinePageContents({ currentUser, timelineUser, friend
                       postId={post._id}
                       commentId={comment._id}
                       replyCommentId={reply._id}
+                      socket={socket}
+                      friends={friends}
                     />
 
                   )}

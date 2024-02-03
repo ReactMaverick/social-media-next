@@ -328,7 +328,7 @@ export default function SignUpForm() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data); // Log the response from the server
+        // console.log(data); // Log the response from the server
 
         Swal.fire({
           icon: 'success',
@@ -385,7 +385,7 @@ export default function SignUpForm() {
 
   return (
     <SignUpFormContainer className={styles.signUpForm}>
-      <LogoLink href="/0/">
+      <LogoLink href={process.env.BASE_URL}>
         {(signInInterface) ? (
           <LogoImageSignin alt="Friend Finder" src="images/logo.png" />
         ) : (
@@ -534,9 +534,9 @@ export default function SignUpForm() {
 
       </FormWrapper>
       {(signInInterface) ? (
-        <StyledLink href="#" onClick={handleSignUpClick}>Create a new account</StyledLink>
+        <StyledLink href="" onClick={handleSignUpClick}>Create a new account</StyledLink>
       ) : (
-        <StyledLink href="#" onClick={handleSignInClick}>Already have an account?</StyledLink>
+        <StyledLink href="" onClick={handleSignInClick}>Already have an account?</StyledLink>
       )}
 
       <FormShadow src="images/signup_form_bottom_shadow.png" />

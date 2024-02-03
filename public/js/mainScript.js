@@ -32,14 +32,4 @@ $(document).ready(() => {
     }, 500);
 
 
-    setTimeout(() => {
-        var $scrollbar = $(".scrollbar-outer");
-
-        if ($scrollbar && ($scrollbar.length > 0)) {
-            console.log($scrollbar.scrollbar());
-            $scrollbar.scrollbar();
-        };
-    }, 500);
-
-
 })

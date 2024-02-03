@@ -12,7 +12,7 @@ export default function PostCommentReply({ profileImgSrc, profileLink, userName,
     const handleReplyDelete = (e) => {
         e.preventDefault();
 
-        console.log("Delete Clicked", postId, commentId, replyCommentId);
+        // console.log("Delete Clicked", postId, commentId, replyCommentId);
 
         try {
             // Dispatch the addComment action

@@ -23,7 +23,7 @@ export async function POST(req, res) {
             let videoPath = '';
             let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
 
-            console.log(image, video);
+            // console.log(image, video);
 
             if (image) {
                 const fileData = new FormData();
@@ -43,7 +43,7 @@ export async function POST(req, res) {
                         imagePath = data.filePath;
                     }
                 } catch (e) {
-                    console.log("error", e)
+                    // console.log("error", e)
 
                 }
             }
@@ -65,7 +65,7 @@ export async function POST(req, res) {
                         videoPath = data.filePath;
                     }
                 } catch (e) {
-                    console.log("error", e)
+                    // console.log("error", e)
 
                 }
             }

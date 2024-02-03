@@ -119,14 +119,14 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
             if (response.ok) {
                 const data = await response.json();
 
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestSent(true);
                 setIsFriendRequestAccepted(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -153,7 +153,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 dispatch(addFriend(data?.newFriendshipAccept));
 
@@ -162,7 +162,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                 setIsFriend(true);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -189,14 +189,14 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestAccepted(false);
                 setIsFriendRequestSent(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -223,14 +223,14 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestAccepted(false);
                 setIsFriendRequestSent(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -257,14 +257,14 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 setIsFriendRequestAccepted(false);
                 setIsFriendRequestSent(false);
                 setIsFriend(false);
             }
         } catch (e) {
-            console.log("error", e)
+            // console.log("error", e)
 
         }
 
@@ -329,22 +329,22 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
             <div className={`col-md-9 ${styles.timelineCol}`} onClick={handleTimelineColClick}>
                 <ul className={`${styles.profileMenu} ${styles.listInline}`}>
                     <li>
-                        <Link className={whichPage == 'timeline' ? styles.active : ''} href={"/0/timeline/" + timelineUserId}>
+                        <Link className={whichPage == 'timeline' ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId}>
                             Timeline
                         </Link>
                     </li>
                     <li>
-                        <Link className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/about"}>
+                        <Link className={(whichPage == 'timelineEdit' || whichPage == 'timelineAbout') ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/about"}>
                             About
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineAlbum' ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/album"}>
+                        <Link className={whichPage == 'timelineAlbum' ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/album"}>
                             Album
                         </Link>
                     </li>
                     <li>
-                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/friends"}>
+                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href={process.env.BASE_URL + "/0/timeline/" + timelineUserId + "/friends"}>
                             Friends
                         </Link>
                     </li>

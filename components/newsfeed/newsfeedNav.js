@@ -14,7 +14,7 @@ export default function NewsfeedNav({ currentUser }) {
                 <div
                 >
                     <Link
-                        href="/0/newsfeed"
+                        href={process.env.BASE_URL + "/0/newsfeed"}
                     >
                         My Newsfeed
                     </Link>
@@ -41,7 +41,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeed/friends"
+                        href={process.env.BASE_URL + "/0/newsfeed/friends"}
                     >
                         Friends
                     </Link>
@@ -55,7 +55,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeed/messages"
+                        href={process.env.BASE_URL + "/0/newsfeed/messages"}
                     >
                         Messages
                     </Link>
@@ -69,7 +69,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeed/images"
+                        href={process.env.BASE_URL + "/0/newsfeed/images"}
                     >
                         Images
                     </Link>
@@ -83,7 +83,7 @@ export default function NewsfeedNav({ currentUser }) {
 
                 >
                     <Link
-                        href="/0/newsfeed/videos"
+                        href={process.env.BASE_URL + "/0/newsfeed/videos"}
                     >
                         Videos
                     </Link>

@@ -27,7 +27,7 @@ export async function GET(req, { params }) {
             // Fetch the post from the database using the PostContent model and the provided ID
             const post = await PostContent.findById(postId) // Fetch by Id
 
-            console.log("Post ===> ", post);
+            // console.log("Post ===> ", post);
 
             // Check if the post was found
             if (!post) {
@@ -157,7 +157,7 @@ export async function PUT(req, { params }) {
                             postContent.image = data.filePath;
                         }
                     } catch (e) {
-                        console.log("error", e)
+                        // console.log("error", e)
 
                     }
                 }
@@ -179,7 +179,7 @@ export async function PUT(req, { params }) {
                             postContent.video = data.filePath;
                         }
                     } catch (e) {
-                        console.log("error", e)
+                        // console.log("error", e)
 
                     }
                 }

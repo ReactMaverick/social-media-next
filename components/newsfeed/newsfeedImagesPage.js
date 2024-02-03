@@ -18,9 +18,20 @@ import { fetchAllFriends, addFriend, removeFriend, selectFriends, selectSentFrie
 import MediaContainer from './mediaContainer';
 import NewsfeedImagePost from './newsfeedImagePost';
 import SpinnerWrapper from "../spinnerWrapper/spinnerWrapper";
+import { addPost, removePost, clearPosts } from '@/utils/features/postContentsSlice';
+import { likePost, dislikePost, addComment, deleteComment } from '@/utils/features/postContentsSlice';
+
+// Import io conditionally to avoid importing it on the server
+let io;
+if (typeof window !== "undefined") {
+    io = require("socket.io-client");
+}
+
+let socket;
 
 export default function NewsfeedImagesPage({ currentUser }) {
     const [isLoading, setIsLoading] = useState(false);
+    const [isSocketInitilized, setIsSocketInitialized] = useState(false);
 
     const dispatch = useDispatch();
     const posts = useSelector(selectPosts);
@@ -52,6 +63,113 @@ export default function NewsfeedImagesPage({ currentUser }) {
         });
     }, [dispatch]);
 
+    useEffect(() => {
+        if (!isLoading) {
+            // Initialize socket only on the client
+            if (io) {
+
+                socketInitializer();
+
+                return () => {
+                    if (socket) {
+                        socket.disconnect();
+                    }
+                };
+            }
+        }
+
+
+    }, [friends]);
+
+    if (!isSocketInitilized) {
+        const fetchCall = async () => {
+            await fetch('/api/socket');
+        };
+
+        fetchCall();
+
+        setIsSocketInitialized(true);
+    };
+
+    async function socketInitializer() {
+        // Fetch data only on the client
+        if (typeof window !== "undefined") {
+
+            // console.log("Initializing socket");
+
+            // console.log(activeTab);
+
+            // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
+
+            socket = io();
+
+            socket.on("connect", () => {
+                const currentUserId = currentUser._id;
+
+                // console.log(userId, roomId);
+
+                // Emit join-room event when the component mounts
+                socket.emit("join-newsfeed-room", { userRoomId: currentUserId, friends });
+
+            });
+
+            // New Post
+            socket.on("new-post", ({ post, postedUserId }) => {
+                // console.log("Received Post Data ==> ", post, postedUserId);
+
+                if (postedUserId !== currentUser._id) {
+                    // Dispatch The current post
+                    // console.log("Received Post Data ==> ", post, postedUserId);
+                    dispatch(addPost(post));
+                }
+
+
+            });
+
+            // Post delete
+            socket.on("new-post-delete", ({ postId, postedUserId }) => {
+                // console.log("Received Post Id ==> ", postId, postedUserId);
+
+                if (postedUserId !== currentUser._id) {
+                    // Dispatch delete post
+                    dispatch(removePost(postId));
+                }
+
+            });
+
+            // New Post
+            socket.on("new-post-comment", ({ postId, postedUserId, newCommentId, comment }) => {
+                // console.log("Received Post Data ==> ", post, postedUserId);
+
+                if (comment.user._id !== currentUser._id) {
+                    // Dispatch The current post
+                    // console.log("Received Post Data ==> ", postId, postedUserId, newCommentId, comment);
+                    const socketDetails = {
+                        postId: postId,
+                        newCommentId: newCommentId,
+                        newComment: comment
+                    }
+
+                    // console.log("Socket Details ===> ", socketDetails);
+
+                    dispatch(addComment({ socketDetails }))
+                        .then((action) => {
+                            // Handle success if needed
+                            // console.log('Comment added successfully!', action);
+
+                        })
+                        .catch((error) => {
+                            // Handle error if needed
+                            console.error('Error commenting on post:', error);
+                        });
+                }
+
+
+            });
+
+        }
+    }
+
     // console.log("Posts ===> ", posts);
 
     // console.log("Users ===> ", users);
@@ -78,7 +196,9 @@ export default function NewsfeedImagesPage({ currentUser }) {
                             </NewsfeedLeftColumn>
 
                             <NewsfeedMiddleColumn>
-                                <CreatePost currentUser={currentUser} friends={friends} />
+                                {socket &&
+                                    <CreatePost currentUser={currentUser} friends={friends} socket={socket} />
+                                }
 
                                 {/* Images Section */}
                                 <MediaContainer>

@@ -54,8 +54,20 @@ export const dislikePost = createAsyncThunk('postContents/dislikePost', async (p
 });
 
 // Add Comment
-export const addComment = createAsyncThunk('postContents/addComment', async ({ postId, content }) => {
+export const addComment = createAsyncThunk('postContents/addComment', async ({ postId, content, socketDetails }) => {
     try {
+        // Check if the request is coming from the socket
+        const isSocketRequest = socketDetails !== undefined;
+
+        if (isSocketRequest) {
+            // Return data from the socket event
+            return {
+                postId: socketDetails.postId,
+                newCommentId: socketDetails.newCommentId,
+                comment: socketDetails.newComment
+            };
+        }
+
         const response = await fetch(`/api/1.0/postContents/${postId}/addComment`, {
             method: 'POST',
             headers: {
@@ -69,7 +81,7 @@ export const addComment = createAsyncThunk('postContents/addComment', async ({ p
         }
 
         const data = await response.json();
-        console.log("data ==> ", data);
+        // console.log("data ==> ", data);
         return { postId, newCommentId: data.newCommentId, comment: data.newComment };
     } catch (error) {
         throw new Error(`Error adding comment: ${error.message}`);
@@ -109,7 +121,7 @@ export const addCommentReply = createAsyncThunk('postContents/addCommentReply', 
         }
 
         const data = await response.json();
-        console.log("data ==> ", data);
+        // console.log("data ==> ", data);
         return { postId, commentId, newReplyCommentId: data.newReplyCommentId, commentReply: data.newReplyComment };
     } catch (error) {
         throw new Error(`Error adding reply: ${error.message}`);
@@ -119,7 +131,7 @@ export const addCommentReply = createAsyncThunk('postContents/addCommentReply', 
 // Delete Comment Reply
 export const deleteCommentReply = createAsyncThunk('postContents/deleteCommentReply', async ({ postId, commentId, replyCommentId }) => {
     try {
-        console.log("ids...", postId, commentId, replyCommentId);
+        // console.log("ids...", postId, commentId, replyCommentId);
         const response = await fetch(`/api/1.0/postContents/${postId}/deleteReplyComment/${commentId}`, {
             method: 'POST',
             headers: {
@@ -257,13 +269,13 @@ const postContentsSlice = createSlice({
 
                 commentReply._id = newReplyCommentId; //Addd id to the new reply
 
-                console.log("Comment Reply Payload ===> ", action.payload);
+                // console.log("Comment Reply Payload ===> ", action.payload);
 
                 state.posts = state.posts.map(post =>
                     post._id === postId
                         ? {
                             ...post, comments: post.comments.map((comment) =>
-                                comment._id === commentId ? { ...comment, replyComment: comment.replyComment ? [...comment.replyComment, commentReply] : replyComment } : comment)
+                                comment._id === commentId ? { ...comment, replyComment: comment?.replyComment ? [...comment?.replyComment, commentReply] : [commentReply] } : comment)
                         }
                         : post
                 );
@@ -279,7 +291,7 @@ const postContentsSlice = createSlice({
                 state.status = 'succeeded';
                 const { postId, commentId, replyCommentId } = action.payload;
 
-                console.log("Comment Reply Delete Payload ===> ", action.payload);
+                // console.log("Comment Reply Delete Payload ===> ", action.payload);
 
                 state.posts = state.posts.map(post =>
                     post._id === postId

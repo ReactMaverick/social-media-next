@@ -26,7 +26,7 @@ export default function TimelineEditPassword({ currentUser }) {
     };
 
     const handlePasswordChangeButtonClick = async () => {
-        console.log("Form Data ==> ", formData);
+        // console.log("Form Data ==> ", formData);
 
         try {
             const { oldPassword, newPassword, confirmNewPassword } = formData;

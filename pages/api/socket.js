@@ -10,7 +10,7 @@ export default async function SocketHandler(req, res) {
 
     if (res.socket.server.io) {
         // console.log("res", res);
-        console.log("Already set up");
+        // console.log("Already set up");
         res.end();
         return;
     }
@@ -20,7 +20,7 @@ export default async function SocketHandler(req, res) {
     res.socket.server.io = io;
 
     io.on("connection", (socket) => {
-        console.log("Client connected");
+        // console.log("Client connected");
         // Verify user identity
 
         if (!session?.user) {
@@ -49,7 +49,7 @@ export default async function SocketHandler(req, res) {
             })
 
             const usersInUserRoom = io.sockets.adapter.rooms.get(userRoomId);
-            console.log(`Users in room ${userRoomId}:`, usersInUserRoom);
+            // console.log(`Users in room ${userRoomId}:`, usersInUserRoom);
 
 
         })
@@ -63,6 +63,31 @@ export default async function SocketHandler(req, res) {
                 // Emit the post data to each friend's room
                 const friendRoom = io.to(friend.friend._id);
                 friendRoom.emit('new-post', { post, postedUserId });
+            });
+        });
+
+        // Example: Send a post comment to all friends
+        socket.on('delete-post', ({ postId, friends, postedUserId }) => {
+            // console.log("PostId ==> ", postId, postedUserId);
+
+            // console.log("Friends ===> ", friends);
+
+            friends.forEach((friend) => {
+                // Emit the post data to each friend's room
+                const friendRoom = io.to(friend.friend._id);
+                friendRoom.emit('new-post-delete', { postId, postedUserId });
+            });
+        });
+
+        // Example: Send a post to all friends
+        socket.on('publish-post-comment', ({ postId, friends, postedUserId, newCommentId, comment }) => {
+            // console.log("Post ==> ", post);
+
+            // console.log("Friends ===> ", friends);
+            friends.forEach((friend) => {
+                // Emit the post data to each friend's room
+                const friendRoom = io.to(friend.friend._id);
+                friendRoom.emit('new-post-comment', { postId, postedUserId, newCommentId, comment });
             });
         });
 
@@ -96,6 +121,6 @@ export default async function SocketHandler(req, res) {
 
     });
 
-    console.log("Setting up socket");
+    // console.log("Setting up socket");
     res.end();
 }

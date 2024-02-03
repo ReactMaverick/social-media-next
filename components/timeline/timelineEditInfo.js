@@ -44,7 +44,7 @@ export default function TimelineEditInfo({ currentUser }) {
     }, [currentUser])
 
     const handleSaveChangesClick = () => {
-        console.log("FormData ==> ", formData);
+        // console.log("FormData ==> ", formData);
 
         // Extract day, month, and year from formData
         const { firstName, lastName, email, day, month, year, gender, city, country, aboutMe } = formData;
@@ -66,7 +66,7 @@ export default function TimelineEditInfo({ currentUser }) {
             about_me: aboutMe
         }
 
-        console.log("Updated form data ==> ", updatedFormdata);
+        // console.log("Updated form data ==> ", updatedFormdata);
 
         dispatch(updateCurrentUser({ userProfileId: currentUser.profileId, userData: updatedFormdata }))
             .then((action) => {

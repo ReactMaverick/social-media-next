@@ -21,9 +21,21 @@ import { getTimeElapsed } from '@/utils/common';
 import PostCommentReply from "./postCommentReply";
 import { useState } from "react";
 import SpinnerWrapper from "../spinnerWrapper/spinnerWrapper";
+import { addPost, removePost, clearPosts } from '@/utils/features/postContentsSlice';
+import { likePost, dislikePost, addComment, deleteComment } from '@/utils/features/postContentsSlice';
+
+// Import io conditionally to avoid importing it on the server
+let io;
+if (typeof window !== "undefined") {
+    io = require("socket.io-client");
+}
+
+let socket;
 
 export default function NewsfeedPage({ currentUser }) {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSocketInitilized, setIsSocketInitialized] = useState(false);
+
 
     const dispatch = useDispatch();
     const posts = useSelector(selectPosts);
@@ -51,6 +63,7 @@ export default function NewsfeedPage({ currentUser }) {
         }).catch(error => {
             // Handle errors if any
             console.error('Error fetching data:', error);
+
             setIsLoading(false);
         });
     }, [dispatch]);
@@ -58,6 +71,118 @@ export default function NewsfeedPage({ currentUser }) {
     // console.log("Posts ===> ", posts);
 
     // console.log("Users ===> ", users);
+
+    useEffect(() => {
+        if (!isLoading) {
+            // Initialize socket only on the client
+            if (io) {
+
+                socketInitializer();
+
+                return () => {
+                    if (socket) {
+                        socket.disconnect();
+                    }
+                };
+            }
+        }
+
+
+    }, [friends]);
+
+    if (!isSocketInitilized) {
+        const fetchCall = async () => {
+            await fetch('/api/socket');
+        };
+
+        fetchCall();
+
+        setIsSocketInitialized(true);
+    };
+
+    async function socketInitializer() {
+        // Fetch data only on the client
+        if (typeof window !== "undefined") {
+
+            // console.log("Initializing socket");
+
+            // console.log(activeTab);
+
+            // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
+
+            socket = io();
+
+            socket.on("connect", () => {
+                const currentUserId = currentUser._id;
+
+                // console.log(userId, roomId);
+
+                // Emit join-room event when the component mounts
+                socket.emit("join-newsfeed-room", { userRoomId: currentUserId, friends });
+
+            });
+
+            // New Post
+            socket.on("new-post", ({ post, postedUserId }) => {
+                // console.log("Received Post Data ==> ", post, postedUserId);
+
+                if (postedUserId !== currentUser._id) {
+                    // Dispatch The current post
+                    // console.log("Received Post Data ==> ", post, postedUserId);
+                    dispatch(addPost(post));
+                }
+
+
+            });
+
+            // Post delete
+            socket.on("new-post-delete", ({ postId, postedUserId }) => {
+                // console.log("Received Post Id ==> ", postId, postedUserId);
+
+                if (postedUserId !== currentUser._id) {
+                    // Dispatch delete post
+                    dispatch(removePost(postId));
+                }
+
+            });
+
+            // New Post
+            socket.on("new-post-comment", ({ postId, postedUserId, newCommentId, comment }) => {
+                // console.log("Received Post Data ==> ", post, postedUserId);
+
+                if (comment.user._id !== currentUser._id) {
+                    // Dispatch The current post
+                    // console.log("Received Post Data ==> ", postId, postedUserId, newCommentId, comment);
+                    const socketDetails = {
+                        postId: postId,
+                        newCommentId: newCommentId,
+                        newComment: comment
+                    }
+
+                    // console.log("Socket Details ===> ", socketDetails);
+
+                    dispatch(addComment({ socketDetails }))
+                        .then((action) => {
+                            // Handle success if needed
+                            // console.log('Comment added successfully!', action);
+
+                        })
+                        .catch((error) => {
+                            // Handle error if needed
+                            console.error('Error commenting on post:', error);
+                        });
+                }
+
+
+            });
+
+        }
+    }
+
+    useEffect(() => {
+        // console.log("Updated Posts ==> ", posts);
+    }, [posts]);
+
 
     // console.log("All Friends ===> ", friends);
 
@@ -71,7 +196,10 @@ export default function NewsfeedPage({ currentUser }) {
 
         <NewsFeedPageContents>
             {isLoading ?
-                <SpinnerWrapper /> :
+                <main>
+                    <p>Please wait....</p>
+                </main>
+                :
                 currentUser &&
                 (
                     <NewsFeedContainer>
@@ -83,12 +211,16 @@ export default function NewsfeedPage({ currentUser }) {
                             </NewsfeedLeftColumn>
 
                             <NewsfeedMiddleColumn>
-                                <CreatePost currentUser={currentUser} friends={friends} />
+                                {socket &&
+                                    <CreatePost currentUser={currentUser} friends={friends} socket={socket} />
+                                }
 
-                                {(posts && friends) && posts.slice().reverse().map((post) => { // Use slice() to create a copy of the array before reversing
+                                {(posts && friends && socket) && posts.slice().reverse().map((post) => { // Use slice() to create a copy of the array before reversing
                                     const isFriendPosted = friends.some(friend => friend.friend._id === post.user._id);
 
                                     const isCurrentUserPosted = currentUser._id === post.user._id;
+
+                                    // console.log("Post ===> ", post);
 
                                     // console.log(isFriendPosted, isCurrentUserPosted);
 
@@ -109,6 +241,8 @@ export default function NewsfeedPage({ currentUser }) {
                                                 currentUserImgSrc={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
                                                 currentUser={currentUser}
                                                 postedUserId={post.user._id}
+                                                socket={socket}
+                                                friends={friends}
                                             >
                                                 {(post?.comments?.length > 0) && post.comments.map((comment) =>
                                                     <PostComment
@@ -122,6 +256,8 @@ export default function NewsfeedPage({ currentUser }) {
                                                         commentId={comment._id}
                                                         postId={post._id}
                                                         currentUserImgSrc={(currentUser.image) !== '' ? (currentUser.image) : '../../images/no_user.webp'}
+                                                        socket={socket}
+                                                        friends={friends}
                                                     >
                                                         {(comment?.replyComment?.length > 0) && comment.replyComment.map((reply) =>
 
@@ -136,6 +272,8 @@ export default function NewsfeedPage({ currentUser }) {
                                                                 postId={post._id}
                                                                 commentId={comment._id}
                                                                 replyCommentId={reply._id}
+                                                                socket={socket}
+                                                                friends={friends}
                                                             />
 
                                                         )}

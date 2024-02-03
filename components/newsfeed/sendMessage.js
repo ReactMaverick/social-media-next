@@ -62,7 +62,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
         // Fetch data only on the client
         if (typeof window !== "undefined") {
 
-            console.log("Initializing socket");
+            // console.log("Initializing socket");
 
             // console.log(activeTab);
 
@@ -195,7 +195,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
     };
 
     const handleSendMessage = async () => {
-        console.log(message, receiverId, selectedImage);
+        // console.log(message, receiverId, selectedImage);
         try {
             // Dispatch the addComment action
             dispatch(sendMessage({ receiverId, message, selectedImage }))
@@ -262,7 +262,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
                     onKeyDown={handleKeyDown}
                 />
                 <Link
-                    href="#"
+                    href=""
                     onClick={handleImageLinkClick}
                 >
                     <Icon icon="entypo:images" color='#000' />

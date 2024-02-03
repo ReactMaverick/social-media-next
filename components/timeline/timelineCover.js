@@ -24,7 +24,7 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
                     dispatch(updateCoverPictureUser({ selectedCoverImage }))
                         .then((action) => {
                             // Handle success if needed
-                            console.log('Cover Picture Updated Successfully!', action);
+                            // console.log('Cover Picture Updated Successfully!', action);
                         })
                         .catch((error) => {
                             // Handle error if needed

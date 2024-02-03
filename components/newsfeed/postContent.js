@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { likePost, dislikePost, addComment, deleteComment, removePost } from '@/utils/features/postContentsSlice';
 import { useState } from 'react';
 
-export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc, postId, currentUser, postedUserId }) {
+export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc, postId, currentUser, postedUserId, socket, friends }) {
 
     const [commentText, setCommentText] = useState('');
 
@@ -20,7 +20,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
             dispatch(likePost(postId))
                 .then((action) => {
                     // Handle success if needed
-                    console.log('Post liked/unliked successfully:', action);
+                    // console.log('Post liked/unliked successfully:', action);
                 })
                 .catch((error) => {
                     // Handle error if needed
@@ -39,7 +39,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
             dispatch(dislikePost(postId))
                 .then((action) => {
                     // Handle success if needed
-                    console.log('Post disliked/undisliked successfully:', action);
+                    // console.log('Post disliked/undisliked successfully:', action);
                 })
                 .catch((error) => {
                     // Handle error if needed
@@ -71,7 +71,20 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
             dispatch(addComment({ postId, content: commentText }))
                 .then((action) => {
                     // Handle success if needed
-                    console.log('Comment added successfully!', action);
+                    // console.log('Comment added successfully!', action);
+
+                    if (socket) {
+                        // console.log("Socket....");
+                        // Emit send-message event with user details and room ID
+                        socket.emit("publish-post-comment", {
+                            postId,
+                            friends: friends,
+                            postedUserId: postedUserId,
+                            newCommentId: action.payload.newCommentId,
+                            comment: action.payload.comment
+                        });
+                    }
+
                 })
                 .catch((error) => {
                     // Handle error if needed
@@ -106,10 +119,21 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
             if (response.ok) {
                 // Post deleted successfully
                 const responseData = await response.json();
-                console.log('Post deleted successfully:', responseData);
+                // console.log('Post deleted successfully:', responseData);
                 // Add any additional logic or state updates as needed
 
                 dispatch(removePost(postId));
+
+                if (socket) {
+                    // console.log("Socket....");
+                    // Emit send-message event with user details and room ID
+                    socket.emit("delete-post", {
+                        postId,
+                        friends: friends,
+                        postedUserId: postedUserId,
+                    });
+                }
+
             } else {
                 // Handle other error cases
                 console.error('Error deleting post:', response.error);
@@ -190,7 +214,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                         {(currentUser && (postedUserId === currentUser._id)) && (
                             <Link
                                 className={`${styles.btn} ${styles.textRed}`}
-                                href="#"
+                                href=""
                                 onClick={handleRemovePostButtonClick}
                             >
                                 <Icon icon="material-symbols:delete" />
