@@ -4,13 +4,83 @@ import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { likePost, dislikePost, addComment, deleteComment, removePost } from '@/utils/features/postContentsSlice';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PostContent({ children, postImgSrc, postVideSrc, postUserImgSrc, postUserTimelineLink, postedUserName, updateStatusText, likes, dislikes, postCaption, currentUserImgSrc, postId, currentUser, postedUserId, socket, friends }) {
 
     const [commentText, setCommentText] = useState('');
+    const [postImageBlobURL, setPostImageBlobURL] = useState(null);
+    const [postVideoBlobUrl, setPostVideoBlobUrl] = useState(null);
+    const [postUserImageBlobUrl, setPostUserImageBlobUrl] = useState(null);
+    const [currentUserImageBlobUrl, setCurrentUserImageBlobUrl] = useState(null);
 
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (postImgSrc)
+            getImageBlob(postImgSrc, setPostImageBlobURL);
+
+        if (postVideSrc)
+            getVideoBlob(postVideSrc, setPostVideoBlobUrl);
+
+        if (postUserImgSrc)
+            getImageBlob(postUserImgSrc, setPostUserImageBlobUrl);
+
+        if (currentUserImgSrc)
+            getImageBlob(currentUserImgSrc, setCurrentUserImageBlobUrl);
+    }, [])
+
+    const getImageBlob = async (imageName, setImageUrl) => {
+        try {
+            const response = await fetch(`/api/dynamicImages?id=${imageName}`);
+
+            if (!response.ok) {
+                console.log("Failed to get Image Source ==> ", response);
+                return
+            }
+
+            if (response.ok) {
+                const mimeType = response.headers.get('Content-Type');
+                const buffer = await response.arrayBuffer(); // Convert response to ArrayBuffer
+                const blob = new Blob([buffer], { type: mimeType }); // Convert buffer to Blob
+
+                // console.log("Blob ==> ", blob);
+
+                const imageURL = URL.createObjectURL(blob);
+
+                setImageUrl(imageURL);
+            }
+
+        } catch (error) {
+            console.error("Error ==> ", error);
+        }
+    }
+
+    const getVideoBlob = async (videoName, setVideoUrl) => {
+        try {
+            const response = await fetch(`/api/dynamicVideos?id=${videoName}`);
+
+            if (!response.ok) {
+                console.log("Failed to get Video Source ==> ", response);
+                return
+            }
+
+            if (response.ok) {
+                const mimeType = response.headers.get('Content-Type');
+                const buffer = await response.arrayBuffer(); // Convert response to ArrayBuffer
+                const blob = new Blob([buffer], { type: mimeType }); // Convert buffer to Blob
+
+                // console.log("Blob ==> ", blob);
+
+                const videoUrl = URL.createObjectURL(blob);
+
+                setVideoUrl(videoUrl);
+            }
+
+        } catch (error) {
+            console.error("Error ==> ", error);
+        }
+    }
 
     const handleLike = async (e) => {
         e.preventDefault();
@@ -20,7 +90,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
             dispatch(likePost(postId))
                 .then((action) => {
                     // Handle success if needed
-                    // console.log('Post liked/unliked successfully:', action);
+                    // console.log('postUser liked/unliked successfully:', action);
                 })
                 .catch((error) => {
                     // Handle error if needed
@@ -153,12 +223,12 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                 <img
                     className={styles.postImage}
                     alt="post-image"
-                    src={postImgSrc}
+                    src={postImageBlobURL}
                 />
             ) : (postVideSrc && (
                 <div className={styles.videoWrapper}>
-                    <video className={styles.postVideo} controls>
-                        <source src={postVideSrc} type="video/mp4" />
+                    <video className={styles.postVideo} src={postVideoBlobUrl} controls>
+                        {/* <source src={videoBlobUrl} type="video/mp4" /> */}
                     </video>
                 </div>
             ))}
@@ -169,7 +239,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                 <img
                     className={`${styles.profilePhotoMd} ${styles.pullLeft}`}
                     alt="user"
-                    src={postUserImgSrc}
+                    src={postUserImageBlobUrl}
                 />
                 <div
                     className={styles.postDetail}
@@ -240,7 +310,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                     >
                         <img
                             className={styles.profilePhotoSm}
-                            src={currentUserImgSrc}
+                            src={currentUserImageBlobUrl}
                         />
                         <input
                             className={styles.formControl}

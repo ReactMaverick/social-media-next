@@ -347,3 +347,4 @@ export default function NewsfeedPage({ currentUser }) {
         </NewsFeedPageContents>
     );
 };
+
