@@ -27,7 +27,8 @@ let socket;
 export default function Timeline({ params }) {
     // console.log(params);
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isCurrentUserSet, setIsCurrentUserSet] = useState(false);
     const [isSocketInitilized, setIsSocketInitialized] = useState(false);
 
     const [profileId, page] = params.timelineAction;
@@ -52,8 +53,31 @@ export default function Timeline({ params }) {
 
     const receivedFriendRequests = useSelector(selectReceivedFriendRequests);
 
+    const { data: session, status } = useSession()
+
     useEffect(() => {
-        setIsLoading(true);
+        if (session?.user) {
+            // Dispatch action to set current user in Redux store
+            // console.log(session.user);
+            users?.forEach((user) => {
+                if (user._id === session.user.id) {
+
+                    dispatch(setCurrentUser(user))
+
+                    // console.log("Current User after dispatch ==> ", currentUser)
+
+                    setIsCurrentUserSet(true);
+                }
+
+            })
+
+        }
+
+        // Redirect to the desired page
+        // router.push('/profile');
+    }, [dispatch, session, users]);
+
+    useEffect(() => {
 
         Promise.all([
             dispatch(fetchAllPosts()),
@@ -124,42 +148,39 @@ export default function Timeline({ params }) {
     }, [timelineUser, friends, friendshipStatus])
 
 
-    // console.log("Posts ===> ", posts);
+    console.log("Posts ===> ", posts);
 
-    // console.log("Users ===> ", users);
+    console.log("Users ===> ", users);
 
-    // console.log("All Friends ===> ", friends);
+    console.log("All Friends ===> ", friends);
 
-    // console.log("Sent Friend Requests ===> ", sentFriendRequests);
+    console.log("Sent Friend Requests ===> ", sentFriendRequests);
 
-    // console.log("Received Friend Requests ===> ", receivedFriendRequests);
+    console.log("Received Friend Requests ===> ", receivedFriendRequests);
 
 
-    // console.log('Current User in Timeline Page:', currentUser);
+    console.log('Current User in Timeline Page:', currentUser);
 
-    const { data: session, status } = useSession()
 
     // console.log(session, status);
 
-    useEffect(() => {
-        if (session?.user) {
-            // Dispatch action to set current user in Redux store
-            // console.log(session.user);
-            users?.forEach((user) => {
-                if (user._id === session.user.id)
-                    dispatch(setCurrentUser(user));
-            })
-
-        }
-
-        // Redirect to the desired page
-        // router.push('/profile');
-    }, [dispatch, session, users]);
+    console.log("Socket ===> ", socket);
 
     useEffect(() => {
-        if (!isLoading) {
+        console.log("Friends, isloading, iscurrentuserset ==> ", friends, isLoading, isCurrentUserSet);
+        if (!isLoading && isCurrentUserSet) {
             // Initialize socket only on the client
             if (io) {
+
+                if (!isSocketInitilized) {
+                    const fetchCall = async () => {
+                        await fetch('/api/socket');
+                    };
+
+                    fetchCall();
+
+                    setIsSocketInitialized(true);
+                };
 
                 socketInitializer();
 
@@ -172,34 +193,23 @@ export default function Timeline({ params }) {
         }
 
 
-    }, [friends]);
+    }, [friends, isLoading, isCurrentUserSet]);
 
-    if (!isSocketInitilized) {
-        const fetchCall = async () => {
-            await fetch('/api/socket');
-        };
 
-        fetchCall();
-
-        setIsSocketInitialized(true);
-    };
 
     async function socketInitializer() {
+        console.log("Type of window ==> ", typeof window);
         // Fetch data only on the client
         if (typeof window !== "undefined") {
 
-            // console.log("Initializing socket");
-
-            // console.log(activeTab);
-
-            // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
+            console.log("Initializing socket");
 
             socket = io();
 
             socket.on("connect", () => {
                 const currentUserId = currentUser._id;
 
-                // console.log(userId, roomId);
+                console.log("Current user id ==? ", currentUserId);
 
                 // Emit join-room event when the component mounts
                 socket.emit("join-newsfeed-room", { userRoomId: currentUserId, friends });
@@ -266,9 +276,9 @@ export default function Timeline({ params }) {
     if (status === "authenticated") {
         // Authenticated User
         // console.log(timelineUser);
-        if (isLoading) {
+        if (isLoading && !isCurrentUserSet) {
             return <SpinnerWrapper />
-        } else if (timelineUser && friendshipStatus) {
+        } else if (timelineUser && friendshipStatus && currentUser) {
             switch (page) {
                 case 'edit':
                     return (
@@ -313,7 +323,9 @@ export default function Timeline({ params }) {
                     )
 
                 default:
+                    console.log("Socket in timelinepage render ==> ", socket);
                     if (socket) {
+                        console.log("Socket in timelinepage render after if socket check ==> ", socket);
                         return (
                             <TimelinePage
                                 timelineUserId={profileId}

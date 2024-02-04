@@ -35,6 +35,7 @@ if (typeof window !== "undefined") {
 let socket;
 
 export default function NewsfeedPage({ currentUser }) {
+
     const [isLoading, setIsLoading] = useState(true);
     const [isSocketInitilized, setIsSocketInitialized] = useState(false);
 
@@ -70,13 +71,11 @@ export default function NewsfeedPage({ currentUser }) {
         });
     }, [dispatch]);
 
-
-
     useEffect(() => {
         console.log(isLoading, friends);
         if (!isLoading) {
 
-            console.log("IO in newsfeedpage useeffect ==> ", io);
+            // console.log("IO in newsfeedpage useeffect ==> ", io);
             // Initialize socket only on the client
             if (io) {
 
@@ -101,10 +100,7 @@ export default function NewsfeedPage({ currentUser }) {
             }
         }
 
-
-    }, [friends]);
-
-
+    }, [friends, isLoading, currentUser]);
 
     async function socketInitializer() {
         console.log("Type of window ==> ", typeof window);
@@ -136,7 +132,6 @@ export default function NewsfeedPage({ currentUser }) {
                     // console.log("Received Post Data ==> ", post, postedUserId);
                     dispatch(addPost(post));
                 }
-
 
             });
 
@@ -186,17 +181,19 @@ export default function NewsfeedPage({ currentUser }) {
 
     useEffect(() => {
         console.log("Updated Posts ==> ", posts);
-    }, [posts]);
 
-    console.log("Posts ===> ", posts);
+        console.log("Posts ===> ", posts);
 
-    console.log("Users ===> ", users);
+        console.log("Users ===> ", users);
 
-    console.log("All Friends ===> ", friends);
+        console.log("All Friends ===> ", friends);
 
-    console.log("Sent Friend Requests ===> ", sentFriendRequests);
+        console.log("Sent Friend Requests ===> ", sentFriendRequests);
 
-    console.log("Received Friend Requests ===> ", receivedFriendRequests);
+        console.log("Received Friend Requests ===> ", receivedFriendRequests);
+    }, [posts, users, friends, sentFriendRequests, receivedFriendRequests]);
+
+
 
     console.log("Is Loading ==> ", isLoading);
 

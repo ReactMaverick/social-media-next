@@ -2,6 +2,7 @@ import connectDB from '@/utils/db';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth";
 import User from '@/models/userModel';
+
 // Connect to MongoDB
 connectDB();
 
@@ -42,8 +43,8 @@ export async function POST(req) {
                     return Response.json({ status: 200, message: 'File uploaded successfully', updatedUser: updatedUser });
                 }
             } catch (e) {
-                // console.log("error", e)
-                return Response.json({ error: e })
+                console.error("Error:", error.message);
+                return Response.json({ status: 500, error: 'Internal Server Error' });
             }
         } else {
             const errorResponse = new Response(

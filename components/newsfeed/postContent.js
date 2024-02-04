@@ -71,10 +71,10 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
             dispatch(addComment({ postId, content: commentText }))
                 .then((action) => {
                     // Handle success if needed
-                    // console.log('Comment added successfully!', action);
+                    console.log('Comment added successfully!', action, "Socket ==> ", socket);
 
                     if (socket) {
-                        // console.log("Socket....");
+                        console.log("Socket....");
                         // Emit send-message event with user details and room ID
                         socket.emit("publish-post-comment", {
                             postId,

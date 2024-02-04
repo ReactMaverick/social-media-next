@@ -271,13 +271,13 @@ export default function SignUpForm() {
 
   const users = useAppSelector(selectAllUsers);
 
-  console.log(session, status);
+  // console.log(session, status);
 
   useEffect(() => {
     dispatch(fetchAllUsers());
   }, [dispatch]);
 
-  console.log('Current User in Home (/0/) Page:', currentUser);
+  // console.log('Current User in Home (/0/) Page:', currentUser);
 
   useEffect(() => {
     if (session?.user) {

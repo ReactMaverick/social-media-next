@@ -6,11 +6,11 @@ export default async function SocketHandler(req, res) {
 
     const session = await getServerSession(req, res, authOptions)
 
-    // console.log("session ==> ", session);
+    console.log("session ==> ", session);
 
     if (res.socket.server.io) {
         // console.log("res", res);
-        // console.log("Already set up");
+        console.log("Already set up socket");
         res.end();
         return;
     }
@@ -51,7 +51,6 @@ export default async function SocketHandler(req, res) {
             const usersInUserRoom = io.sockets.adapter.rooms.get(userRoomId);
             console.log(`Users in room ${userRoomId}:`, usersInUserRoom);
 
-
         })
 
         // Example: Send a post to all friends
@@ -81,7 +80,7 @@ export default async function SocketHandler(req, res) {
 
         // Example: Send a post to all friends
         socket.on('publish-post-comment', ({ postId, friends, postedUserId, newCommentId, comment }) => {
-            console.log("Post ==> ", post);
+            console.log("Comment ==> ", comment);
 
             console.log("Friends ===> ", friends);
             friends.forEach((friend) => {
@@ -103,7 +102,7 @@ export default async function SocketHandler(req, res) {
 
             socket.join(roomId);
 
-            // console.log(`Users ${currentUserId} ${receiverId} joined room ${roomId}`);
+            console.log(`Users ${currentUserId} ${receiverId} joined room ${roomId}`);
 
         });
 

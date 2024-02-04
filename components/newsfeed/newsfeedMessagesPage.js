@@ -73,9 +73,19 @@ export default function NewsfeedMessagesPage({ currentUser }) {
     }, [friends]);
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isLoading && currentUser) {
             // Initialize socket only on the client
             if (io) {
+
+                if (!isSocketInitilized) {
+                    const fetchCall = async () => {
+                        await fetch('/api/socket');
+                    };
+
+                    fetchCall();
+
+                    setIsSocketInitialized(true);
+                };
 
                 socketInitializer();
 
@@ -88,17 +98,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
         }
 
 
-    }, [friends]);
-
-    if (!isSocketInitilized) {
-        const fetchCall = async () => {
-            await fetch('/api/socket');
-        };
-
-        fetchCall();
-
-        setIsSocketInitialized(true);
-    };
+    }, [friends, currentUser]);
 
     async function socketInitializer() {
         // Fetch data only on the client
@@ -209,7 +209,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                                 {socket &&
                                     <CreatePost currentUser={currentUser} friends={friends} socket={socket} />
                                 }
-
+                                {console.log("Current user before chatroom ==> ", currentUser)}
                                 <ChatRoom currentUser={currentUser} users={users} friends={friends} lastMessages={lastMessages} unreadCount={unreadCount} lastMessageTimes={lastMessageTimes} />
 
                             </NewsfeedMiddleColumn>

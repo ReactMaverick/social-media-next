@@ -32,12 +32,20 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
         // console.log("Active Tab ===> ", activeTab);
     }, [activeTab])
 
-
-
     useEffect(() => {
         // Initialize socket only on the client
         if (io) {
             setRoomId(conversations.chatId);
+
+            if (!isSocketInitilized) {
+                const fetchCall = async () => {
+                    await fetch('/api/socket');
+                };
+
+                fetchCall();
+
+                setIsSocketInitialized(true);
+            };
 
             socketInitializer();
 
@@ -49,17 +57,8 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
             };
         }
 
-    }, [conversations, roomId]);
+    }, [conversations, roomId, currentUser]);
 
-    if (!isSocketInitilized) {
-        const fetchCall = async () => {
-            await fetch('/api/socket');
-        };
-
-        fetchCall();
-
-        setIsSocketInitialized(true);
-    };
 
     async function socketInitializer() {
         // Fetch data only on the client
@@ -79,7 +78,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
                 const currentUserId = currentUser._id;
 
 
-                console.log(userId, roomId);
+                console.log(currentUserId, roomId);
 
                 // Emit join-room event when the component mounts
                 socket.emit("join-room", { roomId, currentUserId, receiverId });
@@ -247,6 +246,8 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
     };
 
     console.log("Socket ==> ", socket);
+
+    console.log("Current user in chatroom ==> ", currentUser)
 
     return (
         <div
