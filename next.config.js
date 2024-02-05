@@ -13,8 +13,8 @@ const nextConfigDevelopment = {
 
 const nextConfigProduction = {
     env: {
-        // BASE_URL: 'https://social-media-next.onrender.com',
-        BASE_URL: 'http://localhost:5000',
+        BASE_URL: 'https://social-media-next.onrender.com',
+        // BASE_URL: 'http://localhost:5000',
         userName: 'priyamwebsadroit',
         password: 'HdNJ1R1HBNSxXBQV',
         dbName: 'socialMediaNextProduction',
