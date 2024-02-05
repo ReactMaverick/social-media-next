@@ -103,7 +103,18 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
                         style={{
                             background: `url("/images/imageLoader.gif") no-repeat`,
                         }}
+                        onClick={handleCoverImageLinkClick}
+                        onMouseOver={handleMouseOverCover}
+                        onMouseLeave={handleMouseLeaveCover}
                     >
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="coverImageInput"
+                            className={styles.hiddenFileInput}
+                            onClick={handleCoverImageInputClick}
+                            onChange={handleCoverImageChange}
+                        />
                         {children}
                     </div> :
 

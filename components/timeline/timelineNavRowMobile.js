@@ -306,6 +306,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                             className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
                             src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             alt="Profile"
+                            onClick={handleProfileImageLinkMobileClick}
                             loading='lazy'
                         /> :
                         <img

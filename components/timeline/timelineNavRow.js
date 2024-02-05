@@ -317,7 +317,8 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                                 className={`${styles.imgResponsive} profile-photo`}
                                 src={process.env.BASE_URL + '/images/imageLoader.gif'}
                                 alt="Loader"
-
+                                onClick={handleProfileImageLinkClick}
+                                loading='lazy'
                             /> :
                             <img
                                 className={`${styles.imgResponsive} profile-photo`}
