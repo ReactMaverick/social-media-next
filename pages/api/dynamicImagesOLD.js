@@ -6,7 +6,7 @@ const allowedExtensions = ['jpg', 'png', 'jpeg', 'webp'];
 export default async function handler(req, res) {
     const { id } = req.query; // Get the asset identifier from query parameters
 
-    console.log("Id ==> ", id);
+    // console.log("Id ==> ", id);
 
     if (!id || !allowedExtensions.includes(id.split('.').pop())) {
         return res.status(400).json({ message: 'Invalid asset identifier or extension' });
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
     // console.log("Filepath ==> ", filePath);
 
-    console.log("Is image exists ==> ", fs.existsSync(filePath));
+    // console.log("Is image exists ==> ", fs.existsSync(filePath));
 
     if (!fs.existsSync(filePath)) {
         return res.status(404).json({ message: 'Asset not found' });
@@ -28,11 +28,11 @@ export default async function handler(req, res) {
 
     const mimeType = `image/${filePath.split('.').pop()}`; // Set content type based on extension
 
-    console.log("Mime Type ==> ", mimeType);
+    // console.log("Mime Type ==> ", mimeType);
 
     const blob = new Blob([fileBuffer], { type: mimeType });
 
-    console.log("Blob ==> ", blob);
+    // console.log("Blob ==> ", blob);
 
     res.setHeader('Content-Type', mimeType);
 

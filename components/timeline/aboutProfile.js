@@ -74,7 +74,7 @@ export default function AboutProfile({ timelineUserId, timelineUser }) {
           <div className={`${styles.organization}`}>
             {timelineUser?.company_name &&
               <img
-                src={'/images/work_icon.png'}
+                src={process.env.BASE_URL + '/images/work_icon.png'}
                 alt=""
                 className={`${styles.pullLeft} ${styles.imgOrg}`}
               />

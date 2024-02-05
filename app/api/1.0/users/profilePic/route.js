@@ -15,7 +15,7 @@ export async function POST(req) {
             const fileData = new FormData();
             fileData.append('file', image)
 
-            console.log("image ==> ", image);
+            // console.log("image ==> ", image);
 
             try {
                 const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
@@ -23,7 +23,7 @@ export async function POST(req) {
                     body: fileData,
                 });
 
-                console.log("response ==> ", response);
+                // console.log("response ==> ", response);
 
                 if (!response.ok) {
                     // If the response status is not OK, throw an error
@@ -38,7 +38,7 @@ export async function POST(req) {
                         { new: true }
                     )
 
-                    console.log("updatedUser ==> ", updatedUser);
+                    // console.log("updatedUser ==> ", updatedUser);
 
                     return Response.json({ status: 200, message: 'File uploaded successfully', updatedUser: updatedUser });
                 }

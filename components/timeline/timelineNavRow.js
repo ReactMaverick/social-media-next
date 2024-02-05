@@ -305,17 +305,17 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
     // console.log(friendshipStatus);
 
-    console.log("Is Profile Image Loading ==> ", isProfileImageLoading);
+    // console.log("Is Profile Image Loading ==> ", isProfileImageLoading);
 
     return (
         <div className={`${styles.row} row`}>
             <div className={`col-md-3 ${styles.profileCol}`}>
-                <div className={styles.profileInfo}>
+                <div className={`${styles.profileInfo} ${friendshipStatus == 'currentUser' ? styles.profileInfoCurrentUser : ''}`}>
                     {friendshipStatus == 'currentUser' ?
                         (isProfileImageLoading ?
                             <img
                                 className={`${styles.imgResponsive} profile-photo`}
-                                src='/images/imageLoader.gif'
+                                src={process.env.BASE_URL + '/images/imageLoader.gif'}
                                 alt="Loader"
 
                             /> :
@@ -330,7 +330,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                         (isProfileImageLoading ?
                             <img
                                 className={`${styles.imgResponsive} profile-photo`}
-                                src='/images/imageLoader.gif'
+                                src={process.env.BASE_URL + '/images/imageLoader.gif'}
                                 alt="Profile"
                                 loading='lazy'
                             /> :
@@ -374,11 +374,13 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                             Album
                         </Link>
                     </li>
-                    <li>
-                        <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/friends"}>
-                            Friends
-                        </Link>
-                    </li>
+                    {friendshipStatus == 'currentUser' &&
+                        <li>
+                            <Link className={whichPage == 'timelineFriends' ? styles.active : ''} href={"/0/timeline/" + timelineUserId + "/friends"}>
+                                Friends
+                            </Link>
+                        </li>
+                    }
                 </ul>
                 <ul className={`${styles.followMe} ${styles.listInline}`}>
                     <li>

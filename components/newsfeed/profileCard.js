@@ -38,7 +38,7 @@ export default function ProfileCard({ currentUser, friends }) {
                         <img
                             className={styles.profilePhoto}
                             alt="user"
-                            src='/images/imageLoader.gif'
+                            src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             loading='lazy'
                         /> :
                         <img

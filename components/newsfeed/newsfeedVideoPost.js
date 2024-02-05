@@ -150,7 +150,7 @@ export default function NewsfeedVideoPost({ posts, friends, currentUser }) {
                                             ) :
                                                 (
                                                     <img
-                                                        src='/images/imageLoader.gif'
+                                                        src={process.env.BASE_URL + '/images/imageLoader.gif'}
                                                         className={styles.profilePhotoSm}
                                                         loading="lazy"
                                                     />

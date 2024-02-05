@@ -194,7 +194,13 @@ export default function NewsfeedMessagesPage({ currentUser }) {
 
         <NewsFeedPageContents>
             {isLoading ?
-                <SpinnerWrapper /> :
+                <main
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                >
+                    <img
+                        src={process.env.BASE_URL + "/images/imageLoader.gif"}
+                    />
+                </main> :
                 currentUser &&
                 (
                     <NewsFeedContainer>
@@ -209,7 +215,7 @@ export default function NewsfeedMessagesPage({ currentUser }) {
                                 {socket &&
                                     <CreatePost currentUser={currentUser} friends={friends} socket={socket} />
                                 }
-                                {console.log("Current user before chatroom ==> ", currentUser)}
+                                {/* {console.log("Current user before chatroom ==> ", currentUser)} */}
                                 <ChatRoom currentUser={currentUser} users={users} friends={friends} lastMessages={lastMessages} unreadCount={unreadCount} lastMessageTimes={lastMessageTimes} />
 
                             </NewsfeedMiddleColumn>

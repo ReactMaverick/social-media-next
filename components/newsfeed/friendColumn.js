@@ -31,7 +31,7 @@ export default function FriendColumn({ friendName, friendImg, friendCoverImg, fr
                     <img
                         className={`${styles.imgResponsive} img-responsive cover`}
                         alt="profile-cover"
-                        src='/images/imageLoader.gif'
+                        src={process.env.BASE_URL + '/images/imageLoader.gif'}
                         loading='lazy'
                     /> :
                     <img
@@ -49,7 +49,7 @@ export default function FriendColumn({ friendName, friendImg, friendCoverImg, fr
                         <img
                             className={styles.profilePhotoLg}
                             alt="user"
-                            src='/images/imageLoader.gif'
+                            src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             loading='lazy'
                         /> :
                         <img

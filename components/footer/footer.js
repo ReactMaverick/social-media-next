@@ -16,7 +16,7 @@ export default function Footer() {
               >
                 <img
                   className={`${styles.footerLogo}`}
-                  src={'/images/logo_black.png'}
+                  src={process.env.BASE_URL + '/images/logo_black.png'}
                 />
               </Link>
               <ul className={`${styles.socialIcons} list-inline`}>

@@ -10,10 +10,14 @@ import { useState, useEffect } from 'react';
 export default function PostCommentReply({ profileImgSrc, profileLink, userName, commentReply, commentReplyUserId, currentUser, postId, commentId, replyCommentId }) {
 
     const [profileImageBlobURL, setProfileImageBlobURL] = useState(null);
+    const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
 
     useEffect(() => {
         if (profileImgSrc)
-            getImageBlob(profileImgSrc, setProfileImageBlobURL);
+            getImageBlob(profileImgSrc, setProfileImageBlobURL)
+                .then(() => {
+                    setIsProfileImageLoading(false)
+                });
 
     }, [])
 
@@ -47,11 +51,18 @@ export default function PostCommentReply({ profileImgSrc, profileLink, userName,
         <div
             className={styles.postCommentReply}
         >
-            <img
-                className={styles.profilePhotoSm}
-                src={profileImageBlobURL}
-                loading='lazy'
-            />
+            {isProfileImageLoading ?
+                <img
+                    className={styles.profilePhotoSm}
+                    src={process.env.BASE_URL + '/images/imageLoader.gif'}
+                    loading='lazy'
+                /> :
+                <img
+                    className={styles.profilePhotoSm}
+                    src={profileImageBlobURL}
+                    loading='lazy'
+                />
+            }
             <p>
                 <Link
                     className={styles.profileLink}

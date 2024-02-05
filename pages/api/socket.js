@@ -6,11 +6,11 @@ export default async function SocketHandler(req, res) {
 
     const session = await getServerSession(req, res, authOptions)
 
-    console.log("session ==> ", session);
+    // console.log("session ==> ", session);
 
     if (res.socket.server.io) {
         // console.log("res", res);
-        console.log("Already set up socket");
+        // console.log("Already set up socket");
         res.end();
         return;
     }
@@ -20,7 +20,7 @@ export default async function SocketHandler(req, res) {
     res.socket.server.io = io;
 
     io.on("connection", (socket) => {
-        console.log("Client connected");
+        // console.log("Client connected");
         // Verify user identity
 
         if (!session?.user) {
@@ -29,13 +29,13 @@ export default async function SocketHandler(req, res) {
 
         // User is authenticated
         socket.on("join-newsfeed-room", ({ userRoomId, friends }) => {
-            console.log("session user id ==> ", session.user.id);
-            console.log("User Room Id ===> ", userRoomId);
-            console.log("Friends ===> ", friends);
+            // console.log("session user id ==> ", session.user.id);
+            // console.log("User Room Id ===> ", userRoomId);
+            // console.log("Friends ===> ", friends);
 
             const isUserFriend = friends?.some((friend) => friend?.friend?._id === session.user.id);
 
-            console.log("is user friend ==> ", isUserFriend);
+            // console.log("is user friend ==> ", isUserFriend);
 
             if (!(session.user.id === userRoomId || isUserFriend)) {
                 // Send an error response back to the client
@@ -49,15 +49,15 @@ export default async function SocketHandler(req, res) {
             })
 
             const usersInUserRoom = io.sockets.adapter.rooms.get(userRoomId);
-            console.log(`Users in room ${userRoomId}:`, usersInUserRoom);
+            // console.log(`Users in room ${userRoomId}:`, usersInUserRoom);
 
         })
 
         // Example: Send a post to all friends
         socket.on('publish-post', ({ post, friends, postedUserId }) => {
-            console.log("Post ==> ", post);
+            // console.log("Post ==> ", post);
 
-            console.log("Friends ===> ", friends);
+            // console.log("Friends ===> ", friends);
             friends.forEach((friend) => {
                 // Emit the post data to each friend's room
                 const friendRoom = io.to(friend.friend._id);
@@ -67,9 +67,9 @@ export default async function SocketHandler(req, res) {
 
         // Example: Send a post comment to all friends
         socket.on('delete-post', ({ postId, friends, postedUserId }) => {
-            console.log("PostId ==> ", postId, postedUserId);
+            // console.log("PostId ==> ", postId, postedUserId);
 
-            console.log("Friends ===> ", friends);
+            // console.log("Friends ===> ", friends);
 
             friends.forEach((friend) => {
                 // Emit the post data to each friend's room
@@ -80,9 +80,9 @@ export default async function SocketHandler(req, res) {
 
         // Example: Send a post to all friends
         socket.on('publish-post-comment', ({ postId, friends, postedUserId, newCommentId, comment }) => {
-            console.log("Comment ==> ", comment);
+            // console.log("Comment ==> ", comment);
 
-            console.log("Friends ===> ", friends);
+            // console.log("Friends ===> ", friends);
             friends.forEach((friend) => {
                 // Emit the post data to each friend's room
                 const friendRoom = io.to(friend.friend._id);
@@ -92,9 +92,9 @@ export default async function SocketHandler(req, res) {
 
         // User is authenticated
         socket.on("join-room", ({ roomId, currentUserId, receiverId }) => {
-            console.log("Room id, User id ==> ", roomId, currentUserId, receiverId);
+            // console.log("Room id, User id ==> ", roomId, currentUserId, receiverId);
 
-            console.log(session.user.id, currentUserId, receiverId);
+            // console.log(session.user.id, currentUserId, receiverId);
 
             if (!(session.user.id === currentUserId || session.user.id === receiverId)) {
                 throw new Error("Invalid user trying to join room");
@@ -102,7 +102,7 @@ export default async function SocketHandler(req, res) {
 
             socket.join(roomId);
 
-            console.log(`Users ${currentUserId} ${receiverId} joined room ${roomId}`);
+            // console.log(`Users ${currentUserId} ${receiverId} joined room ${roomId}`);
 
         });
 
@@ -120,6 +120,6 @@ export default async function SocketHandler(req, res) {
 
     });
 
-    console.log("Setting up socket");
+    // console.log("Setting up socket");
     res.end();
 }

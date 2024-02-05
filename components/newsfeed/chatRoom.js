@@ -97,7 +97,7 @@ export default function ChatRoom({ currentUser, users, friends, lastMessages, un
                                 </div>
 
                             </div>
-                            {console.log("Current user before sendmessage ==> ", currentUser)}
+                            {/* {console.log("Current user before sendmessage ==> ", currentUser)} */}
                             {(currentUser && conversations) ?
                                 <SendMessage
                                     currentUser={currentUser}

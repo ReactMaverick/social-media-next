@@ -13,7 +13,6 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
     const [postImageBlobURL, setPostImageBlobURL] = useState(null);
     const [isPostImageLoading, setIsPostImageLoading] = useState(true);
     const [postVideoBlobUrl, setPostVideoBlobUrl] = useState(null);
-    const [isPostVideoLoading, setIsPostVideoLoading] = useState(true);
     const [postUserImageBlobUrl, setPostUserImageBlobUrl] = useState(null);
     const [isPostUserImageLoading, setIsPostUserImageLoading] = useState(true);
     const [currentUserImageBlobUrl, setCurrentUserImageBlobUrl] = useState(null);
@@ -29,10 +28,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                 });
 
         if (postVideSrc)
-            getVideoBlob(postVideSrc, setPostVideoBlobUrl)
-                .then(() => {
-                    setIsPostVideoLoading(false)
-                });
+            getVideoBlob(postVideSrc, setPostVideoBlobUrl);
 
         if (postUserImgSrc)
             getImageBlob(postUserImgSrc, setPostUserImageBlobUrl)
@@ -106,10 +102,10 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
             dispatch(addComment({ postId, content: commentText }))
                 .then((action) => {
                     // Handle success if needed
-                    console.log('Comment added successfully!', action, "Socket ==> ", socket);
+                    // console.log('Comment added successfully!', action, "Socket ==> ", socket);
 
                     if (socket) {
-                        console.log("Socket....");
+                        // console.log("Socket....");
                         // Emit send-message event with user details and room ID
                         socket.emit("publish-post-comment", {
                             postId,
@@ -189,7 +185,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                     <img
                         className={styles.postImage}
                         alt="post-image"
-                        src='/images/imageLoader.gif'
+                        src={process.env.BASE_URL + '/images/imageLoader.gif'}
                         loading="lazy"
                     /> :
                     <img
@@ -200,19 +196,10 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                     />
             ) : (postVideSrc && (
                 <div className={styles.videoWrapper}>
-                    {isPostVideoLoading ?
-                        <video
-                            className={styles.postVideo}
-                            src={postVideoBlobUrl}
-                            controls
-                            poster="/images/imageLoader.gif"
-                        >
-                            {/* <source src={videoBlobUrl} type="video/mp4" /> */}
-                        </video> :
-                        <video className={styles.postVideo} src={postVideoBlobUrl} controls >
-                            {/* <source src={videoBlobUrl} type="video/mp4" /> */}
-                        </video>
-                    }
+
+                    <video className={styles.postVideo} src={postVideoBlobUrl} controls >
+                        {/* <source src={videoBlobUrl} type="video/mp4" /> */}
+                    </video>
 
                 </div>
             ))}
@@ -224,7 +211,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                     <img
                         className={`${styles.profilePhotoMd} ${styles.pullLeft}`}
                         alt="user"
-                        src='/images/imageLoader.gif'
+                        src={process.env.BASE_URL + '/images/imageLoader.gif'}
                         loading="lazy"
                     /> :
                     <img
@@ -305,7 +292,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
                         {isCurrentUserImageLoading ?
                             <img
                                 className={styles.profilePhotoSm}
-                                src='/images/imageLoader.gif'
+                                src={process.env.BASE_URL + '/images/imageLoader.gif'}
                                 loading="lazy"
                             /> :
                             <img

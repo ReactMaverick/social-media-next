@@ -12,7 +12,9 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [commentReplyText, setCommentReplyText] = useState('');
     const [profileImageBlobURL, setProfileImageBlobURL] = useState(null);
+    const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
     const [currentUserImageBlobUrl, setCurrentUserImageBlobUrl] = useState(null);
+    const [isCurrentUserImageLoading, setIsCurrentUserImageLoading] = useState(true);
 
     const inputReplyRef = useRef(null);
 
@@ -20,10 +22,16 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
 
     useEffect(() => {
         if (profileImgSrc)
-            getImageBlob(profileImgSrc, setProfileImageBlobURL);
+            getImageBlob(profileImgSrc, setProfileImageBlobURL)
+                .then(() => {
+                    setIsProfileImageLoading(false)
+                });
 
         if (currentUserImgSrc)
-            getImageBlob(currentUserImgSrc, setCurrentUserImageBlobUrl);
+            getImageBlob(currentUserImgSrc, setCurrentUserImageBlobUrl)
+                .then(() => {
+                    setIsCurrentUserImageLoading(false)
+                });
     }, [])
 
     useEffect(() => {
@@ -107,11 +115,19 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
             <div
                 className={styles.postComment}
             >
-                <img
-                    className={styles.profilePhotoSm}
-                    src={profileImageBlobURL}
-                    loading="lazy"
-                />
+                {isProfileImageLoading ?
+                    <img
+                        className={styles.profilePhotoSm}
+                        src={process.env.BASE_URL + '/images/imageLoader.gif'}
+                        loading="lazy"
+                    /> :
+                    <img
+                        className={styles.profilePhotoSm}
+                        src={profileImageBlobURL}
+                        loading="lazy"
+                    />
+                }
+
                 <p>
                     <Link
                         className={styles.profileLink}
@@ -143,11 +159,18 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
                     <div
                         className={styles.postCommentReply}
                     >
-                        <img
-                            className={styles.profilePhotoSm}
-                            src={currentUserImageBlobUrl}
-                            loading="lazy"
-                        />
+                        {isCurrentUserImageLoading ?
+                            <img
+                                className={styles.profilePhotoSm}
+                                src={process.env.BASE_URL + '/images/imageLoader.gif'}
+                                loading="lazy"
+                            /> :
+                            <img
+                                className={styles.profilePhotoSm}
+                                src={currentUserImageBlobUrl}
+                                loading="lazy"
+                            />
+                        }
                         <input
                             className={styles.formControl}
                             type="text"

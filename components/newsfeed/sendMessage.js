@@ -12,7 +12,7 @@ let io;
 if (typeof window !== "undefined") {
     io = require("socket.io-client");
 
-    console.log("IO in sendmessage ==> ", io);
+    // console.log("IO in sendmessage ==> ", io);
 }
 
 let socket;
@@ -51,7 +51,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
 
             return () => {
                 if (socket) {
-                    console.log("Socket in disconnect ==> ", socket);
+                    // console.log("Socket in disconnect ==> ", socket);
                     socket.disconnect();
                 }
             };
@@ -64,9 +64,9 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
         // Fetch data only on the client
         if (typeof window !== "undefined") {
 
-            console.log("Initializing socket");
+            // console.log("Initializing socket");
 
-            console.log("Active Tab ==> ", activeTab);
+            // console.log("Active Tab ==> ", activeTab);
 
             // const activeTabUserId = $("#chatroomMessageView")?.find(".tab-pane.active.show")?.attr("id");
 
@@ -78,7 +78,7 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
                 const currentUserId = currentUser._id;
 
 
-                console.log(currentUserId, roomId);
+                // console.log(currentUserId, roomId);
 
                 // Emit join-room event when the component mounts
                 socket.emit("join-room", { roomId, currentUserId, receiverId });
@@ -245,9 +245,9 @@ export default function SendMessage({ currentUser, conversations, setIsUserTypin
         }
     };
 
-    console.log("Socket ==> ", socket);
+    // console.log("Socket ==> ", socket);
 
-    console.log("Current user in chatroom ==> ", currentUser)
+    // console.log("Current user in chatroom ==> ", currentUser)
 
     return (
         <div

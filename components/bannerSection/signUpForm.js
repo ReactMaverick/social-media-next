@@ -366,7 +366,7 @@ export default function SignUpForm() {
       password: formData.password,
     });
 
-    console.log("Result ==> ", result);
+    // console.log("Result ==> ", result);
 
     //*** If result exists and result.error exists */
     if (result?.error) {

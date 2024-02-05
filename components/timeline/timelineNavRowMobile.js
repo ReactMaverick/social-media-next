@@ -44,7 +44,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
             if (typeof (selectedImage) == 'object') {
                 try {
                     // Dispatch the addComment action
-                    dispatch(updateProfilePictureUser({ selectedImage }))
+                    dispatch(updateProfilePictureUser({ selectedProfileImage: selectedImage }))
                         .then((action) => {
                             // Handle success if needed
                             // console.log('Profile Picture Updated Successfully!', action);
@@ -298,21 +298,20 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
     return (
         <>
             <div
-                className="profile-info"
+                className={`profile-info ${friendshipStatus == 'currentUser' ? 'profile-info-currentUser' : ''}`}
             >
                 {friendshipStatus == 'currentUser' ?
                     (isProfileImageLoading ?
                         <img
                             className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
-                            src='/images/imageLoader.gif'
+                            src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             alt="Profile"
-                            onClick={handleProfileImageLinkMobileClick}
                             loading='lazy'
                         /> :
                         <img
                             className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
-                            src={!isProfileImageChanged ? selectedProfileImageBlobURL : selectedProfileImage instanceof File || selectedProfileImage instanceof Blob
-                                ? URL.createObjectURL(selectedProfileImage) : {}}
+                            src={!isProfileImageChanged ? selectedProfileImageBlobURL : selectedImage instanceof File || selectedImage instanceof Blob
+                                ? URL.createObjectURL(selectedImage) : {}}
                             alt="Profile"
                             onClick={handleProfileImageLinkMobileClick}
                             loading='lazy'
@@ -320,7 +319,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                     (isProfileImageLoading ?
                         <img
                             className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
-                            src='/images/imageLoader.gif'
+                            src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             loading='lazy'
                         /> :
                         <img

@@ -29,7 +29,7 @@ let io;
 if (typeof window !== "undefined") {
     io = require("socket.io-client");
 
-    console.log("IO in newsfeedpage ==> ", io);
+    // console.log("IO in newsfeedpage ==> ", io);
 }
 
 let socket;
@@ -72,7 +72,7 @@ export default function NewsfeedPage({ currentUser }) {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log(isLoading, friends);
+        // console.log(isLoading, friends);
         if (!isLoading) {
 
             // console.log("IO in newsfeedpage useeffect ==> ", io);
@@ -93,7 +93,7 @@ export default function NewsfeedPage({ currentUser }) {
 
                 return () => {
                     if (socket) {
-                        console.log("Socket in disconnect ==> ", socket);
+                        // console.log("Socket in disconnect ==> ", socket);
                         socket.disconnect();
                     }
                 };
@@ -103,20 +103,20 @@ export default function NewsfeedPage({ currentUser }) {
     }, [friends, isLoading, currentUser]);
 
     async function socketInitializer() {
-        console.log("Type of window ==> ", typeof window);
+        // console.log("Type of window ==> ", typeof window);
         // Fetch data only on the client
         if (typeof window !== "undefined") {
 
-            console.log("Initializing socket");
+            // console.log("Initializing socket");
 
             socket = io();
 
-            console.log("Socket in socketinitializer ==> ", socket);
+            // console.log("Socket in socketinitializer ==> ", socket);
 
             socket.on("connect", () => {
                 const currentUserId = currentUser._id;
 
-                console.log("Currentuserid, friends", currentUserId, friends);
+                // console.log("Currentuserid, friends", currentUserId, friends);
 
                 // Emit join-room event when the component mounts
                 socket.emit("join-newsfeed-room", { userRoomId: currentUserId, friends });
@@ -180,31 +180,35 @@ export default function NewsfeedPage({ currentUser }) {
     }
 
     useEffect(() => {
-        console.log("Updated Posts ==> ", posts);
+        // console.log("Updated Posts ==> ", posts);
 
-        console.log("Posts ===> ", posts);
+        // console.log("Posts ===> ", posts);
 
-        console.log("Users ===> ", users);
+        // console.log("Users ===> ", users);
 
-        console.log("All Friends ===> ", friends);
+        // console.log("All Friends ===> ", friends);
 
-        console.log("Sent Friend Requests ===> ", sentFriendRequests);
+        // console.log("Sent Friend Requests ===> ", sentFriendRequests);
 
-        console.log("Received Friend Requests ===> ", receivedFriendRequests);
+        // console.log("Received Friend Requests ===> ", receivedFriendRequests);
     }, [posts, users, friends, sentFriendRequests, receivedFriendRequests]);
 
 
 
-    console.log("Is Loading ==> ", isLoading);
+    // console.log("Is Loading ==> ", isLoading);
 
-    console.log("Socket ==> ", socket);
+    // console.log("Socket ==> ", socket);
 
     return (
 
         <NewsFeedPageContents>
             {isLoading ?
-                <main>
-                    <p>Please wait....</p>
+                <main
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                >
+                    <img
+                        src={process.env.BASE_URL + "/images/imageLoader.gif"}
+                    />
                 </main>
                 :
                 currentUser &&

@@ -184,7 +184,13 @@ export default function NewsfeedVideosPage({ currentUser }) {
 
         <NewsFeedPageContents>
             {isLoading ?
-                <SpinnerWrapper /> :
+                <main
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                >
+                    <img
+                        src={process.env.BASE_URL + "/images/imageLoader.gif"}
+                    />
+                </main> :
                 currentUser &&
                 (
                     <NewsFeedContainer>

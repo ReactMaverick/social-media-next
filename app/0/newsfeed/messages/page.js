@@ -59,8 +59,12 @@ export default function Newsfeed() {
     } else if (status === "loading") {
         // Fetching Authentication
         return (
-            <main>
-                <p>Please wait....</p>
+            <main
+                style={{ display: 'flex', justifyContent: 'center' }}
+            >
+                <img
+                    src={process.env.BASE_URL + "/images/imageLoader.gif"}
+                />
             </main>
         )
 

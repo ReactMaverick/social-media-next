@@ -85,7 +85,7 @@ export default function NavbarMenu({ currentUser }) {
                     Newsfeed{" "}
                     <span >
                         <img
-                            src={"/images/down_arrow.png"}
+                            src={process.env.BASE_URL + "/images/down_arrow.png"}
                             style={{
 
                                 border: "0px",
@@ -284,7 +284,7 @@ export default function NavbarMenu({ currentUser }) {
                     Timeline{" "}
                     <span >
                         <img
-                            src={"/images/down_arrow.png"}
+                            src={process.env.BASE_URL + "/images/down_arrow.png"}
                             style={{
 
                                 border: "0px",

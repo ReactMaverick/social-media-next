@@ -77,7 +77,7 @@ export default function CreatePost({ currentUser, friends, socket }) {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("File upload response data --> ", data); // Log the response from the server
+                    // console.log("File upload response data --> ", data); // Log the response from the server
 
                     // Continue with creating the post using the postContents API route
                     await createPost(data.filePath);
@@ -114,7 +114,7 @@ export default function CreatePost({ currentUser, friends, socket }) {
             }
 
             for (var key of formData.entries()) {
-                console.log("Formdata entries ==> ", key[0] + ', ' + key[1])
+                // console.log("Formdata entries ==> ", key[0] + ', ' + key[1])
             }
 
             // Use fetch to call the createPost API route
@@ -128,7 +128,7 @@ export default function CreatePost({ currentUser, friends, socket }) {
             }
 
             const postData = await createPostResponse.json();
-            console.log('Post created successfully:', postData);
+            // console.log('Post created successfully:', postData);
 
             // Dispatch The current post
             dispatch(addPost(postData.post));
@@ -214,7 +214,7 @@ export default function CreatePost({ currentUser, friends, socket }) {
                                 {isCurrentUserImageLoading ?
                                     <img
                                         className="profile-photo-md"
-                                        src='/images/imageLoader.gif'
+                                        src={process.env.BASE_URL + '/images/imageLoader.gif'}
                                         loading='lazy'
                                     /> :
                                     <img

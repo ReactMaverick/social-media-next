@@ -61,7 +61,9 @@ export default function Newsfeed() {
         // Fetching Authentication
 
         <main>
-            <p>Please wait....</p>
+            <img
+                src={process.env.BASE_URL + "/images/imageLoader.gif"}
+            />
         </main>
 
 

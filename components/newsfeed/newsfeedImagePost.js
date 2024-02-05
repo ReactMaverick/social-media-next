@@ -113,7 +113,7 @@ export default function NewsfeedImagePost({ posts, friends, currentUser }) {
                     (
                       <img
                         className={`${styles.userAvtarImg}`}
-                        src='/images/imageLoader.gif'
+                        src={process.env.BASE_URL + '/images/imageLoader.gif'}
                         loading="lazy"
                       />
                     )
@@ -151,7 +151,7 @@ export default function NewsfeedImagePost({ posts, friends, currentUser }) {
                         (
 
                           <img
-                            src='/images/imageLoader.gif'
+                            src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             className={styles.profilePhotoSm}
                             loading="lazy"
                           />

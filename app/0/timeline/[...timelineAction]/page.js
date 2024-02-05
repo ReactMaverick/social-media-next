@@ -148,26 +148,26 @@ export default function Timeline({ params }) {
     }, [timelineUser, friends, friendshipStatus])
 
 
-    console.log("Posts ===> ", posts);
+    // console.log("Posts ===> ", posts);
 
-    console.log("Users ===> ", users);
+    // console.log("Users ===> ", users);
 
-    console.log("All Friends ===> ", friends);
+    // console.log("All Friends ===> ", friends);
 
-    console.log("Sent Friend Requests ===> ", sentFriendRequests);
+    // console.log("Sent Friend Requests ===> ", sentFriendRequests);
 
-    console.log("Received Friend Requests ===> ", receivedFriendRequests);
+    // console.log("Received Friend Requests ===> ", receivedFriendRequests);
 
 
-    console.log('Current User in Timeline Page:', currentUser);
+    // console.log('Current User in Timeline Page:', currentUser);
 
 
     // console.log(session, status);
 
-    console.log("Socket ===> ", socket);
+    // console.log("Socket ===> ", socket);
 
     useEffect(() => {
-        console.log("Friends, isloading, iscurrentuserset ==> ", friends, isLoading, isCurrentUserSet);
+        // console.log("Friends, isloading, iscurrentuserset ==> ", friends, isLoading, isCurrentUserSet);
         if (!isLoading && isCurrentUserSet) {
             // Initialize socket only on the client
             if (io) {
@@ -198,18 +198,18 @@ export default function Timeline({ params }) {
 
 
     async function socketInitializer() {
-        console.log("Type of window ==> ", typeof window);
+        // console.log("Type of window ==> ", typeof window);
         // Fetch data only on the client
         if (typeof window !== "undefined") {
 
-            console.log("Initializing socket");
+            // console.log("Initializing socket");
 
             socket = io();
 
             socket.on("connect", () => {
                 const currentUserId = currentUser._id;
 
-                console.log("Current user id ==? ", currentUserId);
+                // console.log("Current user id ==? ", currentUserId);
 
                 // Emit join-room event when the component mounts
                 socket.emit("join-newsfeed-room", { userRoomId: currentUserId, friends });
@@ -277,7 +277,13 @@ export default function Timeline({ params }) {
         // Authenticated User
         // console.log(timelineUser);
         if (isLoading && !isCurrentUserSet) {
-            return <SpinnerWrapper />
+            return <main
+                style={{ display: 'flex', justifyContent: 'center' }}
+            >
+                <img
+                    src={process.env.BASE_URL + "/images/imageLoader.gif"}
+                />
+            </main>
         } else if (timelineUser && friendshipStatus && currentUser) {
             switch (page) {
                 case 'edit':
@@ -323,9 +329,9 @@ export default function Timeline({ params }) {
                     )
 
                 default:
-                    console.log("Socket in timelinepage render ==> ", socket);
+                    // console.log("Socket in timelinepage render ==> ", socket);
                     if (socket) {
-                        console.log("Socket in timelinepage render after if socket check ==> ", socket);
+                        // console.log("Socket in timelinepage render after if socket check ==> ", socket);
                         return (
                             <TimelinePage
                                 timelineUserId={profileId}

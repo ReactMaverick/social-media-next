@@ -8,10 +8,14 @@ import { getImageBlob } from '@/utils/common';
 export default function ChatListItem({ href, imgSrc, userName, user_id, lastMessageOfFriend, unreadCountOfFriend, lastMessageTime }) {
 
     const [userImageBlobURL, setUserImageBlobURL] = useState(null);
+    const [isUserImageLoading, setIsUserImageLoading] = useState(true);
 
     useEffect(() => {
         if (imgSrc)
-            getImageBlob(imgSrc, setUserImageBlobURL);
+            getImageBlob(imgSrc, setUserImageBlobURL)
+                .then(() => {
+                    setIsUserImageLoading(false)
+                });
     }, [])
 
     const dispatch = useDispatch();
@@ -19,7 +23,7 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
     // console.log(currentUser);
 
     // useEffect(() => {
-    //     console.log("Component Reloaded");
+    //   // console.log("Component Reloaded");
     // }, [lastMessageOfFriend])
 
     const handleFetchConversations = (userId) => {
@@ -53,11 +57,19 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
                 <div
                     className={`${styles.contact} contact`}
                 >
-                    <img
-                        className={`${styles.profilePhotoSm} ${styles.pullLeft} profile-photo-sm pull-left`}
-                        src={userImageBlobURL}
-                        loading='lazy'
-                    />
+                    {isUserImageLoading ?
+                        <img
+                            className={`${styles.profilePhotoSm} ${styles.pullLeft} profile-photo-sm pull-left`}
+                            src={process.env.BASE_URL + 'images/imageLoader.gif'}
+                            loading='lazy'
+                        /> :
+                        <img
+                            className={`${styles.profilePhotoSm} ${styles.pullLeft} profile-photo-sm pull-left`}
+                            src={userImageBlobURL}
+                            loading='lazy'
+                        />
+                    }
+
                     <div
                         className={`${styles.msgPreview} msg-preview`}
                         style={{ marginLeft: "50px" }}
@@ -66,18 +78,28 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
                         >
                             {userName}
                         </h6>
-                        <p
+                        {lastMessageOfFriend ?
+                            <p
+                            >
+                                {lastMessageOfFriend}
+                            </p> :
+                            <p
+                                className={styles.chatLoader}
+                            >
 
-                        >
-                            {lastMessageOfFriend ? lastMessageOfFriend : ''}
-                        </p>
+                            </p>
+                        }
+
                         {lastMessageTime ?
                             <small
                                 className={`${styles.textMuted} text-muted`}
                             >
                                 {lastMessageTime}
                             </small> :
-                            <></>
+                            <small
+                                className={`${styles.textMuted} ${styles.chatLoader} text-muted`}
+                            >
+                            </small>
                         }
 
                         {unreadCountOfFriend ?

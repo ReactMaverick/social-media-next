@@ -5,31 +5,48 @@ import { getImageBlob } from '@/utils/common';
 export default function ChatSingleMessage({ leftOrRight, userImg, userName, timeElapsed, message, image, isUserTyping }) {
 
     const [userImageBlobURL, setUserImageBlobURL] = useState(null);
+    const [isUserImageLoading, setIsUserImageLoading] = useState(true);
     const [imageBlobURL, setImageBlobURL] = useState(null);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
         if (userImg)
-            getImageBlob(userImg, setUserImageBlobURL);
+            getImageBlob(userImg, setUserImageBlobURL)
+                .then(() => {
+                    setIsUserImageLoading(false)
+                });
 
         if (image)
-            getImageBlob(image, setImageBlobURL);
+            getImageBlob(image, setImageBlobURL)
+                .then(() => {
+                    setIsImageLoading(false)
+                });
     }, [])
 
     const text = "typing...";
 
-    console.log(imageBlobURL);
+    // console.log(imageBlobURL);
 
     return (
         <li
             className={leftOrRight}
 
         >
-            <img
-                className={`${styles.profilePhotoSm} ${leftOrRight == "left" ? styles.pullLeft + " pull-left" : styles.pullRight + " pull-right"} profile-photo-sm`}
-                src={userImageBlobURL}
-                loading='lazy'
+            {isUserImageLoading ?
+                <img
+                    className={`${styles.profilePhotoSm} ${leftOrRight == "left" ? styles.pullLeft + " pull-left" : styles.pullRight + " pull-right"} profile-photo-sm`}
+                    src={process.env.BASE_URL + 'images/imageLoader.gif'}
+                    loading='lazy'
 
-            />
+                /> :
+                <img
+                    className={`${styles.profilePhotoSm} ${leftOrRight == "left" ? styles.pullLeft + " pull-left" : styles.pullRight + " pull-right"} profile-photo-sm`}
+                    src={userImageBlobURL}
+                    loading='lazy'
+
+                />
+            }
+
             <div
                 className="chat-item"
 
@@ -68,8 +85,9 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
                 }
 
 
-                {image ?
-                    <img src={imageBlobURL} className={styles.chatImage} loading='lazy' /> :
+                {image ? (isImageLoading ?
+                    <img src={process.env.BASE_URL + 'images/imageLoader.gif'} className={styles.chatImage} loading='lazy' /> :
+                    <img src={imageBlobURL} className={styles.chatImage} loading='lazy' />) :
                     <></>}
 
             </div>
