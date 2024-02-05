@@ -1,24 +1,65 @@
 import styles from './friendColumn.module.css';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { getImageBlob } from '@/utils/common';
 
 export default function FriendColumn({ friendName, friendImg, friendCoverImg, friendProfileId }) {
+
+    const [friendImageBlobURL, setFriendImageBlobURL] = useState(null);
+    const [isFriendImageLoading, setIsFriendImageLoading] = useState(true);
+    const [friendCoverImageBlobURL, setFriendCoverImageBlobURL] = useState(null);
+    const [isFriendCoverImageLoading, setIsFriendCoverImageLoading] = useState(true);
+
+    useEffect(() => {
+        if (friendImg)
+            getImageBlob(friendImg, setFriendImageBlobURL)
+                .then(() => {
+                    setIsFriendImageLoading(false)
+                });
+
+        if (friendCoverImg)
+            getImageBlob(friendCoverImg, setFriendCoverImageBlobURL)
+                .then(() => {
+                    setIsFriendCoverImageLoading(false)
+                });
+    }, [])
+
     return (
         <div className={`${styles.friendColumn} col-md-6 col-sm-6`}>
             <div className={`${styles.friendCard}`}>
-                <img
-                    className={`${styles.imgResponsive} img-responsive cover`}
-                    alt="profile-cover"
-                    src={friendCoverImg}
-                />
+                {isFriendCoverImageLoading ?
+                    <img
+                        className={`${styles.imgResponsive} img-responsive cover`}
+                        alt="profile-cover"
+                        src='/images/imageLoader.gif'
+                        loading='lazy'
+                    /> :
+                    <img
+                        className={`${styles.imgResponsive} img-responsive cover`}
+                        alt="profile-cover"
+                        src={friendCoverImageBlobURL}
+                        loading='lazy'
+                    />
+                }
 
                 <div
                     className={styles.cardInfo}
                 >
-                    <img
-                        className={styles.profilePhotoLg}
-                        alt="user"
-                        src={friendImg}
-                    />
+                    {isFriendImageLoading ?
+                        <img
+                            className={styles.profilePhotoLg}
+                            alt="user"
+                            src='/images/imageLoader.gif'
+                            loading='lazy'
+                        /> :
+                        <img
+                            className={styles.profilePhotoLg}
+                            alt="user"
+                            src={friendImageBlobURL}
+                            loading='lazy'
+                        />
+                    }
+
                     <div className="friend-info">
                         <Link
                             className={`pull-right text-green ${styles.pullRight} ${styles.textGreen} ${styles.link}`}

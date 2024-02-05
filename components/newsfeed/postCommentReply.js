@@ -4,8 +4,18 @@ import Link from 'next/link';
 import { Icon } from '@iconify/react';
 import { useAppDispatch } from '@/utils/hooks';
 import { deleteCommentReply } from '@/utils/features/postContentsSlice';
+import { getImageBlob } from '@/utils/common';
+import { useState, useEffect } from 'react';
 
 export default function PostCommentReply({ profileImgSrc, profileLink, userName, commentReply, commentReplyUserId, currentUser, postId, commentId, replyCommentId }) {
+
+    const [profileImageBlobURL, setProfileImageBlobURL] = useState(null);
+
+    useEffect(() => {
+        if (profileImgSrc)
+            getImageBlob(profileImgSrc, setProfileImageBlobURL);
+
+    }, [])
 
     const dispatch = useAppDispatch();
 
@@ -39,7 +49,8 @@ export default function PostCommentReply({ profileImgSrc, profileLink, userName,
         >
             <img
                 className={styles.profilePhotoSm}
-                src={profileImgSrc}
+                src={profileImageBlobURL}
+                loading='lazy'
             />
             <p>
                 <Link

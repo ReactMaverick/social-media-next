@@ -5,15 +5,26 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { likePost, dislikePost, addComment, deleteComment, addCommentReply } from '@/utils/features/postContentsSlice';
 import { useEffect, useRef, useState } from 'react';
+import { getImageBlob } from '@/utils/common';
 
 export default function PostComment({ profileImgSrc, profileLink, userName, comment, commentUserId, currentUser, commentId, postId, currentUserImgSrc, children, socket }) {
 
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [commentReplyText, setCommentReplyText] = useState('');
+    const [profileImageBlobURL, setProfileImageBlobURL] = useState(null);
+    const [currentUserImageBlobUrl, setCurrentUserImageBlobUrl] = useState(null);
 
     const inputReplyRef = useRef(null);
 
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (profileImgSrc)
+            getImageBlob(profileImgSrc, setProfileImageBlobURL);
+
+        if (currentUserImgSrc)
+            getImageBlob(currentUserImgSrc, setCurrentUserImageBlobUrl);
+    }, [])
 
     useEffect(() => {
         if (isReplyPressed)
@@ -98,7 +109,8 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
             >
                 <img
                     className={styles.profilePhotoSm}
-                    src={profileImgSrc}
+                    src={profileImageBlobURL}
+                    loading="lazy"
                 />
                 <p>
                     <Link
@@ -133,7 +145,8 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
                     >
                         <img
                             className={styles.profilePhotoSm}
-                            src={currentUserImgSrc}
+                            src={currentUserImageBlobUrl}
+                            loading="lazy"
                         />
                         <input
                             className={styles.formControl}

@@ -5,11 +5,22 @@ import { Icon } from '@iconify/react';
 import { useRef, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { addPost, removePost, clearPosts } from '@/utils/features/postContentsSlice';
+import { getImageBlob } from '@/utils/common';
 
 export default function CreatePost({ currentUser, friends, socket }) {
     const [caption, setCaption] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedVideo, setSelectedVideo] = useState(null);
+    const [currentUserImageBlobUrl, setCurrentUserImageBlobUrl] = useState(null);
+    const [isCurrentUserImageLoading, setIsCurrentUserImageLoading] = useState(true);
+
+    useEffect(() => {
+        if (currentUser.image !== '')
+            getImageBlob(currentUser.image, setCurrentUserImageBlobUrl)
+                .then(() => {
+                    setIsCurrentUserImageLoading(false);
+                });
+    }, [])
 
     const createPostTextareaRef = useRef(null);
 
@@ -200,10 +211,19 @@ export default function CreatePost({ currentUser, friends, socket }) {
                             <div
                                 className={styles.formGroup}
                             >
-                                <img
-                                    className="profile-photo-md"
-                                    src={(currentUser.image) !== '' ? (currentUser.image) : '/images/no_user.webp'}
-                                />
+                                {isCurrentUserImageLoading ?
+                                    <img
+                                        className="profile-photo-md"
+                                        src='/images/imageLoader.gif'
+                                        loading='lazy'
+                                    /> :
+                                    <img
+                                        className="profile-photo-md"
+                                        src={(currentUser.image) !== '' ? (currentUserImageBlobUrl) : '/images/no_user.webp'}
+                                        loading='lazy'
+                                    />
+                                }
+
                                 <textarea
                                     id="exampleTextarea"
                                     className={`form-control ${styles.formControl}`}

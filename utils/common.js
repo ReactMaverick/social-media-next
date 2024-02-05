@@ -43,5 +43,68 @@ export const hobbyIcons = {
     gardening: "game-icons:gardening-shears",
     dancing: "mdi:dance-ballroom",
     fishing: "icon-park-outline:fishing",
-    other: "material-symbols:interests"
+    other: "material-symbols:interests",
+    cycling: "bx:cycling",
+    bicycling: "bx:cycling",
+    swimming: "map:swimming",
 };
+
+export const getImageBlob = async (imageName, setImageUrl) => {
+    try {
+        const response = await fetch(`/api/1.0/dynamicImages?id=${imageName}`);
+
+        if (!response.ok) {
+            console.log("Failed to get Image Source ==> ", response);
+            return
+        }
+
+        if (response.ok) {
+            const mimeType = response.headers.get('content-type');
+
+            const blob = await response.blob(); // Convert response to Blob
+
+            // console.log("Blob ==> ", blob);
+
+            const imageURL = URL.createObjectURL(blob);
+
+            if (setImageUrl) {
+                setImageUrl(imageURL);
+            } else {
+                return imageURL
+            }
+        }
+
+    } catch (error) {
+        console.error("Error ==> ", error);
+    }
+}
+
+export const getVideoBlob = async (videoName, setVideoUrl) => {
+    try {
+        const response = await fetch(`/api/1.0/dynamicVideos?id=${videoName}`);
+
+        if (!response.ok) {
+            console.log("Failed to get Video Source ==> ", response);
+            return
+        }
+
+        if (response.ok) {
+            const mimeType = response.headers.get('content-type');
+            const blob = await response.blob(); // Convert response to Blob
+
+            // console.log("Blob ==> ", blob);
+
+            const videoUrl = URL.createObjectURL(blob);
+
+            if (setVideoUrl) {
+                setVideoUrl(videoUrl);
+
+            } else {
+                return videoUrl
+            }
+        }
+
+    } catch (error) {
+        console.error("Error ==> ", error);
+    }
+}

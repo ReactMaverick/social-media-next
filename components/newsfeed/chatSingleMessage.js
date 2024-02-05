@@ -1,8 +1,23 @@
 import styles from './chatSingleMessage.module.css';
+import { useState, useEffect } from 'react';
+import { getImageBlob } from '@/utils/common';
 
 export default function ChatSingleMessage({ leftOrRight, userImg, userName, timeElapsed, message, image, isUserTyping }) {
 
+    const [userImageBlobURL, setUserImageBlobURL] = useState(null);
+    const [imageBlobURL, setImageBlobURL] = useState(null);
+
+    useEffect(() => {
+        if (userImg)
+            getImageBlob(userImg, setUserImageBlobURL);
+
+        if (image)
+            getImageBlob(image, setImageBlobURL);
+    }, [])
+
     const text = "typing...";
+
+    console.log(imageBlobURL);
 
     return (
         <li
@@ -11,7 +26,8 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
         >
             <img
                 className={`${styles.profilePhotoSm} ${leftOrRight == "left" ? styles.pullLeft + " pull-left" : styles.pullRight + " pull-right"} profile-photo-sm`}
-                src={userImg}
+                src={userImageBlobURL}
+                loading='lazy'
 
             />
             <div
@@ -53,7 +69,7 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
 
 
                 {image ?
-                    <img src={image} className={styles.chatImage} /> :
+                    <img src={imageBlobURL} className={styles.chatImage} loading='lazy' /> :
                     <></>}
 
             </div>

@@ -2,9 +2,18 @@ import styles from './chatListItem.module.css';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserConversations, selectConversations } from '@/utils/features/chatSlice';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { getImageBlob } from '@/utils/common';
 
 export default function ChatListItem({ href, imgSrc, userName, user_id, lastMessageOfFriend, unreadCountOfFriend, lastMessageTime }) {
+
+    const [userImageBlobURL, setUserImageBlobURL] = useState(null);
+
+    useEffect(() => {
+        if (imgSrc)
+            getImageBlob(imgSrc, setUserImageBlobURL);
+    }, [])
+
     const dispatch = useDispatch();
     const conversations = useSelector(selectConversations);
     // console.log(currentUser);
@@ -46,7 +55,8 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
                 >
                     <img
                         className={`${styles.profilePhotoSm} ${styles.pullLeft} profile-photo-sm pull-left`}
-                        src={imgSrc}
+                        src={userImageBlobURL}
+                        loading='lazy'
                     />
                     <div
                         className={`${styles.msgPreview} msg-preview`}

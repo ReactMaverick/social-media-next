@@ -1,13 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './followUserSuggestionItem.module.css';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { addFriend } from '@/utils/features/friendsSlice';
+import { getImageBlob } from '@/utils/common';
 
 export default function FollowUserSuggestionItem({ imgSrc, followUserName, userTimelineLink, userProfileId, currentUser, receivedRequest }) {
 
     const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
     const [isFriendRequestAccepted, setIsFriendRequestAccepted] = useState(false);
+    const [profileImageBlobURL, setProfileImageBlobURL] = useState(null);
+
+    useEffect(() => {
+        if (imgSrc)
+            getImageBlob(imgSrc, setProfileImageBlobURL);
+
+    }, [])
 
     const dispatch = useDispatch();
 
@@ -84,7 +92,8 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
                 >
                     <img
                         className={`${styles.profilePhotoSm} ${styles.pullLeft}`}
-                        src={imgSrc}
+                        src={profileImageBlobURL}
+                        loading='lazy'
                     />
                     <div
                     >

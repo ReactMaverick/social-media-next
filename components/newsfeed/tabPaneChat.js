@@ -26,10 +26,10 @@ export default function TabPaneChat({ currentUser, tabId, conversations, isUserT
     const isActiveTab = tabRef?.current?.classList?.contains('active');
 
     useEffect(() => {
-        if (isActiveTab && tabId !== activeTab) {
+        if (isActiveTab && tabId !== activeTab && setActiveTab) {
             setActiveTab(tabId);
         }
-    }, [isActiveTab, activeTab, tabId]);
+    }, [isActiveTab, activeTab, tabId, setActiveTab]);
     // console.log(userImg);
     return (
 

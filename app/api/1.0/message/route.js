@@ -4,10 +4,8 @@ import Conversation from '@/models/conversationModel';
 import { getServerSession } from "next-auth";
 import { authOptions, isAdmin } from "@/utils/auth";
 
-
 // Connect to MongoDB
 connectDB();
-
 
 export async function POST(req, res) {
     try {
@@ -29,7 +27,7 @@ export async function POST(req, res) {
                 const fileData = new FormData();
                 fileData.append('file', image)
                 try {
-                    const response = await fetch('/api/1.0/upload', {
+                    const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
                         method: 'POST',
                         body: fileData,
                     });
@@ -51,7 +49,7 @@ export async function POST(req, res) {
                 const fileData = new FormData();
                 fileData.append('file', video)
                 try {
-                    const response = await fetch('/api/1.0/upload', {
+                    const response = await fetch(process.env.BASE_URL + '/api/1.0/upload', {
                         method: 'POST',
                         body: fileData,
                     });
@@ -146,7 +144,7 @@ export async function POST(req, res) {
             return errorResponse;
         }
     } catch (error) {
-        console.error('Error creating post:', error);
+        // console.error('Error creating post:', error);
         const internalServerErrorResponse = new Response(
             JSON.stringify({ error: 'Internal Server Error' }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }

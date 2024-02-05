@@ -2,8 +2,21 @@ import styles from './profileCard.module.css';
 import Link from "next/link";
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { getImageBlob } from '@/utils/common';
 
 export default function ProfileCard({ currentUser, friends }) {
+
+    const [currentUserImageBlobUrl, setCurrentUserImageBlobUrl] = useState(null);
+    const [isCurrentUserImageLoading, setIsCurrentUserImageLoading] = useState(true);
+
+    useEffect(() => {
+        if (currentUser.image !== '')
+            getImageBlob(currentUser.image, setCurrentUserImageBlobUrl)
+                .then(() => {
+                    setIsCurrentUserImageLoading(false);
+                });
+    }, [])
 
     const router = useRouter();
 
@@ -21,12 +34,22 @@ export default function ProfileCard({ currentUser, friends }) {
         >
             {currentUser && (
                 <>
-                    <img
-                        className={styles.profilePhoto}
-                        alt="user"
-                        src={(currentUser.image) !== '' ? (currentUser.image) : '/images/no_user.webp'}
-                        onClick={handleProfileImageClick}
-                    />
+                    {isCurrentUserImageLoading ?
+                        <img
+                            className={styles.profilePhoto}
+                            alt="user"
+                            src='/images/imageLoader.gif'
+                            loading='lazy'
+                        /> :
+                        <img
+                            className={styles.profilePhoto}
+                            alt="user"
+                            src={(currentUser.image) !== '' ? (currentUserImageBlobUrl) : '/images/no_user.webp'}
+                            loading='lazy'
+                            onClick={handleProfileImageClick}
+                        />
+                    }
+
                     <h5
                     >
                         <Link

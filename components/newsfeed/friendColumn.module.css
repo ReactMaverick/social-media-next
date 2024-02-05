@@ -10,12 +10,15 @@
     border-bottom: 1px solid #f1f2f2;
     overflow: hidden;
     margin-bottom: 20px;
+    height: 225px;
 }
 
 .imgResponsive {
     display: block;
     max-width: 100%;
-    height: auto;
+    height: 73%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .cardInfo {

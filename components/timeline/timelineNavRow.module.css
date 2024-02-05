@@ -20,6 +20,10 @@
     z-index: 999;
 }
 
+.profileInfo::before {
+    content: 'Hello';
+}
+
 .imgResponsive {
     vertical-align: middle;
     display: block;
@@ -31,6 +35,10 @@
     cursor: pointer;
     object-fit: cover;
 }
+
+/* .imgResponsive::after {
+    content: 'Change Profile Picture';
+} */
 
 .timelineCol {
     display: flex;

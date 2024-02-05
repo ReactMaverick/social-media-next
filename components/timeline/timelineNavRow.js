@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { updateProfilePictureUser } from '@/utils/features/userSlice';
 import { useRouter } from 'next/navigation';
 import { addFriend } from '@/utils/features/friendsSlice';
+import { getImageBlob } from '@/utils/common';
 
 export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus }) {
     // console.log(whichPage);
@@ -18,6 +19,18 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
     const [isFriend, setIsFriend] = useState(true);
     const [isFriendButtonHovered, setIsFriendButtonHovered] = useState(false);
     const [isRemoveFriendHovered, setIsRemoveFriendHovered] = useState(false);
+    const [isProfileImageChanged, setIsProfileImageChanged] = useState(false);
+    const [selectedProfileImageBlobURL, setSelectedProfileImageBlobURL] = useState(null);
+    const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
+
+    useEffect(() => {
+        if (timelineUser.image) {
+            getImageBlob(timelineUser.image, setSelectedProfileImageBlobURL)
+                .then(() => {
+                    setIsProfileImageLoading(false);
+                })
+        }
+    }, [])
 
     useEffect(() => {
 
@@ -62,8 +75,8 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         if (typeof (selectedProfileImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedProfileImage));
 
+        setIsProfileImageChanged(true);
         setSelectedProfileImage(file); //Set the selected file in selectedProfileImage
-
     };
 
     const handleProfileImageLinkClick = (e) => {
@@ -292,23 +305,41 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
     // console.log(friendshipStatus);
 
+    console.log("Is Profile Image Loading ==> ", isProfileImageLoading);
+
     return (
         <div className={`${styles.row} row`}>
             <div className={`col-md-3 ${styles.profileCol}`}>
                 <div className={styles.profileInfo}>
                     {friendshipStatus == 'currentUser' ?
-                        <img
-                            className={`${styles.imgResponsive} profile-photo`}
-                            src={typeof (selectedProfileImage) == 'string' ? selectedProfileImage : selectedProfileImage instanceof File || selectedProfileImage instanceof Blob
-                                ? URL.createObjectURL(selectedProfileImage) : {}}
-                            alt="Profile"
-                            onClick={handleProfileImageLinkClick}
-                        /> :
-                        <img
-                            className={`${styles.imgResponsive} profile-photo`}
-                            src={selectedProfileImage}
-                            alt="Profile"
-                        />
+                        (isProfileImageLoading ?
+                            <img
+                                className={`${styles.imgResponsive} profile-photo`}
+                                src='/images/imageLoader.gif'
+                                alt="Loader"
+
+                            /> :
+                            <img
+                                className={`${styles.imgResponsive} profile-photo`}
+                                src={!isProfileImageChanged ? selectedProfileImageBlobURL : selectedProfileImage instanceof File || selectedProfileImage instanceof Blob
+                                    ? URL.createObjectURL(selectedProfileImage) : {}}
+                                alt="Profile"
+                                onClick={handleProfileImageLinkClick}
+                                loading='lazy'
+                            />) :
+                        (isProfileImageLoading ?
+                            <img
+                                className={`${styles.imgResponsive} profile-photo`}
+                                src='/images/imageLoader.gif'
+                                alt="Profile"
+                                loading='lazy'
+                            /> :
+                            <img
+                                className={`${styles.imgResponsive} profile-photo`}
+                                src={selectedProfileImageBlobURL}
+                                alt="Profile"
+                                loading='lazy'
+                            />)
                     }
 
                     <h3>{timelineUser.firstName + ' ' + timelineUser.lastName}</h3>

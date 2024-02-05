@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { updateProfilePictureUser } from '@/utils/features/userSlice';
 import { useRouter } from 'next/navigation';
 import { addFriend } from '@/utils/features/friendsSlice';
+import { getImageBlob } from '@/utils/common';
 
 export default function TimelineNavRowMobile({ whichPage, timelineUserId, timelineUser, friendshipStatus, setFriendshipStatus }) {
 
@@ -17,7 +18,17 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
     const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
     const [isFriend, setIsFriend] = useState(true);
     const [isFriendButtonClicked, setIsFriendButtonClicked] = useState(false);
+    const [isProfileImageChanged, setIsProfileImageChanged] = useState(false);
+    const [selectedProfileImageBlobURL, setSelectedProfileImageBlobURL] = useState(null);
+    const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
 
+    useEffect(() => {
+        if (timelineUser.image)
+            getImageBlob(timelineUser.image, setSelectedProfileImageBlobURL)
+                .then(() => {
+                    setIsProfileImageLoading(false);
+                })
+    }, [])
 
     useEffect(() => {
         // console.log("Timeline user image in nav ===> ", timelineUser.image);
@@ -60,6 +71,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         if (typeof (selectedImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedImage));
 
+        setIsProfileImageChanged(true);
         setSelectedImage(file); //Set the selected file in selectedImage
 
     };
@@ -289,17 +301,33 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                 className="profile-info"
             >
                 {friendshipStatus == 'currentUser' ?
-                    <img
-                        className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
-                        src={typeof (selectedImage) == 'string' ? selectedImage : selectedImage instanceof File || selectedImage instanceof Blob
-                            ? URL.createObjectURL(selectedImage) : {}}
-                        alt="Profile"
-                        onClick={handleProfileImageLinkMobileClick}
-                    /> :
-                    <img
-                        className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
-                        src={selectedImage}
-                    />
+                    (isProfileImageLoading ?
+                        <img
+                            className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
+                            src='/images/imageLoader.gif'
+                            alt="Profile"
+                            onClick={handleProfileImageLinkMobileClick}
+                            loading='lazy'
+                        /> :
+                        <img
+                            className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
+                            src={!isProfileImageChanged ? selectedProfileImageBlobURL : selectedProfileImage instanceof File || selectedProfileImage instanceof Blob
+                                ? URL.createObjectURL(selectedProfileImage) : {}}
+                            alt="Profile"
+                            onClick={handleProfileImageLinkMobileClick}
+                            loading='lazy'
+                        />) :
+                    (isProfileImageLoading ?
+                        <img
+                            className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
+                            src='/images/imageLoader.gif'
+                            loading='lazy'
+                        /> :
+                        <img
+                            className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
+                            src={selectedProfileImageBlobURL}
+                            loading='lazy'
+                        />)
                 }
                 <h4
                     className={styles.h4}

@@ -356,3 +356,32 @@ body::-webkit-scrollbar-thumb:vertical:hover {
 .contactPage_reach__I99DM p {
   margin: 0;
 }
+
+
+.timelineCoverIsHovered::before {
+    content: 'Change Cover Image';
+    font-size: 24px;
+    background-color: #0000008f;
+    color: #ffffffa6;
+    box-shadow: black 1px 5px 10px;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 100% 100%;
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out; 
+}
+
+.timelineCoverIsHovered:hover::before {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+

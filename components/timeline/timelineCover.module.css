@@ -7,6 +7,16 @@
     cursor: pointer;
 }
 
+
+.timelineCoverLoader {
+    background-position: center !important;
+    background-size: contain !important;
+    min-height: 360px;
+    border-radius: 0 0 4px 4px;
+    position: relative;
+    cursor: pointer;
+}
+
 .hiddenFileInput {
     display: none;
 }
