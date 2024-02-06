@@ -141,9 +141,9 @@ export default function ContactPage() {
                                             <div className={`${styles.reach}`}><span className={`${styles.phoneIcon}`}><Icon icon="basil:location-solid" /></span><p>48/14 Purna Chandra Mitra Lane, Charu Market kolkata- 700033</p></div>
                                         </div>
                                         <ul className={`${styles.socialIcons} list-inline`}>
-                                            <li><Link className={`${styles.socialIcon}`} href="https://www.facebook.com/websadroit"><Icon icon="gg:facebook" target="_blank" /></Link></li>
-                                            <li><Link className={`${styles.socialIcon}`} href="https://in.linkedin.com/company/websadroit"><Icon icon="jam:linkedin" target="_blank" /></Link></li>
-                                            <li><Link className={`${styles.socialIcon}`} href="https://www.instagram.com/websadroit/"><Icon icon="mdi:instagram" target="_blank" /></Link></li>
+                                            <li><Link className={`${styles.socialIcon}`} href="https://www.facebook.com/websadroit" target="_blank"><Icon icon="gg:facebook" /></Link></li>
+                                            <li><Link className={`${styles.socialIcon}`} href="https://in.linkedin.com/company/websadroit" target="_blank"><Icon icon="jam:linkedin" /></Link></li>
+                                            <li><Link className={`${styles.socialIcon}`} href="https://www.instagram.com/websadroit/" target="_blank"><Icon icon="mdi:instagram" /></Link></li>
                                         </ul>
                                     </div>
 

@@ -409,3 +409,11 @@ body::-webkit-scrollbar-thumb:vertical:hover {
 .profile-info-currentUser:hover::before {
   opacity: 1;
 }
+
+.css-1h777u5::before, .css-1h777u5::after {
+  border-bottom: none !important;
+}
+
+.css-13q0g9a::before, .css-13q0g9a::after {
+  border-bottom: none !important;
+}

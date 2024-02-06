@@ -20,9 +20,9 @@ export default function Footer() {
                 />
               </Link>
               <ul className={`${styles.socialIcons} list-inline`}>
-                <li><Link className={`${styles.socialIcon}`} href="https://www.facebook.com/websadroit"><Icon icon="gg:facebook" target="_blank" /></Link></li>
-                <li><Link className={`${styles.socialIcon}`} href="https://in.linkedin.com/company/websadroit"><Icon icon="jam:linkedin" target="_blank" /></Link></li>
-                <li><Link className={`${styles.socialIcon}`} href="https://www.instagram.com/websadroit/"><Icon icon="mdi:instagram" target="_blank" /></Link></li>
+                <li><Link className={`${styles.socialIcon}`} href="https://www.facebook.com/websadroit" target="_blank"><Icon icon="gg:facebook" /></Link></li>
+                <li><Link className={`${styles.socialIcon}`} href="https://in.linkedin.com/company/websadroit" target="_blank"><Icon icon="jam:linkedin" /></Link></li>
+                <li><Link className={`${styles.socialIcon}`} href="https://www.instagram.com/websadroit/" target="_blank"><Icon icon="mdi:instagram" /></Link></li>
               </ul>
             </div>
             <div className={`col-md-2 col-sm-2`}>

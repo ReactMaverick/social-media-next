@@ -10,10 +10,14 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
     const [isFriendRequestSent, setIsFriendRequestSent] = useState(false);
     const [isFriendRequestAccepted, setIsFriendRequestAccepted] = useState(false);
     const [profileImageBlobURL, setProfileImageBlobURL] = useState(null);
+    const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
 
     useEffect(() => {
         if (imgSrc)
-            getImageBlob(imgSrc, setProfileImageBlobURL);
+            getImageBlob(imgSrc, setProfileImageBlobURL)
+                .then(() => {
+                    setIsProfileImageLoading(false)
+                });
 
     }, [])
 
@@ -90,11 +94,19 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
                 <div
                     className={styles.followUser}
                 >
-                    <img
-                        className={`${styles.profilePhotoSm} ${styles.pullLeft}`}
-                        src={profileImageBlobURL}
-                        loading='lazy'
-                    />
+                    {isProfileImageLoading ?
+                        <img
+                            className={`${styles.profilePhotoSm} ${styles.pullLeft}`}
+                            src={process.env.BASE_URL + '/images/imageLoader.gif'}
+                            loading='lazy'
+                        /> :
+                        <img
+                            className={`${styles.profilePhotoSm} ${styles.pullLeft}`}
+                            src={profileImageBlobURL}
+                            loading='lazy'
+                        />
+                    }
+
                     <div
                     >
                         <h5

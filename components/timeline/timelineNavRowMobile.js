@@ -71,6 +71,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         if (typeof (selectedImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedImage));
 
+        setIsProfileImageLoading(false);
         setIsProfileImageChanged(true);
         setSelectedImage(file); //Set the selected file in selectedImage
 
@@ -385,16 +386,18 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                             Album
                         </Link>
                     </li>
-                    <li
+                    {friendshipStatus == 'currentUser' &&
+                        <li
 
-                    >
-                        <Link
-                            href={"/0/timeline/" + timelineUserId + "/friends"}
-                            className={whichPage == 'timelineFriends' ? styles.active : ''}
                         >
-                            Friends
-                        </Link>
-                    </li>
+                            <Link
+                                href={"/0/timeline/" + timelineUserId + "/friends"}
+                                className={whichPage == 'timelineFriends' ? styles.active : ''}
+                            >
+                                Friends
+                            </Link>
+                        </li>
+                    }
                 </ul>
                 {(friendshipStatus == 'friend' && isFriend) || isFriendRequestAccepted ?
                     // Button For Existing Friend

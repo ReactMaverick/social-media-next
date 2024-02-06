@@ -69,6 +69,7 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
         if (typeof (selectedCoverImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedCoverImage));
 
+        setIsCoverImageLoading(false);
         setIsCoverImageChanged(true);
         setSelectedCoverImage(file); //Set the selected file in selectedCoverImage
 

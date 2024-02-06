@@ -75,6 +75,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         if (typeof (selectedProfileImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedProfileImage));
 
+        setIsProfileImageLoading(false);
         setIsProfileImageChanged(true);
         setSelectedProfileImage(file); //Set the selected file in selectedProfileImage
     };
@@ -302,6 +303,8 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
     const handleRemoveFriendClick = () => {
         handleDeleteFriendClick();
     }
+
+    // console.log("Timeline user image in nav ===> ", timelineUser.image);
 
     // console.log(friendshipStatus);
 

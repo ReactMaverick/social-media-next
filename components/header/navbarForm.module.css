@@ -23,3 +23,66 @@
 .formControl:focus {
     outline: 0;
 }
+
+.searchList {
+    position: absolute;
+    background: rgb(0 0 0 / 80%);
+    border: 0;
+    box-shadow: none;
+    min-width: 235px;
+    color: #fff;
+    top: 50px;
+    border-radius: 5px;
+    padding-left: 0;
+    max-height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.searchList a {
+    padding: 5px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.searchList a:first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+.searchList a:last-child {
+    border-radius: 0 0 5px 5px;
+}
+
+.searchList a:hover {
+    background: rgb(119 119 119 / 74%);
+}
+
+.profilePhotoSm {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.searchList::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.searchList::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(216, 214, 214);
+    border-radius: 10px;
+}
+
+/* Handle */
+.searchList::-webkit-scrollbar-thumb {
+    background: rgb(179, 177, 177);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.searchList::-webkit-scrollbar-thumb:hover {
+    background: #8d8c8c;
+}

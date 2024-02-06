@@ -9,6 +9,8 @@ export default function ProfileCard({ currentUser, friends }) {
 
     const [currentUserImageBlobUrl, setCurrentUserImageBlobUrl] = useState(null);
     const [isCurrentUserImageLoading, setIsCurrentUserImageLoading] = useState(true);
+    const [currentUserCoverImageBlobUrl, setCurrentUserCoverImageBlobUrl] = useState(null);
+    const [isCurrentUserCoverImageLoading, setIsCurrentUserCoverImageLoading] = useState(true);
 
     useEffect(() => {
         if (currentUser.image !== '')
@@ -16,6 +18,13 @@ export default function ProfileCard({ currentUser, friends }) {
                 .then(() => {
                     setIsCurrentUserImageLoading(false);
                 });
+
+        if (currentUser.coverImage !== '')
+            getImageBlob(currentUser.coverImage, setCurrentUserCoverImageBlobUrl)
+                .then(() => {
+                    setIsCurrentUserCoverImageLoading(false);
+                });
+
     }, [])
 
     const router = useRouter();
@@ -29,7 +38,7 @@ export default function ProfileCard({ currentUser, friends }) {
         <div
             className={styles.profileCard}
             style={{
-                background: `linear-gradient(to bottom, rgba(39, 170, 225, .8), rgba(28, 117, 188, .8)), url("${currentUser.coverImage}") no-repeat`
+                background: `${isCurrentUserCoverImageLoading ? `linear-gradient(to bottom, rgba(39, 170, 225, .8), rgba(28, 117, 188, .8)), url("${process.env.BASE_URL + `/images/imageLoader.gif`}") no-repeat` : `linear-gradient(to bottom, rgba(39, 170, 225, .8), rgba(28, 117, 188, .8)), url("${currentUserCoverImageBlobUrl}") no-repeat`}`
             }}
         >
             {currentUser && (
