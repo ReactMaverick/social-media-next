@@ -8,6 +8,7 @@ const nextConfigDevelopment = {
         userName: 'priyamwebsadroit',
         password: 'HdNJ1R1HBNSxXBQV',
         dbName: 'socialMediaNextDev',
+        NEXTAUTH_URL: 'https://social-media-next.onrender.com'
     }
 }
 
@@ -18,6 +19,7 @@ const nextConfigProduction = {
         userName: 'priyamwebsadroit',
         password: 'HdNJ1R1HBNSxXBQV',
         dbName: 'socialMediaNextProduction',
+        NEXTAUTH_URL: 'http://localhost:3000'
     },
 }
 

@@ -60,7 +60,7 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
                     {isUserImageLoading ?
                         <img
                             className={`${styles.profilePhotoSm} ${styles.pullLeft} profile-photo-sm pull-left`}
-                            src={process.env.BASE_URL + 'images/imageLoader.gif'}
+                            src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             loading='lazy'
                         /> :
                         <img

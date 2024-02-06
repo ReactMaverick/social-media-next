@@ -35,7 +35,7 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
             {isUserImageLoading ?
                 <img
                     className={`${styles.profilePhotoSm} ${leftOrRight == "left" ? styles.pullLeft + " pull-left" : styles.pullRight + " pull-right"} profile-photo-sm`}
-                    src={process.env.BASE_URL + 'images/imageLoader.gif'}
+                    src={process.env.BASE_URL + '/images/imageLoader.gif'}
                     loading='lazy'
 
                 /> :
@@ -86,7 +86,7 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
 
 
                 {image ? (isImageLoading ?
-                    <img src={process.env.BASE_URL + 'images/imageLoader.gif'} className={styles.chatImage} loading='lazy' /> :
+                    <img src={process.env.BASE_URL + '/images/imageLoader.gif'} className={styles.chatImage} loading='lazy' /> :
                     <img src={imageBlobURL} className={styles.chatImage} loading='lazy' />) :
                     <></>}
 
