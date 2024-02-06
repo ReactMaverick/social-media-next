@@ -63,8 +63,9 @@ export default function TimelineLayout({ children }) {
                         <NavbarHeader />
                         <NavbarButton />
                         <Navbar>
-                            {users && users.length &&
-                                <NavbarForm users={users} />
+                            {(users && users.length) ?
+                                <NavbarForm users={users} /> :
+                                <></>
                             }
                             <NavbarMenu currentUser={currentUser} />
                         </Navbar>
