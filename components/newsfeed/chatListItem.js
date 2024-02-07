@@ -90,7 +90,7 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
                             </p>
                         }
 
-                        {lastMessageTime ?
+                        {/* {lastMessageTime ?
                             <small
                                 className={`${styles.textMuted} text-muted`}
                             >
@@ -100,7 +100,7 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
                                 className={`${styles.textMuted} ${styles.chatLoader} text-muted`}
                             >
                             </small>
-                        }
+                        } */}
 
                         {unreadCountOfFriend ?
                             <div

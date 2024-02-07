@@ -54,3 +54,10 @@ const Some = mongoose.models.Some || mongoose.model('Some', someSchema);
 // Export the 'Some' model so that it can be used in other parts of the application
 export default Some;
 ```
+
+## Production
+
+```bash
+PM2 Start Next Project = pm2 start npm --name social_media -- start #Starting the server
+pm2 logs social_media #For Logging
+```

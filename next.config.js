@@ -5,22 +5,16 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const nextConfigDevelopment = {
     env: {
         BASE_URL: 'http://localhost:3000',
-        userName: 'priyamwebsadroit',
-        password: 'HdNJ1R1HBNSxXBQV',
-        dbName: 'socialMediaNextDev',
-        NEXTAUTH_URL: 'http://localhost:3000'
+        dbName: 'socialMediaNextDev'
     }
 }
 
 const nextConfigProduction = {
     env: {
-        BASE_URL: 'https://social-media-next.onrender.com',
-        // BASE_URL: 'http://localhost:3000',
-        userName: 'priyamwebsadroit',
-        password: 'HdNJ1R1HBNSxXBQV',
+        BASE_URL: 'http://194.163.131.163:8000',
+        // BASE_URL: 'http://localhost:8000',
         dbName: 'socialMediaNextProduction',
-        NEXTAUTH_URL: 'https://social-media-next.onrender.com'
-    },
+    }
 }
 
 module.exports = (phase, { defaultConfig }) => {
