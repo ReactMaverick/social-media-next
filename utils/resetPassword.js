@@ -42,7 +42,7 @@ export async function sendResetPasswordEmail({ email, name, resetToken }) {
         <link href="https://fonts.googleapis.com/css2?family=Agdasima&family=Lato&display=swap" rel="stylesheet">
     </head>
         <body>
-            <div style="font-family: Arial, sans-serif; padding: 20px; color: #fff;background: linear-gradient(rgba(43,57,144,0.8),rgb(39,170,225) 65%);border-radius: 20px;font-family: 'Lato', sans-serif;">
+            <div style="font-family: Arial, sans-serif; padding: 20px; color: #fff;background: linear-gradient(rgba(43,57,144,0.8),rgb(39,170,225) 65%);border-radius: 20px;font-family: 'Lato', sans-serif;max-width: 620px;">
                 <h2 style="font-weight: 500;line-height: 1.1;font-size: 30px;color: rgb(255,255,255);font-family: 'Agdasima',sans-serif;">Password Reset Request</h2>
                 <p>Hello ${capitalize(name)},</p>
                 <p>You have requested to reset your password. Please click the button below to reset your password. This link will expire in 1 hour.</p>
