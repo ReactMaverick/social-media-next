@@ -10,7 +10,7 @@ const StyledFeatureItem = styled(Box)(({ theme }) => ({
 }));
 
 const StyledFeatureIcon = styled(Box)(({ theme }) => ({
-    background: `linear-gradient(rgba(43, 57, 144, 0.8), rgba(39, 170, 225, 0.8) 65%) center center / cover, url("images/icon_blur.png") no-repeat`,
+    background: `linear-gradient(rgba(43, 57, 144, 0.8), rgba(39, 170, 225, 0.8) 65%) center center / cover, url("${process.env.BASE_URL}/images/icon_blur.png") no-repeat`,
     borderRadius: '55px',
     margin: 'auto',
     border: '6px solid rgb(255, 255, 255)',

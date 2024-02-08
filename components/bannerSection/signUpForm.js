@@ -226,6 +226,7 @@ const FlexContainer = styled.div`
 export default function SignUpForm() {
 
   const [signInInterface, setSignInInterface] = useState(false);
+  const [forgotPasswordInterface, setForgotPasswordInterface] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -297,11 +298,13 @@ export default function SignUpForm() {
   function handleSignInClick(e) {
     e.preventDefault();
     setSignInInterface(true);
+    setForgotPasswordInterface(false);
   };
 
   function handleSignUpClick(e) {
     e.preventDefault();
     setSignInInterface(false);
+    setForgotPasswordInterface(false);
   };
 
   const handleChange = (e) => {
@@ -385,6 +388,60 @@ export default function SignUpForm() {
 
   };
 
+  const handleForgotPasswordClick = (e) => {
+    e.preventDefault();
+
+    // console.log("Forgot password clicked.");
+
+    setForgotPasswordInterface(true);
+
+  }
+
+  const resetPasswordRequest = async () => {
+
+    // console.log("Password ==> ", password);
+
+    try {
+      const response = await fetch('/api/auth/resetPasswordRequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // console.log(data); // Log the response from the server
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Password reset link sent!',
+          text: 'Your password reset link is successfully sent to your email.',
+        }).then((result) => {
+          // This code will be executed after the user clicks "OK"
+          if (result.isConfirmed) {
+            console.log("User clicked OK");
+          }
+        });
+      } else {
+        const errorData = await response.json();
+        // console.error('Error:', errorData);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Reset password error',
+          text: errorData.error,
+        });
+      }
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
+  };
+
   return (
     <SignUpFormContainer className={styles.signUpForm}>
       <LogoLink href='/'>
@@ -451,19 +508,22 @@ export default function SignUpForm() {
             required
             autoComplete='off'
           />
-          <CustomStyledTextField
-            id="password"
-            label="Enter password"
-            variant="filled"
-            type="password"
-            fullWidth
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            margin="dense"
-            required
-            autoComplete='off'
-          />
+          {!forgotPasswordInterface &&
+            <CustomStyledTextField
+              id="password"
+              label="Enter password"
+              variant="filled"
+              type="password"
+              fullWidth
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              margin="dense"
+              required
+              autoComplete='off'
+            />
+          }
+
           {(!signInInterface) &&
             (<>
               <CustomStyledTextField
@@ -526,17 +586,29 @@ export default function SignUpForm() {
             </p>
           )}
 
-          {(signInInterface) ? (
+          {(signInInterface && !forgotPasswordInterface) ? (
             <SignupButton type="button" variant="contained" onClick={handleSignIn}>Signin</SignupButton>
-          ) : (
-            <SignupButton type="submit" variant="contained">Signup</SignupButton>
-          )}
+          ) : (forgotPasswordInterface) ? (
+            <SignupButton type="button" variant="contained" onClick={resetPasswordRequest}>Confirm</SignupButton>
+          ) :
+            (
+              <SignupButton type="submit" variant="contained">Signup</SignupButton>
+            )
+          }
 
         </form>
 
       </FormWrapper>
       {(signInInterface) ? (
-        <StyledLink href="" onClick={handleSignUpClick}>Create a new account</StyledLink>
+        <>
+          <StyledLink href="" onClick={handleSignUpClick}>Create a new account</StyledLink>
+          <StyledLink
+            href=""
+            onClick={handleForgotPasswordClick}
+            style={{ display: 'block' }}
+          >Forgot password?
+          </StyledLink>
+        </>
       ) : (
         <StyledLink href="" onClick={handleSignInClick}>Already have an account?</StyledLink>
       )}

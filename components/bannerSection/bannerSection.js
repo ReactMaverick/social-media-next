@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 const BannerSectionWrapper = styled.section`
   box-sizing: border-box;
   display: block;
-  background: url("images/homepage_bg.jpg") center center / cover no-repeat fixed;
+  background: url("${process.env.BASE_URL}/images/homepage_bg.jpg") center center / cover no-repeat fixed;
   width: 100%;
   min-height: 550px;
   position: relative;
@@ -19,13 +19,13 @@ const StyledContainer = styled(Container)`
 `;
 
 const BannerSection = ({ children }) => {
-    return (
-        <BannerSectionWrapper id="banner">
-            <StyledContainer>
-                {children}
-            </StyledContainer>
-        </BannerSectionWrapper>
-    );
+  return (
+    <BannerSectionWrapper id="banner">
+      <StyledContainer>
+        {children}
+      </StyledContainer>
+    </BannerSectionWrapper>
+  );
 };
 
 export default BannerSection;
