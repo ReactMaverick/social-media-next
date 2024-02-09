@@ -15,11 +15,15 @@ export default function CreatePost({ currentUser, friends, socket }) {
     const [isCurrentUserImageLoading, setIsCurrentUserImageLoading] = useState(true);
 
     useEffect(() => {
-        if (currentUser.image !== '')
+        if (currentUser.image !== '') {
             getImageBlob(currentUser.image, setCurrentUserImageBlobUrl)
                 .then(() => {
                     setIsCurrentUserImageLoading(false);
                 });
+        } else {
+            setCurrentUserImageBlobUrl('/images/image_not_found.jpg');
+            setIsCurrentUserImageLoading(false);
+        }
     }, [])
 
     const createPostTextareaRef = useRef(null);

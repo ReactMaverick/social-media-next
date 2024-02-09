@@ -14,11 +14,15 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (timelineUser.coverImage)
+        if (timelineUser.coverImage) {
             getImageBlob(timelineUser.coverImage, setSelectedCoverImageBlobURL)
                 .then(() => {
                     setIsCoverImageLoading(false);
                 })
+        } else {
+            setSelectedCoverImageBlobURL('/images/image_not_found.jpg');
+            setIsCoverImageLoading(false);
+        }
     }, [])
 
     useEffect(() => {

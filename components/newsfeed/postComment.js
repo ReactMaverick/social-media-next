@@ -21,17 +21,25 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (profileImgSrc)
+        if (profileImgSrc) {
             getImageBlob(profileImgSrc, setProfileImageBlobURL)
                 .then(() => {
                     setIsProfileImageLoading(false)
                 });
+        } else {
+            setProfileImageBlobURL('/images/image_not_found.jpg');
+            setIsProfileImageLoading(false);
+        }
 
-        if (currentUserImgSrc)
+        if (currentUserImgSrc) {
             getImageBlob(currentUserImgSrc, setCurrentUserImageBlobUrl)
                 .then(() => {
                     setIsCurrentUserImageLoading(false)
                 });
+        } else {
+            setCurrentUserImageBlobUrl('/images/image_not_found.jpg');
+            setIsCurrentUserImageLoading(false);
+        }
     }, [])
 
     useEffect(() => {

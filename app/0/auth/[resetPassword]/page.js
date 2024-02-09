@@ -173,7 +173,7 @@ export default function ResetPassword({ params, searchParams }) {
                 }).then((result) => {
                     // This code will be executed after the user clicks "OK"
                     if (result.isConfirmed) {
-                        console.log("User clicked OK");
+                        // console.log("User clicked OK");
 
                         router.push('/0/');
                     }

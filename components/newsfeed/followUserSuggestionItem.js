@@ -13,11 +13,16 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
     const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
 
     useEffect(() => {
-        if (imgSrc)
+        // console.log(imgSrc);
+        if (imgSrc) {
             getImageBlob(imgSrc, setProfileImageBlobURL)
                 .then(() => {
                     setIsProfileImageLoading(false)
                 });
+        } else {
+            setProfileImageBlobURL('/images/no_user.webp');
+            setIsProfileImageLoading(false);
+        }
 
     }, [])
 

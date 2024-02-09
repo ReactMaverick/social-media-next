@@ -27,8 +27,12 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         if (timelineUser.image) {
             getImageBlob(timelineUser.image, setSelectedProfileImageBlobURL)
                 .then(() => {
+                    // console.log("Image Blob URL Set", selectedProfileImageBlobURL);
                     setIsProfileImageLoading(false);
                 })
+        } else {
+            setSelectedProfileImageBlobURL('/images/no_user.webp');
+            setIsProfileImageLoading(false);
         }
     }, [])
 
@@ -314,6 +318,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         <div className={`${styles.row} row`}>
             <div className={`col-md-3 ${styles.profileCol}`}>
                 <div className={`${styles.profileInfo} ${friendshipStatus == 'currentUser' ? styles.profileInfoCurrentUser : ''}`}>
+                    {/* {console.log(selectedProfileImageBlobURL)} */}
                     {friendshipStatus == 'currentUser' ?
                         (isProfileImageLoading ?
                             <img

@@ -10,17 +10,25 @@ export default function ChatSingleMessage({ leftOrRight, userImg, userName, time
     const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
-        if (userImg)
+        if (userImg) {
             getImageBlob(userImg, setUserImageBlobURL)
                 .then(() => {
                     setIsUserImageLoading(false)
                 });
+        } else {
+            setUserImageBlobURL('/images/no_user.webp');
+            setIsUserImageLoading(false);
+        }
 
-        if (image)
+        if (image) {
             getImageBlob(image, setImageBlobURL)
                 .then(() => {
                     setIsImageLoading(false)
                 });
+        } else {
+            setImageBlobURL('/images/image_not_found.jpg');
+            setIsImageLoading(false);
+        }
     }, [])
 
     const text = "typing...";

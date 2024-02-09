@@ -11,17 +11,26 @@ export default function FriendColumn({ friendName, friendImg, friendCoverImg, fr
     const [isFriendCoverImageLoading, setIsFriendCoverImageLoading] = useState(true);
 
     useEffect(() => {
-        if (friendImg)
+        if (friendImg) {
             getImageBlob(friendImg, setFriendImageBlobURL)
                 .then(() => {
                     setIsFriendImageLoading(false)
                 });
+        } else {
+            setFriendImageBlobURL('/images/no_user.webp');
+            setIsFriendImageLoading(false);
 
-        if (friendCoverImg)
+        }
+
+        if (friendCoverImg) {
             getImageBlob(friendCoverImg, setFriendCoverImageBlobURL)
                 .then(() => {
                     setIsFriendCoverImageLoading(false)
                 });
+        } else {
+            setFriendCoverImageBlobURL('/images/image_not_found.jpg');
+            setIsFriendCoverImageLoading(false);
+        }
     }, [])
 
     return (

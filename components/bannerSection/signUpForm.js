@@ -423,7 +423,7 @@ export default function SignUpForm() {
         }).then((result) => {
           // This code will be executed after the user clicks "OK"
           if (result.isConfirmed) {
-            console.log("User clicked OK");
+            // console.log("User clicked OK");
           }
         });
       } else {

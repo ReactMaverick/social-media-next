@@ -11,11 +11,15 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
     const [isUserImageLoading, setIsUserImageLoading] = useState(true);
 
     useEffect(() => {
-        if (imgSrc)
+        if (imgSrc) {
             getImageBlob(imgSrc, setUserImageBlobURL)
                 .then(() => {
                     setIsUserImageLoading(false)
                 });
+        } else {
+            setUserImageBlobURL('/images/no_user.webp');
+            setIsUserImageLoading(false);
+        }
     }, [])
 
     const dispatch = useDispatch();
@@ -84,9 +88,9 @@ export default function ChatListItem({ href, imgSrc, userName, user_id, lastMess
                                 {lastMessageOfFriend}
                             </p> :
                             <p
-                                className={styles.chatLoader}
+                            // className={styles.chatLoader}
                             >
-
+                                Start a conversation
                             </p>
                         }
 

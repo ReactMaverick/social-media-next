@@ -23,11 +23,15 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
     const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
 
     useEffect(() => {
-        if (timelineUser.image)
+        if (timelineUser.image) {
             getImageBlob(timelineUser.image, setSelectedProfileImageBlobURL)
                 .then(() => {
                     setIsProfileImageLoading(false);
                 })
+        } else {
+            setSelectedProfileImageBlobURL('/images/no_user.webp');
+            setIsProfileImageLoading(false);
+        }
     }, [])
 
     useEffect(() => {

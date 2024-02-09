@@ -16,7 +16,11 @@ export async function GET(req, res) {
             // console.log("Id ==> ", id);
 
             if (!id || !allowedExtensions.includes(id.split('.').pop())) {
-                return Response.json({ status: 400, message: 'Invalid asset identifier or extension' })
+                const errorResponse = new Response(
+                    JSON.stringify({ error: 'Invalid asset identifier or extension' }),
+                    { status: 400, headers: { 'Content-Type': 'application/json' } }
+                );
+                return errorResponse;
             }
 
             const filePath = `public/uploads/videos/${id}`; // Customize based on asset location
@@ -26,7 +30,11 @@ export async function GET(req, res) {
             // console.log("Is video exists ==> ", fs.existsSync(filePath));
 
             if (!fs.existsSync(filePath)) {
-                return res.status(404).json({ message: 'Asset not found' });
+                const errorResponse = new Response(
+                    JSON.stringify({ error: 'Asset not found' }),
+                    { status: 400, headers: { 'Content-Type': 'application/json' } }
+                );
+                return errorResponse;
             }
 
             const fileBuffer = fs.readFileSync(filePath); //Read file as buffer

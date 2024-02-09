@@ -51,28 +51,45 @@ export const hobbyIcons = {
 
 export const getImageBlob = async (imageName, setImageUrl) => {
     try {
-        const response = await fetch(`/api/1.0/dynamicImages?id=${imageName}`);
+        // console.log("Image Name ==> ", imageName);
 
-        if (!response.ok) {
-            // console.log("Failed to get Image Source ==> ", response);
-            return
-        }
+        if (imageName) {
+            const response = await fetch(`/api/1.0/dynamicImages?id=${imageName}`);
 
-        if (response.ok) {
-            const mimeType = response.headers.get('content-type');
+            if (!response.ok) {
+                // console.log("Failed to get Image Source ==> ", response);
+                if (setImageUrl) {
+                    setImageUrl('/images/image_not_found.jpg');
+                    return
+                } else {
+                    return '/images/image_not_found.jpg'
+                }
 
-            const blob = await response.blob(); // Convert response to Blob
+            }
 
-            // console.log("Blob ==> ", blob);
+            if (response.ok) {
+                const mimeType = response.headers.get('content-type');
 
-            const imageURL = URL.createObjectURL(blob);
+                const blob = await response.blob(); // Convert response to Blob
 
+                // console.log("Blob ==> ", blob);
+
+                const imageURL = URL.createObjectURL(blob);
+
+                if (setImageUrl) {
+                    setImageUrl(imageURL);
+                } else {
+                    return imageURL
+                }
+            }
+        } else {
             if (setImageUrl) {
-                setImageUrl(imageURL);
+                setImageUrl('/images/image_not_found.jpg');
             } else {
-                return imageURL
+                return '/images/image_not_found.jpg'
             }
         }
+
 
     } catch (error) {
         console.error("Error ==> ", error);

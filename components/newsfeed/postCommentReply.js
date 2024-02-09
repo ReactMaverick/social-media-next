@@ -13,11 +13,15 @@ export default function PostCommentReply({ profileImgSrc, profileLink, userName,
     const [isProfileImageLoading, setIsProfileImageLoading] = useState(true);
 
     useEffect(() => {
-        if (profileImgSrc)
+        if (profileImgSrc) {
             getImageBlob(profileImgSrc, setProfileImageBlobURL)
                 .then(() => {
                     setIsProfileImageLoading(false)
                 });
+        } else {
+            setProfileImageBlobURL('/images/image_not_found.jpg');
+            setIsProfileImageLoading(false);
+        }
 
     }, [])
 

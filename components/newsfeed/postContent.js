@@ -21,26 +21,39 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (postImgSrc)
+
+        if (postImgSrc) {
             getImageBlob(postImgSrc, setPostImageBlobURL)
                 .then(() => {
                     setIsPostImageLoading(false)
                 });
+        } else {
+            setPostImageBlobURL('/images/image_not_found.jpg');
+            setIsPostImageLoading(false);
+        }
 
         if (postVideSrc)
             getVideoBlob(postVideSrc, setPostVideoBlobUrl);
 
-        if (postUserImgSrc)
+        if (postUserImgSrc) {
             getImageBlob(postUserImgSrc, setPostUserImageBlobUrl)
                 .then(() => {
                     setIsPostUserImageLoading(false)
                 });
+        } else {
+            setPostUserImageBlobUrl('/images/image_not_found.jpg');
+            setIsPostUserImageLoading(false);
+        }
 
-        if (currentUserImgSrc)
+        if (currentUserImgSrc) {
             getImageBlob(currentUserImgSrc, setCurrentUserImageBlobUrl)
                 .then(() => {
                     setIsCurrentUserImageLoading(false)
                 });
+        } else {
+            setCurrentUserImageBlobUrl('/images/image_not_found.jpg');
+            setIsCurrentUserImageLoading(false);
+        }
     }, [])
 
     const handleLike = async (e) => {

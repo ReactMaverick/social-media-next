@@ -13,17 +13,28 @@ export default function ProfileCard({ currentUser, friends }) {
     const [isCurrentUserCoverImageLoading, setIsCurrentUserCoverImageLoading] = useState(true);
 
     useEffect(() => {
-        if (currentUser.image !== '')
+        if (currentUser.image !== '') {
             getImageBlob(currentUser.image, setCurrentUserImageBlobUrl)
                 .then(() => {
+                    // console.log('image loaded', currentUserImageBlobUrl);
                     setIsCurrentUserImageLoading(false);
                 });
+        } else {
+            setCurrentUserImageBlobUrl('/images/image_not_found.jpg');
+            setIsCurrentUserImageLoading(false);
 
-        if (currentUser.coverImage !== '')
+        }
+
+        if (currentUser.coverImage !== '') {
             getImageBlob(currentUser.coverImage, setCurrentUserCoverImageBlobUrl)
                 .then(() => {
+                    // console.log('cover image loaded', currentUserCoverImageBlobUrl);
                     setIsCurrentUserCoverImageLoading(false);
                 });
+        } else {
+            setCurrentUserCoverImageBlobUrl('/images/image_not_found.jpg');
+            setIsCurrentUserCoverImageLoading(false);
+        }
 
     }, [])
 
@@ -43,6 +54,7 @@ export default function ProfileCard({ currentUser, friends }) {
         >
             {currentUser && (
                 <>
+                    {/* {console.log("Current user image", currentUserImageBlobUrl)} */}
                     {isCurrentUserImageLoading ?
                         <img
                             className={styles.profilePhoto}
