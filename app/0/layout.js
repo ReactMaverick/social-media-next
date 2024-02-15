@@ -9,7 +9,7 @@ export default function ProfileLayout({ children }) {
             <StoreProvider>
                 <AuthProvider>
                     {children}
-                    {/* <SpinnerWrapper /> */}
+                    <SpinnerWrapper />
                     <Footer />
                 </AuthProvider>
             </StoreProvider>

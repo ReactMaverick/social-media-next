@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { selectCurrentUser, setCurrentUser, clearCurrentUser } from '@/utils/features/userSlice';
 import NewsfeedImagesPage from "@/components/newsfeed/newsfeedImagesPage";
 import { fetchAllUsers, selectAllUsers } from "@/utils/features/userSlice";
+import SpinnerWrapper from "@/components/spinnerWrapper/spinnerWrapper";
 
 export default function Newsfeed() {
 
@@ -53,19 +54,14 @@ export default function Newsfeed() {
                 {/* Newsfeed Start */}
                 <NewsfeedImagesPage currentUser={currentUser} />
                 {/* Newsfeed End */}
+                <SpinnerWrapper />
 
             </>
         )
     } else if (status === "loading") {
         // Fetching Authentication
         return (
-            <main
-                style={{ display: 'flex', justifyContent: 'center' }}
-            >
-                <img
-                    src={process.env.BASE_URL + "/images/imageLoader.gif"}
-                />
-            </main>
+            <SpinnerWrapper />
         )
 
     } else {
@@ -74,6 +70,7 @@ export default function Newsfeed() {
             <main>
                 <p>Please create an account or sign in to see this page or check the url.</p>
                 <Link href='/'>Create an account or sign in</Link>
+                <SpinnerWrapper />
             </main>
         )
     }

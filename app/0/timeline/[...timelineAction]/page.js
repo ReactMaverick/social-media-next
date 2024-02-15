@@ -277,55 +277,64 @@ export default function Timeline({ params }) {
         // Authenticated User
         // console.log(timelineUser);
         if (isLoading && !isCurrentUserSet) {
-            return <main
-                style={{ display: 'flex', justifyContent: 'center' }}
-            >
-                <img
-                    src={process.env.BASE_URL + "/images/imageLoader.gif"}
-                />
-            </main>
+            return <SpinnerWrapper />
         } else if (timelineUser && friendshipStatus && currentUser) {
             switch (page) {
                 case 'edit':
                     return (
-                        <TimelineEditPage
-                            timelineUserId={profileId}
-                            timelineUser={timelineUser}
-                            friendshipStatus={friendshipStatus}
-                            setFriendshipStatus={setFriendshipStatus}
-                            currentUser={currentUser}
-                        />
+                        <>
+                            <TimelineEditPage
+                                timelineUserId={profileId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                                setFriendshipStatus={setFriendshipStatus}
+                                currentUser={currentUser}
+                            />
+                            <SpinnerWrapper />
+                        </>
                     )
 
                 case 'about':
                     return (
-                        <TimelineAboutPage
-                            timelineUserId={profileId}
-                            timelineUser={timelineUser}
-                            friendshipStatus={friendshipStatus}
-                            setFriendshipStatus={setFriendshipStatus}
-                        />
+                        <>
+                            <TimelineAboutPage
+                                timelineUserId={profileId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                                setFriendshipStatus={setFriendshipStatus}
+                            />
+                            <SpinnerWrapper />
+                        </>
+
                     )
 
                 case 'album':
                     return (
-                        <TimelineAlbumPage
-                            timelineUserId={profileId}
-                            timelineUser={timelineUser}
-                            friendshipStatus={friendshipStatus}
-                            setFriendshipStatus={setFriendshipStatus}
-                            posts={posts}
-                        />
+                        <>
+                            <TimelineAlbumPage
+                                timelineUserId={profileId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                                setFriendshipStatus={setFriendshipStatus}
+                                posts={posts}
+                            />
+                            <SpinnerWrapper />
+                        </>
+
                     )
 
                 case 'friends':
                     return (
-                        <TimelineFriendsPage
-                            timelineUserId={profileId}
-                            timelineUser={timelineUser}
-                            friendshipStatus={friendshipStatus}
-                            setFriendshipStatus={setFriendshipStatus}
-                        />
+                        <>
+                            <TimelineFriendsPage
+                                timelineUserId={profileId}
+                                timelineUser={timelineUser}
+                                friendshipStatus={friendshipStatus}
+                                setFriendshipStatus={setFriendshipStatus}
+                            />
+                            <SpinnerWrapper />
+                        </>
+
                     )
 
                 default:
@@ -333,15 +342,19 @@ export default function Timeline({ params }) {
                     if (socket) {
                         // console.log("Socket in timelinepage render after if socket check ==> ", socket);
                         return (
-                            <TimelinePage
-                                timelineUserId={profileId}
-                                timelineUser={timelineUser}
-                                friendshipStatus={friendshipStatus}
-                                setFriendshipStatus={setFriendshipStatus}
-                                currentUser={currentUser}
-                                friends={friends}
-                                socket={socket}
-                            />
+                            <>
+                                <TimelinePage
+                                    timelineUserId={profileId}
+                                    timelineUser={timelineUser}
+                                    friendshipStatus={friendshipStatus}
+                                    setFriendshipStatus={setFriendshipStatus}
+                                    currentUser={currentUser}
+                                    friends={friends}
+                                    socket={socket}
+                                />
+                                <SpinnerWrapper />
+                            </>
+
                         )
                     }
 
@@ -358,6 +371,7 @@ export default function Timeline({ params }) {
             <main>
                 <p>Please create an account or sign in to see this page or check the url.</p>
                 <Link href='/'>Create an account or sign in</Link>
+                <SpinnerWrapper />
             </main>
         )
     }

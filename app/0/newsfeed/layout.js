@@ -73,6 +73,8 @@ export default function TimelineLayout({ children }) {
 
                 {children}
 
+                <SpinnerWrapper />
+
             </>
         )
     } else if (status === "loading") {
@@ -87,6 +89,7 @@ export default function TimelineLayout({ children }) {
             <main>
                 <p>Please create an account or sign in to see this page or check the url.</p>
                 <Link href='/'>Create an account or sign in</Link>
+                <SpinnerWrapper />
             </main>
         )
     }

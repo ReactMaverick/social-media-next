@@ -54,17 +54,14 @@ export default function Newsfeed() {
                 {/* Newsfeed Start */}
                 <NewsfeedPage currentUser={currentUser} />
                 {/* Newsfeed End */}
+                <SpinnerWrapper />
 
             </>
         )
     } else if (status === "loading") {
         // Fetching Authentication
 
-        <main>
-            <img
-                src={process.env.BASE_URL + "/images/imageLoader.gif"}
-            />
-        </main>
+        <SpinnerWrapper />
 
 
     } else {
@@ -73,6 +70,7 @@ export default function Newsfeed() {
             <main>
                 <p>Please create an account or sign in to see this page or check the url.</p>
                 <Link href='/'>Create an account or sign in</Link>
+                <SpinnerWrapper />
             </main>
         )
     }
