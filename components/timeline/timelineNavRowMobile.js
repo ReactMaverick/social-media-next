@@ -72,6 +72,13 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         // console.log(event.target);
         const file = event.target.files[0];
 
+        const maxSize = 2 * 1024 * 1024; // 2MB
+
+        if (file.size > maxSize) {
+            alert('File is too large, please select a file less than 2MB.');
+            return;
+        }
+
         if (typeof (selectedImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedImage));
 
@@ -79,7 +86,36 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         setIsProfileImageChanged(true);
         setSelectedImage(file); //Set the selected file in selectedImage
 
+        if (timelineUser.image !== '')
+            deletePreviousProfileImage();
+
     };
+
+    const deletePreviousProfileImage = async () => {
+        try {
+            const data = {
+                fileType: 'images',
+                fileName: timelineUser.image,
+            }
+
+            const response = await fetch('/api/1.0/delete', {
+                method: 'DELETE',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to delete profile image. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            }
+        } catch (e) {
+            // console.log("error", e)
+        }
+    }
 
     const handleProfileImageInputClickMobile = (e) => {
         e.stopPropagation();
@@ -304,6 +340,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         <>
             <div
                 className={`profile-info ${friendshipStatus == 'currentUser' ? 'profile-info-currentUser' : ''}`}
+                onClick={handleProfileImageLinkMobileClick}
             >
                 {friendshipStatus == 'currentUser' ?
                     (isProfileImageLoading ?
@@ -311,7 +348,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                             className={`img-responsive profile-photo ${styles.imgResponsive} ${styles.profilePhoto}`}
                             src={process.env.BASE_URL + '/images/imageLoader.gif'}
                             alt="Profile"
-                            onClick={handleProfileImageLinkMobileClick}
+                            // onClick={handleProfileImageLinkMobileClick}
                             loading='lazy'
                         /> :
                         <img
@@ -319,7 +356,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                             src={!isProfileImageChanged ? selectedProfileImageBlobURL : selectedImage instanceof File || selectedImage instanceof Blob
                                 ? URL.createObjectURL(selectedImage) : {}}
                             alt="Profile"
-                            onClick={handleProfileImageLinkMobileClick}
+                            // onClick={handleProfileImageLinkMobileClick}
                             loading='lazy'
                         />) :
                     (isProfileImageLoading ?

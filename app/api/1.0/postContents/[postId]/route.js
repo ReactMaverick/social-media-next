@@ -89,6 +89,52 @@ export async function DELETE(req, { params }) {
                 return errorResponse;
             }
 
+            if (deletedPost.image) {
+                try {
+                    const response = await fetch(process.env.BASE_URL + '/api/1.0/delete', {
+                        method: 'DELETE',
+                        body: JSON.stringify({ fileType: 'images', fileName: deletedPost.image }),
+                    });
+
+                    if (!response.ok) {
+                        // If the response status is not OK, throw an error
+                        throw new Error(`Failed to delete image. Status: ${response.status}`);
+                    }
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // console.log(data);
+                    }
+
+                } catch (error) {
+                    console.error('Error deleting image:', error);
+
+                }
+            }
+
+            if (deletedPost.video) {
+                try {
+                    const response = await fetch(process.env.BASE_URL + '/api/1.0/delete', {
+                        method: 'DELETE',
+                        body: JSON.stringify({ fileType: 'videos', fileName: deletedPost.video }),
+                    });
+
+                    if (!response.ok) {
+                        // If the response status is not OK, throw an error
+                        throw new Error(`Failed to delete video. Status: ${response.status}`);
+                    }
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // console.log(data);
+                    }
+
+                } catch (error) {
+                    console.error('Error deleting image:', error);
+
+                }
+            }
+
             // Respond with a success message in JSON format
             return new Response(
                 JSON.stringify({ message: 'Post deleted successfully' }),

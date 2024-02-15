@@ -74,7 +74,16 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
 
     const handleProfileImageChange = (event) => {
         // console.log(event.target);
+
+        // console.log("Profile Image Changed", selectedProfileImage);
         const file = event.target.files[0];
+
+        const maxSize = 2 * 1024 * 1024; // 2MB
+
+        if (file.size > maxSize) {
+            alert('File is too large, please select a file less than 2MB.');
+            return;
+        }
 
         if (typeof (selectedProfileImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedProfileImage));
@@ -82,7 +91,36 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
         setIsProfileImageLoading(false);
         setIsProfileImageChanged(true);
         setSelectedProfileImage(file); //Set the selected file in selectedProfileImage
+
+        if (timelineUser.image !== '')
+            deletePreviousProfileImage();
     };
+
+    const deletePreviousProfileImage = async () => {
+        try {
+            const data = {
+                fileType: 'images',
+                fileName: timelineUser.image,
+            }
+
+            const response = await fetch('/api/1.0/delete', {
+                method: 'DELETE',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to delete profile image. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            }
+        } catch (e) {
+            // console.log("error", e)
+        }
+    }
 
     const handleProfileImageLinkClick = (e) => {
         e.stopPropagation();
@@ -317,7 +355,10 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
     return (
         <div className={`${styles.row} row`}>
             <div className={`col-md-3 ${styles.profileCol}`}>
-                <div className={`${styles.profileInfo} ${friendshipStatus == 'currentUser' ? styles.profileInfoCurrentUser : ''}`}>
+                <div
+                    className={`${styles.profileInfo} ${friendshipStatus == 'currentUser' ? styles.profileInfoCurrentUser : ''}`}
+                    onClick={handleProfileImageLinkClick}
+                >
                     {/* {console.log(selectedProfileImageBlobURL)} */}
                     {friendshipStatus == 'currentUser' ?
                         (isProfileImageLoading ?
@@ -325,7 +366,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                                 className={`${styles.imgResponsive} profile-photo`}
                                 src={process.env.BASE_URL + '/images/imageLoader.gif'}
                                 alt="Loader"
-                                onClick={handleProfileImageLinkClick}
+                                // onClick={handleProfileImageLinkClick}
                                 loading='lazy'
                             /> :
                             <img
@@ -333,7 +374,7 @@ export default function TimelineNavRow({ whichPage, timelineUserId, timelineUser
                                 src={!isProfileImageChanged ? selectedProfileImageBlobURL : selectedProfileImage instanceof File || selectedProfileImage instanceof Blob
                                     ? URL.createObjectURL(selectedProfileImage) : {}}
                                 alt="Profile"
-                                onClick={handleProfileImageLinkClick}
+                                // onClick={handleProfileImageLinkClick}
                                 loading='lazy'
                             />) :
                         (isProfileImageLoading ?

@@ -587,12 +587,12 @@ export default function SignUpForm() {
           )}
 
           {(signInInterface && !forgotPasswordInterface) ? (
-            <SignupButton type="button" variant="contained" onClick={handleSignIn}>Signin</SignupButton>
+            <SignupButton type="button" variant="contained" onClick={handleSignIn}>Sign In</SignupButton>
           ) : (forgotPasswordInterface) ? (
             <SignupButton type="button" variant="contained" onClick={resetPasswordRequest}>Confirm</SignupButton>
           ) :
             (
-              <SignupButton type="submit" variant="contained">Signup</SignupButton>
+              <SignupButton type="submit" variant="contained">Sign Up</SignupButton>
             )
           }
 

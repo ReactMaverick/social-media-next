@@ -44,6 +44,13 @@ export default function CreatePost({ currentUser, friends, socket }) {
         // console.log(event.target);
         const file = event.target.files[0];
 
+        const maxSize = 2 * 1024 * 1024; // 2MB
+
+        if (file.size > maxSize) {
+            alert('File is too large, please select a file less than 2MB.');
+            return;
+        }
+
         // setSelectedImage(file);
         setSelectedVideo(null);
 
@@ -54,6 +61,13 @@ export default function CreatePost({ currentUser, friends, socket }) {
     const handleVideoChange = (event) => {
         // console.log(event);
         const file = event.target.files[0];
+
+        const maxSize = 10 * 1024 * 1024; // 10MB
+
+        if (file.size > maxSize) {
+            alert('File is too large, please select a file less than 10MB.');
+            return;
+        }
 
         setSelectedVideo(file);
         setSelectedImage(null);

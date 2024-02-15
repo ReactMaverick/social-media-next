@@ -70,6 +70,13 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
         // console.log(event.target);
         const file = event.target.files[0];
 
+        const maxSize = 2 * 1024 * 1024; // 2MB
+
+        if (file.size > maxSize) {
+            alert('File is too large, please select a file less than 2MB.');
+            return;
+        }
+
         if (typeof (selectedCoverImage) == 'object')
             URL.revokeObjectURL(URL.createObjectURL(selectedCoverImage));
 
@@ -77,7 +84,36 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
         setIsCoverImageChanged(true);
         setSelectedCoverImage(file); //Set the selected file in selectedCoverImage
 
+        if (timelineUser.coverImage !== '')
+            deletePreviousProfileImage();
+
     };
+
+    const deletePreviousProfileImage = async () => {
+        try {
+            const data = {
+                fileType: 'images',
+                fileName: timelineUser.coverImage,
+            }
+
+            const response = await fetch('/api/1.0/delete', {
+                method: 'DELETE',
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                // If the response status is not OK, throw an error
+                throw new Error(`Failed to delete profile image. Status: ${response.status}`);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            }
+        } catch (e) {
+            // console.log("error", e)
+        }
+    }
 
     const handleCoverImageInputClick = (e) => {
         e.stopPropagation();
