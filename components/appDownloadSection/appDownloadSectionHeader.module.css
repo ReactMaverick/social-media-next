@@ -4,3 +4,19 @@
     color: #E6E7E8;
     margin-bottom: -55px;
 }
+
+@media only screen and (max-width: 480px) {
+
+    /* CSS for mobile devices */
+    .sectionTitle {
+        font-size: 120px;
+    }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+
+    /* CSS for tablet devices */
+    .sectionTitle {
+        font-size: 160px;
+    }
+}

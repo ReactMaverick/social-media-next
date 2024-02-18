@@ -119,12 +119,15 @@ const SignupButton = styled(Button)`
   top: 20px;
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   box-sizing: border-box;
   background-color: transparent;
   text-decoration: none;
   outline: none;
   color: rgb(255, 255, 255);
+  &:hover {
+    text-decoration: underline !important;
+  }
 `;
 
 const FormShadow = styled.img`
@@ -227,6 +230,7 @@ export default function SignUpForm() {
 
   const [signInInterface, setSignInInterface] = useState(false);
   const [forgotPasswordInterface, setForgotPasswordInterface] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -315,10 +319,23 @@ export default function SignUpForm() {
     }));
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+
+      if (formData.password !== confirmPassword) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Password mismatch',
+          text: 'Password and confirm password do not match.',
+        });
+        return;
+      }
 
       // console.log("Formdata ==> ", formData);
 
@@ -527,6 +544,19 @@ export default function SignUpForm() {
           {(!signInInterface) &&
             (<>
               <CustomStyledTextField
+                id="password"
+                label="Confirm password"
+                variant="filled"
+                type="password"
+                fullWidth
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                margin="dense"
+                required
+                autoComplete='off'
+              />
+              <CustomStyledTextField
                 id="phoneNumber"
                 label="Enter phone number"
                 variant="filled"
@@ -610,7 +640,10 @@ export default function SignUpForm() {
           </StyledLink>
         </>
       ) : (
-        <StyledLink href="" onClick={handleSignInClick}>Already have an account?</StyledLink>
+        <StyledLink
+          href=""
+          onClick={handleSignInClick}
+        >Already have an account?</StyledLink>
       )}
 
       <FormShadow src="images/signup_form_bottom_shadow.png" />

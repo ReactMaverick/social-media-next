@@ -317,7 +317,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
 
                         <input
                             className={styles.formControl}
-                            type="text"
+                            type="search"
                             placeholder="Post a comment"
                             value={commentText}
                             onChange={handleCommentChange}

@@ -181,7 +181,7 @@ export default function PostComment({ profileImgSrc, profileLink, userName, comm
                         }
                         <input
                             className={styles.formControl}
-                            type="text"
+                            type="search"
                             placeholder="Post a reply"
                             value={commentReplyText}
                             onChange={handleCommentReplyChange}
