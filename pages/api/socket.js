@@ -38,22 +38,23 @@ export default async function SocketHandler(req, res) {
                 // console.log("User Room Id ===> ", userRoomId);
                 // console.log("Friends ===> ", friends);
 
-                const isUserFriend = friends?.some((friend) => friend?.friend?._id === session.user.id);
+                // const isUserFriend = friends?.some((friend) => friend?.friend?._id === session.user.id);
 
                 // console.log("is user friend ==> ", isUserFriend);
 
                 // console.log("Condition ==> ", session.user.id === userRoomId);
 
-                if (!(session.user.id === userRoomId || isUserFriend)) {
+                if (!(userRoomId)) {
                     // Send an error response back to the client
                     throw new Error("Invalid user trying to join room");
                 }
 
                 socket.join(userRoomId);
 
-                friends.forEach((friend) => {
+                for (const friend of friends) {
+                    // console.log("Friend id ==> ", friend.friend._id);
                     socket.join(friend?.friend?._id);
-                })
+                }
 
                 const usersInUserRoom = io.sockets.adapter.rooms.get(userRoomId);
                 // console.log(`Users in room ${userRoomId}:`, usersInUserRoom);
@@ -103,7 +104,7 @@ export default async function SocketHandler(req, res) {
 
                 // console.log(session.user.id, currentUserId, receiverId);
 
-                if (!(session.user.id === currentUserId || session.user.id === receiverId)) {
+                if (!(currentUserId && receiverId)) {
                     // throw new Error("Invalid user trying to join room");
                     return
                 }
