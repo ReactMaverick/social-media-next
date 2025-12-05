@@ -5,7 +5,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const nextConfigDevelopment = {
     env: {
         BASE_URL: 'http://localhost:3000',
-        dbName: 'socialMediaNextDev'
+        dbName: 'socialMediaNextProduction'
     },
     compiler: { styledComponents: true, }
 }
