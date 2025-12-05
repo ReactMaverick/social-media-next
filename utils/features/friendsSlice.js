@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 export const fetchAllFriends = createAsyncThunk('friends/fetchAllFriends', async () => {
     try {
         // Replace the URL with the actual endpoint to fetch friends from your API
-        const response = await fetch('/api/1.0/users/friends/all');
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/all');
 
         if (!response.ok) {
             throw new Error('Failed to fetch friends');
@@ -26,7 +26,7 @@ export const fetchLastMessageForFriends = createAsyncThunk(
     async (friends) => {
         const promises = friends.map(async (friend) => {
             try {
-                const response = await fetch(`/api/1.0/message/${friend.friend._id}/lastMessage`);
+                const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/message/${friend.friend._id}/lastMessage`);
 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch last message for friend ${friend._id}: ${response.status}`);
@@ -50,7 +50,7 @@ export const fetchSentFriendRequests = createAsyncThunk(
     'friends/fetchSentFriendRequests',
     async () => {
         try {
-            const response = await fetch('/api/1.0/users/friends/sentRequests');
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/sentRequests');
 
             if (!response.ok) {
                 throw new Error('Failed to fetch sent friend requests');
@@ -69,7 +69,7 @@ export const fetchReceivedFriendRequests = createAsyncThunk(
     'friends/fetchReceivedFriendRequests',
     async () => {
         try {
-            const response = await fetch('/api/1.0/users/friends/receivedRequests');
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/receivedRequests');
 
             if (!response.ok) {
                 throw new Error('Failed to fetch received friend requests');

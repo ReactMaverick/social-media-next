@@ -19,7 +19,7 @@ export default function EditProfile({ option }) {
   useEffect(() => {
     const setCurrentUserInRedux = async (profileId) => {
       try {
-        const response = await fetch(`/api/1.0/users/${profileId}`);
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/users/${profileId}`);
 
         if (!response.ok) {
           console.error("Error Fetching User: ", response.status);

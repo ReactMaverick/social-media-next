@@ -98,7 +98,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
                 fileName: timelineUser.image,
             }
 
-            const response = await fetch('/api/1.0/delete', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/delete', {
                 method: 'DELETE',
                 body: JSON.stringify(data),
             });
@@ -154,7 +154,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch('/api/1.0/users/friends/addRequest', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/addRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -189,7 +189,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch('/api/1.0/users/friends/acceptRequest', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/acceptRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -225,7 +225,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch('/api/1.0/users/friends/cancelRequest', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/cancelRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -259,7 +259,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch('/api/1.0/users/friends/deleteRequest', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/deleteRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -293,7 +293,7 @@ export default function TimelineNavRowMobile({ whichPage, timelineUserId, timeli
         }
 
         try {
-            const response = await fetch('/api/1.0/users/friends/removeFriend', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/removeFriend', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });

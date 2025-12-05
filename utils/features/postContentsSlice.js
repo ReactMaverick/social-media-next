@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchAllPosts = createAsyncThunk('postContents/fetchAllPosts', async () => {
     try {
         // Replace the URL with the actual endpoint to fetch posts from your API
-        const response = await fetch('/api/1.0/postContents');
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/postContents');
 
         if (!response.ok) {
             throw new Error('Failed to fetch posts');
@@ -20,7 +20,7 @@ export const fetchAllPosts = createAsyncThunk('postContents/fetchAllPosts', asyn
 // Define the async thunk action to like a post
 export const likePost = createAsyncThunk('postContents/likePost', async (postId) => {
     try {
-        const response = await fetch(`/api/1.0/postContents/${postId}/like`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/postContents/${postId}/like`, {
             method: 'POST',
         });
 
@@ -38,7 +38,7 @@ export const likePost = createAsyncThunk('postContents/likePost', async (postId)
 // Define the async thunk action to dislike a post
 export const dislikePost = createAsyncThunk('postContents/dislikePost', async (postId) => {
     try {
-        const response = await fetch(`/api/1.0/postContents/${postId}/dislike`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/postContents/${postId}/dislike`, {
             method: 'POST',
         });
 
@@ -68,7 +68,7 @@ export const addComment = createAsyncThunk('postContents/addComment', async ({ p
             };
         }
 
-        const response = await fetch(`/api/1.0/postContents/${postId}/addComment`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/postContents/${postId}/addComment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ export const addComment = createAsyncThunk('postContents/addComment', async ({ p
 // Delete Comment
 export const deleteComment = createAsyncThunk('postContents/deleteComment', async ({ postId, commentId }) => {
     try {
-        const response = await fetch(`/api/1.0/postContents/${postId}/deleteComment/${commentId}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/postContents/${postId}/deleteComment/${commentId}`, {
             method: 'POST',
         });
 
@@ -108,7 +108,7 @@ export const deleteComment = createAsyncThunk('postContents/deleteComment', asyn
 // Add CommentReply
 export const addCommentReply = createAsyncThunk('postContents/addCommentReply', async ({ postId, commentId, reply }) => {
     try {
-        const response = await fetch(`/api/1.0/postContents/${postId}/replyComment/${commentId}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/postContents/${postId}/replyComment/${commentId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export const addCommentReply = createAsyncThunk('postContents/addCommentReply', 
 export const deleteCommentReply = createAsyncThunk('postContents/deleteCommentReply', async ({ postId, commentId, replyCommentId }) => {
     try {
         // console.log("ids...", postId, commentId, replyCommentId);
-        const response = await fetch(`/api/1.0/postContents/${postId}/deleteReplyComment/${commentId}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/postContents/${postId}/deleteReplyComment/${commentId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

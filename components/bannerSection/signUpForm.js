@@ -340,7 +340,7 @@ export default function SignUpForm() {
       // console.log("Formdata ==> ", formData);
 
       // Add more fields to the body of the request
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -419,7 +419,7 @@ export default function SignUpForm() {
     // console.log("Password ==> ", password);
 
     try {
-      const response = await fetch('/api/auth/resetPasswordRequest', {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/auth/resetPasswordRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

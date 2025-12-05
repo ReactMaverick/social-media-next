@@ -96,7 +96,7 @@ export default function TimelineCover({ children, timelineUserId, timelineUser, 
                 fileName: timelineUser.coverImage,
             }
 
-            const response = await fetch('/api/1.0/delete', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/delete', {
                 method: 'DELETE',
                 body: JSON.stringify(data),
             });

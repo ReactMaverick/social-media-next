@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchAllUsers = createAsyncThunk('user/fetchAllUsers', async () => {
     try {
         // Replace the URL with the actual endpoint to fetch posts from your API
-        const response = await fetch('/api/1.0/users');
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users');
 
         if (!response.ok) {
             throw new Error('Failed to fetch posts');
@@ -26,7 +26,7 @@ export const updateProfilePictureUser = createAsyncThunk('user/updateProfilePict
 
         fileData.append('image', selectedProfileImage);
 
-        const response = await fetch('/api/1.0/users/profilePic', {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/profilePic', {
             method: 'POST',
             body: fileData,
         });
@@ -53,7 +53,7 @@ export const updateCoverPictureUser = createAsyncThunk('user/updateCoverPictureU
 
         fileData.append('image', selectedCoverImage);
 
-        const response = await fetch('/api/1.0/users/coverPic', {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/coverPic', {
             method: 'POST',
             body: fileData,
         });
@@ -74,7 +74,7 @@ export const updateCoverPictureUser = createAsyncThunk('user/updateCoverPictureU
 export const updateCurrentUser = createAsyncThunk('user/updateUser', async ({ userProfileId, userData }) => {
     try {
         // Perform the API call to update the user with userData
-        const response = await fetch(`/api/1.0/users/${userProfileId}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/users/${userProfileId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

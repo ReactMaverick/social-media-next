@@ -151,7 +151,7 @@ export default function PostContent({ children, postImgSrc, postVideSrc, postUse
     const handlePostDelete = async (postId) => {
         try {
             // Make a DELETE request to the API to delete the post
-            const response = await fetch(`/api/1.0/postContents/${postId}`, {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/postContents/${postId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

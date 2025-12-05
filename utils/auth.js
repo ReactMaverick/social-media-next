@@ -31,13 +31,13 @@ export const authOptions = {
                 password: { label: "Password", type: "Enter password" }
             },
             async authorize(credentials, req) {
-
+                console.log("Trying to connect to the database...")
                 connectDB();
 
                 // Add your custom logic to validate credentials and return a user object
                 const user = await User.findOne({ email: credentials.email });
 
-                // console.log("User ===> ", user);
+                console.log("User ===> ", user);
 
                 if (!user) {
                     throw new Error("User not found");

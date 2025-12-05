@@ -83,7 +83,7 @@ export default function CreatePost({ currentUser, friends, socket }) {
 
                 selectedImage ? fileData.append('file', selectedImage) : fileData.append('file', selectedVideo);
 
-                const response = await fetch('/api/1.0/upload', {
+                const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/upload', {
                     method: 'POST',
                     body: fileData,
                 });
@@ -136,7 +136,7 @@ export default function CreatePost({ currentUser, friends, socket }) {
             }
 
             // Use fetch to call the createPost API route
-            const createPostResponse = await fetch('/api/1.0/postContents', {
+            const createPostResponse = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/postContents', {
                 method: 'POST',
                 body: formData,
             });

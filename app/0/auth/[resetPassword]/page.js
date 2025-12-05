@@ -151,7 +151,7 @@ export default function ResetPassword({ params, searchParams }) {
         // console.log("Password ==> ", password);
 
         try {
-            const response = await fetch('/api/auth/resetPassword', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/auth/resetPassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

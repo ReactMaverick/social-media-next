@@ -38,7 +38,7 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
         }
 
         try {
-            const response = await fetch('/api/1.0/users/friends/addRequest', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/addRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });
@@ -69,7 +69,7 @@ export default function FollowUserSuggestionItem({ imgSrc, followUserName, userT
         }
 
         try {
-            const response = await fetch('/api/1.0/users/friends/acceptRequest', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/users/friends/acceptRequest', {
                 method: 'POST',
                 body: JSON.stringify(data),
             });

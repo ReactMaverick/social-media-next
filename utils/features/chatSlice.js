@@ -6,7 +6,7 @@ export const fetchUserConversations = createAsyncThunk(
     async (userId) => {
         try {
             // Replace the URL with the actual endpoint to fetch conversations from your API
-            const response = await fetch(`/api/1.0/message/${userId}`);
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/message/${userId}`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch conversations');
@@ -41,7 +41,7 @@ export const sendMessage = createAsyncThunk(
             formData.append('message', message);
             if (selectedImage)
                 formData.append('image', selectedImage);
-            const response = await fetch('/api/1.0/message', {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/1.0/message', {
                 method: 'POST',
                 body: formData,
             });

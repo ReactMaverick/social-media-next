@@ -54,7 +54,7 @@ export const getImageBlob = async (imageName, setImageUrl) => {
         // console.log("Image Name ==> ", imageName);
 
         if (imageName) {
-            const response = await fetch(`/api/1.0/dynamicImages?id=${imageName}`);
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/dynamicImages?id=${imageName}`);
 
             if (!response.ok) {
                 // console.log("Failed to get Image Source ==> ", response);
@@ -98,7 +98,7 @@ export const getImageBlob = async (imageName, setImageUrl) => {
 
 export const getVideoBlob = async (videoName, setVideoUrl) => {
     try {
-        const response = await fetch(`/api/1.0/dynamicVideos?id=${videoName}`);
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + `/api/1.0/dynamicVideos?id=${videoName}`);
 
         if (!response.ok) {
             // console.log("Failed to get Video Source ==> ", response);

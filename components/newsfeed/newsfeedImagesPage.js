@@ -83,7 +83,7 @@ export default function NewsfeedImagesPage({ currentUser }) {
 
     if (!isSocketInitilized) {
         const fetchCall = async () => {
-            await fetch('/api/socket');
+            await fetch(process.env.NEXT_PUBLIC_API_URL_PRE + '/api/socket');
         };
 
         fetchCall();
